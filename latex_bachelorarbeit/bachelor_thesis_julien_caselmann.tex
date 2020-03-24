@@ -1,7 +1,26 @@
 \documentclass[12pt,a4paper,twoside]{article}
+\usepackage[english]{babel}
 \usepackage{amsmath}
 \usepackage{amssymb}
+\usepackage{amsfonts}
 \usepackage{graphicx}
+\usepackage[utf8]{inputenc}
+\usepackage[hidelinks, final]{hyperref}
+\usepackage[printonlyused]{acronym}
+\usepackage{color}
+\usepackage{transparent}
+\graphicspath{{img/}}
+\usepackage[%
+backend=biber,
+url=false,
+style=numeric,
+sorting = none,
+maxnames=4,
+minnames=3,
+maxbibnames=99,
+giveninits,
+uniquename=init]{biblatex}
+\addbibresource{bachelor_thesis_julien_caselmann.bib}
 
 \setlength{\voffset}{-28.4mm}
 \setlength{\hoffset}{-1in}
@@ -17,19 +36,20 @@
 \setlength{\headsep}{50pt}
 \setlength{\headheight}{0pt}
 
+
 \begin{document}
 \pagestyle{empty}
 %%%% Title page
 \begin{titlepage}
 \begin{center}
-\includegraphics{TUMlschwarz.png}\\[3mm]
+\includegraphics{img/TUMlblack.png}\\[3mm]
 \sf
 {\Large
   Technische Universit\"at M\"unchen\\[5mm]
   Department of Mathematics\\[8mm]
 }
 \normalsize
-\includegraphics{TUMlMschwarz.png}\\[15mm]
+\includegraphics{img/TUMlMblack.png}\\[15mm]
 
 Bachelor's Thesis\\[15mm]
 
@@ -40,7 +60,7 @@ Bachelor's Thesis\\[15mm]
 
 \normalsize
 
-FirstName LastName
+Julien Caselmann
 \end{center}
 \vspace*{75mm}
 
@@ -60,9 +80,9 @@ Submission Date: ...
 I assure the single handed composition of this bachelor's thesis only supported by declared resources.
 \bigskip
 
-Garching, 
+Garching,
 \newpage
-%%%% Zusammenfassung in deutscher Sprache
+%%%% Summary in german
 \section*{Zusammenfassung}
 Bei einer in englischer Sprache verfassten Arbeit muss eine Zusammenfassung in deutscher Sprache vorangestellt werden.
 Daf\"ur ist hier Platz.
@@ -75,10 +95,33 @@ Daf\"ur ist hier Platz.
 \pagenumbering{arabic}
 \pagestyle{headings}
 
+\newpage
+%if you do not use this, delete following packages in preamble:
+
+%acronym
+\section{Acronyms}
+\begin{acronym}[KPMG]%write longest acronym here for nice formatting purposes
+	%to use them write \ac{KPMG} or \acp{KPMG for plural in the text}
+	\acro{KPMG}{KPMGeneral}
+	%if one acronym's plural form is more than just an "s" attached, you have to specify that:
+	\acro{SQ}{sexy query}
+	\acroplural{SQ}[SQs]{sexy queries}
+\end{acronym}
+
 \section{First Chapter}
-Here we go
+Here we go \cite{Test2020}
 
+%How to input a inkscape image:
+%\begin{figure}
+%	\centering %(or not)
+%	\def\svgwidth{175pt}
+%	\input{foo/bar/file.pdf_tex}
+%	\caption{example}
+%	\label{fig:example}
+%\end{figure}
 
+\newpage
+\printbibliography
 \end{document}
 
 

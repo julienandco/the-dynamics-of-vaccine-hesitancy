@@ -1,0 +1,17 @@
+[0] Config.pm:304> INFO - This is Biber 2.14
+[0] Config.pm:307> INFO - Logfile is 'bachelor_thesis_julien_caselmann.blg'
+[68] biber-MSWIN64:322> INFO - === 
+[87] Biber.pm:415> INFO - Reading 'bachelor_thesis_julien_caselmann.bcf'
+[186] Biber.pm:943> INFO - Found 1 citekeys in bib section 0
+[202] Biber.pm:4256> INFO - Processing section 0
+[203] Utils.pm:75> INFO - Globbing data source 'bachelor_thesis_julien_caselmann.bib'
+[213] Utils.pm:91> INFO - Globbed data source 'bachelor_thesis_julien_caselmann.bib' to bachelor_thesis_julien_caselmann.bib
+[228] Biber.pm:4455> INFO - Looking for bibtex format file 'bachelor_thesis_julien_caselmann.bib' for section 0
+[230] bibtex.pm:1653> INFO - LaTeX decoding ...
+[237] bibtex.pm:1471> INFO - Found BibTeX data source 'bachelor_thesis_julien_caselmann.bib'
+[266] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[267] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[267] Biber.pm:4084> INFO - Sorting list 'none/global//global/global' of type 'entry' with template 'none' and locale 'en-US'
+[267] Biber.pm:4090> INFO - No sort tailoring available for locale 'en-US'
+[268] bbl.pm:652> INFO - Writing 'bachelor_thesis_julien_caselmann.bbl' with encoding 'UTF-8'
+[269] bbl.pm:755> INFO - Output to bachelor_thesis_julien_caselmann.bbl
