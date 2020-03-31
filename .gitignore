@@ -1,0 +1,5 @@
+/build/*
+/logos/*.pdf
+/latex_bachelorarbeit/bachelor*
+!/latex_bachelorarbeit/bachelor_thesis_julien_caselmann.tex
+!/latex_bachelorarbeit/bachelor_thesis_julien_caselmann.bib
