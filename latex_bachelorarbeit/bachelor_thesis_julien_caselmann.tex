@@ -70,7 +70,7 @@ Supervisor: Prof. Dr. Johannes M\"uller
 Advisor: Prof. Dr. Johannes M\"uller
 \medskip
 
-Submission Date: ...
+Submission Date: July $1^{\textnormal{st}}$, 2020
 
 \end{titlepage}
 %%%% The following has to be signed by hand!
@@ -80,7 +80,7 @@ Submission Date: ...
 I assure the single handed composition of this bachelor's thesis only supported by declared resources.
 \bigskip
 
-Garching,
+Munich,
 \newpage
 %%%% Summary in german
 \section*{Zusammenfassung}
@@ -96,10 +96,11 @@ Daf\"ur ist hier Platz.
 \pagestyle{headings}
 
 \newpage
-%if you do not use this, delete following packages in preamble:
 
+%if you do not use this, delete following packages in preamble:
 %acronym
-\section*{Acronyms}
+
+\section*{Abbreviations}
 \begin{acronym}[KPMG]%write longest acronym here for nice formatting purposes
 	%to use them write \ac{KPMG} or \acp{KPMG for plural in the text}
 	\acro{KPMG}{KPMGeneral}
@@ -122,17 +123,17 @@ Daf\"ur ist hier Platz.
 \section{Mathematical Tools}
 
 \section{Hesitancy Model}
-%TODO: write a little intro for this paragraph
-Significant work on this topic has been done by Bauch and Bhattacharyya in \cite{Bauch2012}. They presented a behaviour-incidence model with the aim to describe the dynamics of the number of vaccinators $x$ depending on different factors such as vaccine risk, vaccine efficacy and the number of infectious persons. The model reads as follows:
+Firstly, we will have to take a look at a way to model vaccination hesitancy and try to understand, how the ``vacinators" behave and where the dependencies of their behaviour lie. The medical/biological approach over the past few years has inter alia been to compose literature reviews and to form working groups such as in \cite{MacDonald2015} to be able to define so-called ``vaccine hesitancy determinants". Those are categories of reasons, for which individuals would decide not to take a vaccine. Then, a mathematical model of the dynamics had to be found, which takes into account the found determinants and one can analyse mathematically to potentially define explicit influence factors for the vaccine hesitancy dynamics. 
+
+Over time, several different models have been elaborated, but only one will be presented in this thesis: the significant work of Bauch and Bhattacharyya in \cite{Bauch2012}. They developed a behaviour-incidence model with the aim to describe the dynamics of the number of vaccinators $x$ depending on different factors such as vaccine risk, vaccine efficacy and the number of infectious persons. The model reads as follows:
 \begin{align}\label{model:bauch}
 	\begin{split}
 	\frac{dS}{dt} &= \mu\left(1-\epsilon x\right) - \mu S - \beta SI - \tau S\\
 	\frac{dI}{dt} &= -\mu I + \beta SI - \gamma I + \tau S\\
-	\frac{dx}{dt} &= \kappa x\left(1 - x\right)\left(-\omega + I\right)
+	\frac{dx}{dt} &= \kappa x\left(1 - x\right)\left(I - \omega\right)
 	\end{split}
 \end{align}
-The variables $S$ and $I$ follow the convention from the well-known and well-studied \ac{SIR}-model from \textbf{findsource} %TODO: find a source
-and $x$ represents the relative number of vaccinators in the observed population. A lot of different variables occur in \eqref{model:bauch}, so they will be listed here to get a better overview:
+The variables $S$ and $I$ follow the convention from the well-studied \ac{SIR} model developed by Kermack and McKendrick in 1927 (for more details, see \cite{Muller2015}) and $x$ represents the relative number of vaccinators in the observed population. A lot of other different variables occur in \eqref{model:bauch}, so they will be listed here to get a better overview:
 \begin{align}\label{table:bauch_model_variables}
 	\begin{split}
 	\mu &: \textnormal{birth and death rate of the population}\\
@@ -151,13 +152,9 @@ The modeling idea is that every person starts in the group of susceptibles $S$ a
 $I$ is designed in a similar way: newly infecteds were either infected in the observed population $\left(+\beta SI\right)$ or came from another population and brougth the disease with them $\left(+\tau S\right)$. Again, an individual leaves $I$ at death $\left(-\mu I\right)$ or after recovering from the disease $\left(-\gamma I\right)$. 
 
 Finally, let us take a look at the vaccinator dynamics%TODO: what exactly does the scale factor kappa do? what would be an example of it?
-. They consist of two factors. The first one multiplies the relative number of vaccinators $x$ with that of non-vaccinators $\left(1-x\right)\dots$%TODO: finish this idea
-? The second one is the interesting one: it computes the difference between $I$ and the risk $\omega$ of taking the vaccine. It basically depicts the danger emerging from the disease, perceived by the population. This is also called the prevalence of the disease \textbf{maybe source}%TODO: find source
-. When there is a high amount of infecteds and the vaccine penalty is low, the difference will be positive and quite big, leading to a higher growth rate of $x$ (more people will become vaccinators and vaccine their children at birth) and vice versa. When $\omega$ and $I$ are approximatively the same, the growth/decrease of $x$ will turn out quite insignificant.
+. They consist of two factors. The first one simply puts the relative number of vaccinators $x$ into relation with the non-vaccinators $\left(1-x\right)$, the second is the interesting one! It computes the difference between $I$ and the risk $\omega$ of taking the vaccine. It basically depicts the danger emerging from the disease, perceived by the population. When there is a high amount of infecteds and the vaccine penalty is low, the difference will be positive and quite big, leading to a higher growth rate of $x$ (more people will become vaccinators and vaccine their children at birth) and vice versa. When $\omega$ and $I$ are approximatively the same, the growth/decrease of $x$ will turn out quite insignificant.
 
-One may notice that the dynamics of the vaccinators $x$ as presented in the model \eqref{model:bauch} are quite basic and not realistic at all. They imply that the only influencing factor in the switch between vaccinator and non-vaccinator is this kind of ``payoff comparison" described by the difference $I - \omega$ and attribute it an extreme power. If for instance,we considered a population with $N$ individuals, almost no vaccinators at a time $t$, say $x(t) \leq 0.05$, a massive amount of infecteds $I \sim N$ and a somewhat decent vaccine risk. Even if the risk was still high, the enormous $I$ would lead to the ``payoff" being quite big. According to this model, a tremendous amount of anti-vaccinators would suddenly become vaccinators, despite their ideologies and fears. Experience tells us that even in such dramatic context, the way from being an extreme ennemy of vaccines to taking vaccination in consideration can be very long %TODO: nice word for very long
-\textbf{medical source}%TODO: find source from a huge disease were some freaks didnt vaccine and all died
-. Additionally, exchange between those two camps or differently weighted opinions are completely excluded from this model, yet highly present in the real world.
+One may notice that the dynamics of the vaccinators $x$ as presented in the model \eqref{model:bauch} are quite basic and not realistic at all. They imply that the only influencing factor in the switch between vaccinator and non-vaccinator is this kind of ``payoff comparison" described by the difference $I - \omega$ and attribute it an extreme power. If for instance,we considered a population with $N$ individuals, almost no vaccinators at a time $t$, say $x(t) \leq 0.05$, a massive amount of infecteds $I \sim N$ and a somewhat decent vaccine risk. Even if the risk was still high, the enormous $I$ would lead to the ``payoff" being quite big. According to this model, a tremendous amount of anti-vaccinators would suddenly become vaccinators, despite their ideologies, fears and maybe also religious beliefs, whereas experience tells us the exact opposite. Even in such dramatic context, the path from being a staunch anti-vaccinator to taking a flu shot into consideration can be tedious, even if the vaccine is allegedly safe or herd immunity for the whole population could be reached with that shot \cite{Bednarz2020, Health2019}. Additionally, exchange between those two camps or differently weighted opinions are completely excluded from this model, yet highly present in the real world.
 
 \section{Filter bubbles and modeling approaches to them}
 \section{My Model}
