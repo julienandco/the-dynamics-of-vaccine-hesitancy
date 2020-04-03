@@ -129,7 +129,9 @@ Over time, several different models have been elaborated, but only one will be p
 \begin{align}\label{model:bauch}
 	\begin{split}
 	\frac{dS}{dt} &= \mu\left(1-\epsilon x\right) - \mu S - \beta SI - \tau S\\
+	&\\
 	\frac{dI}{dt} &= -\mu I + \beta SI - \gamma I + \tau S\\
+	&\\
 	\frac{dx}{dt} &= \kappa x\left(1 - x\right)\left(I - \omega\right)
 	\end{split}
 \end{align}
@@ -156,7 +158,19 @@ Finally, let us take a look at the vaccinator dynamics%TODO: what exactly does t
 
 One may notice that the dynamics of the vaccinators $x$ as presented in the model \eqref{model:bauch} are quite basic and not realistic at all. They imply that the only influencing factor in the switch between vaccinator and non-vaccinator is this kind of ``payoff comparison" described by the difference $I - \omega$ and attribute it an extreme power. If for instance,we considered a population with $N$ individuals, almost no vaccinators at a time $t$, say $x(t) \leq 0.05$, a massive amount of infecteds $I \sim N$ and a somewhat decent vaccine risk. Even if the risk was still high, the enormous $I$ would lead to the ``payoff" being quite big. According to this model, a tremendous amount of anti-vaccinators would suddenly become vaccinators, despite their ideologies, fears and maybe also religious beliefs, whereas experience tells us the exact opposite. Even in such dramatic context, the path from being a staunch anti-vaccinator to taking a flu shot into consideration can be tedious, even if the vaccine is allegedly safe or herd immunity for the whole population could be reached with that shot \cite{Bednarz2020, Health2019}. Additionally, exchange between those two camps or differently weighted opinions are completely excluded from this model, yet highly present in the real world.
 
-\section{Filter bubbles and modeling approaches to them}
+\section{Opinion model}
+blablabla für opinion modeling gibt es verschiedene approaches :2-3 Quellen. ein ansatz von deGroot, der sich mehr auf konsens finden fokussiert, der andere ansatz von friedkin-johnsen opinion dynamics model, dann erweitertes f-J von chitra, bounded-confidence model von hegselmann-krause. Hier beschäftigen wir uns mit moran model. Funfact: eig für populationsgenetik entwickelt, aber isch dasselbe.
+
+Am besten: die MOdelle die erwähnt werden evtl ein paar ganz wilde, aber überwiegend die, die mich dann zu meinem baba modell inspiriert haben
+\subsection{Voter model}
+bums knyckig definieren
+\subsection{Noisy voter model}
+oben nicht ganz realistisch, also erweitern wir: meinungswechsel nur mit prob und nicht konst. rate.
+moran model erweitern, wsl nicht mal eigene subsection nötig, nur gemacht um zu strukturieren beim gehirnstürmen
+\subsection{Filter bubbles: zealot model}
+aber: obiges ist auch schwul, da on se long run nur eine meinung überlebt $\rightarrow$ unrealistisch. außerdem ist es auch nicht warh, dass jeder so reif ist, regelmäßig über seine ansichten zu reflektieren, geschweige denn sie zu überdenken $\rightarrow$ führen fantiker ein, die nur seeehr langsam/gar nicht meinung wechseln (zeloten).
+\subsection{Sano model}
+haut sich des? %TODO: do more research on sano model, so I know whether imma use it or nah
 \section{My Model}
 \section{Discussion}
 
