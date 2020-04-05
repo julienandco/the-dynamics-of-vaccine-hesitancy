@@ -21,7 +21,14 @@ maxbibnames=99,
 giveninits,
 uniquename=init]{biblatex}
 \addbibresource{bachelor_thesis_julien_caselmann.bib}
-%TODO: may gay sources, fix them
+%TODO: many gay sources, fix them
+
+\newtheorem{definition}{Definition}[section]
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lem}{Lemma}[section]
+\newtheorem{prop}{Proposition}[section]
+\newtheorem{claim}{Claim}[section]
+
 \setlength{\voffset}{-28.4mm}
 \setlength{\hoffset}{-1in}
 \setlength{\topmargin}{20mm}
@@ -106,6 +113,7 @@ Daf\"ur ist hier Platz.
 	\acro{KPMG}{KPMGeneral}
 	\acro{SIR}{Susceptibles, Infecteds, Recovereds}
 	\acro{BCM}{bounded-confidence model}
+	\acro{BVM}{biased voter model}
 	%if one acronym's plural form is more than just an "s" attached, you have to specify that:
 	\acro{SQ}{sexy query}
 	\acroplural{SQ}[SQs]{sexy queries}
@@ -126,8 +134,26 @@ Daf\"ur ist hier Platz.
 \section{Hesitancy Model}
 Firstly, we will have to take a look at a way to model vaccination hesitancy and try to understand, how the ``vacinators" behave and where the dependencies of their behaviour lie. The medical/biological approach over the past few years has inter alia been to compose literature reviews and to form working groups such as in \cite{MacDonald2015} to be able to define so-called ``vaccine hesitancy determinants". Those are categories of reasons, for which individuals would decide not to take a vaccine. Then, a mathematical model of the dynamics had to be found, which takes into account the found determinants and one can analyse mathematically to potentially define explicit influence factors for the vaccine hesitancy dynamics. 
 
-Over time, several different models have been elaborated, but only one will be presented in this thesis: the significant work of Bauch and Bhattacharyya in \cite{Bauch2012}. They developed a behaviour-incidence model with the aim to describe the dynamics of the number of vaccinators $x$ depending on different factors such as vaccine risk, vaccine efficacy and the number of infectious persons. The model reads as follows:
-\begin{align}\label{model:bauch}
+Over time, several different models have been elaborated, but only one will be presented in this thesis: the significant work of Bauch and Bhattacharyya in \cite{Bauch2012}. They developed a behaviour-incidence model with the aim to describe the dynamics of the number of vaccinators $x$ depending on different factors such as vaccine risk, vaccine efficacy and the number of infectious persons. To get a better overview, all of the variables used in the model will be listed here:
+\begin{align}\label{table:bauch_model_variables}
+\begin{split}
+S &: \textnormal{number of susceptible individuals in the population}\\
+I &: \textnormal{number of infected individuals in the population}\\
+x &: \textnormal{relative number of vaccinators in the population}\\
+\mu &: \textnormal{birth and death rate of the population}\\
+\epsilon &: \textnormal{vaccine efficacy}\\
+\beta &: \textnormal{infection rate}\\
+\tau &: \textnormal{case importation rate}\\
+\gamma &: \textnormal{recovery rate}\\
+\kappa &: \textnormal{scale factor}\\
+\omega &: \textnormal{vaccine penalty}
+\end{split}
+\end{align}
+
+The vaccine penalty $\omega$ basically describes the amount of risk a vaccination brings. The variables $S$ and $I$ follow the convention from the well-studied \ac{SIR} model developed by Kermack and McKendrick in 1927 (for more details, see \cite{Muller2015}). We may now define the model:
+\begin{definition}\textbf{(Behaviour-incidence model by \cite{Bauch2012})}\\
+	Let the context be defined as in \eqref{table:bauch_model_variables}. Then, the dynamics of the according behaviour-incidence model are:
+	\begin{align}\label{def:bauch_model}
 	\begin{split}
 	\frac{dS}{dt} &= \mu\left(1-\epsilon x\right) - \mu S - \beta SI - \tau S\\
 	&\\
@@ -135,22 +161,10 @@ Over time, several different models have been elaborated, but only one will be p
 	&\\
 	\frac{dx}{dt} &= \kappa x\left(1 - x\right)\left(I - \omega\right)
 	\end{split}
-\end{align}
-The variables $S$ and $I$ follow the convention from the well-studied \ac{SIR} model developed by Kermack and McKendrick in 1927 (for more details, see \cite{Muller2015}) and $x$ represents the relative number of vaccinators in the observed population. A lot of other different variables occur in \eqref{model:bauch}, so they will be listed here to get a better overview:
-\begin{align}\label{table:bauch_model_variables}
-	\begin{split}
-	\mu &: \textnormal{birth and death rate of the population}\\
-	\epsilon &: \textnormal{vaccine efficacy}\\
-	\beta &: \textnormal{infection rate}\\
-	\tau &: \textnormal{case importation rate}\\
-	\gamma &: \textnormal{recovery rate}\\
-	\kappa &: \textnormal{scale factor}\\
-	\omega &: \textnormal{vaccine penalty}
-	\end{split}
-\end{align}
-The vaccine penalty $\omega$ basically describes the amount of risk a vaccination brings.
+	\end{align}
+\end{definition}
 
-The modeling idea is that every person starts in the group of susceptibles $S$ and either stays in $S$, moves to the group of infecteds $I$, or gets the vaccine and immediately jumps into the group of recovereds $R$. As the main interest of this model is the dynamics of the vaccinators $x$ and once an individual gets into $R$, a return to $S$ or $I$ is impossible, it is assumed that the recovered have left the model, thus are not mentioned in \eqref{model:bauch}. The dynamics of $S$ are pretty straight-forward: the only way to get into $S$, is to get born into the population, so the only positive term is the birth rate $\mu$. On the other hand, there are multiple ways to get ot of $S$: an individual might either die $\left(-\mu S\right)$, get infected by one individual of $I$ $\left(-\beta SI\right)$, be born as a child of vaccinators and get vaccined successfully at birth $\left(-\mu\epsilon x\right)$ or come from another population as an infected and immediately jump from $S$ to $I$ $\left(-\tau S\right)$. 
+The modeling idea is that every person starts in the group of susceptibles $S$ and either stays in $S$, moves to the group of infecteds $I$, or gets the vaccine and immediately jumps into the group of recovereds $R$. As the main interest of this model is the dynamics of the vaccinators $x$ and once an individual gets into $R$, a return to $S$ or $I$ is impossible, it is assumed that the recovered have left the model, thus are not mentioned in \eqref{def:bauch_model}. The dynamics of $S$ are pretty straight-forward: the only way to get into $S$, is to get born into the population, so the only positive term is the birth rate $\mu$. On the other hand, there are multiple ways to get ot of $S$: an individual might either die $\left(-\mu S\right)$, get infected by one individual of $I$ $\left(-\beta SI\right)$, be born as a child of vaccinators and get vaccined successfully at birth $\left(-\mu\epsilon x\right)$ or come from another population as an infected and immediately jump from $S$ to $I$ $\left(-\tau S\right)$. 
 
 $I$ is designed in a similar way: newly infecteds were either infected in the observed population $\left(+\beta SI\right)$ or came from another population and brougth the disease with them $\left(+\tau S\right)$. Again, an individual leaves $I$ at death $\left(-\mu I\right)$ or after recovering from the disease $\left(-\gamma I\right)$. 
 
@@ -160,18 +174,34 @@ Finally, let us take a look at the vaccinator dynamics%TODO: what exactly does t
 One may notice that the dynamics of the vaccinators $x$ as presented in the model \eqref{model:bauch} are quite basic and not realistic at all. They imply that the only influencing factor in the switch between vaccinator and non-vaccinator is this kind of ``payoff comparison" described by the difference $I - \omega$ and attribute it an extreme power. If for instance,we considered a population with $N$ individuals, almost no vaccinators at a time $t$, say $x(t) \leq 0.05$, a massive amount of infecteds $I \sim N$ and a somewhat decent vaccine risk. Even if the risk was still high, the enormous $I$ would lead to the ``payoff" being quite big. According to this model, a tremendous amount of anti-vaccinators would suddenly become vaccinators, despite their ideologies, fears and maybe also religious beliefs, whereas experience tells us the exact opposite. Even in such dramatic context, the path from being a staunch anti-vaccinator to taking a flu shot into consideration can be tedious, even if the vaccine is allegedly safe or herd immunity for the whole population could be reached with that shot \cite{Bednarz2020, Health2019}. Additionally, exchange between those two camps or differently weighted opinions are completely excluded from this model, yet highly present in the real world.
 
 \section{Opinion model}
-The next step now is to understand how opinion formation works and what modeling approach fits best for us. A lot of research has been done in this field with almost every work having a different focus, due to the immense dimension of the subject. One of the most famous models is the one presented by DeGroot in \cite{Degroot1974}, which aims for a consensus between all the involved agents and is based on the presumption that one individual analyses all of the opinions of the agents connected to him and then changes his mind following an update rule that basically is weighted averaging of the personal and surrounding opinions. This model has then been refined by Friedkin and Johnsen in \cite{Friedkin1990}, who added the term of ``innate opinion". By doing so, every agent was extended by an immutable vector that represented their opinion (values) as they would be if the agent was in a social vacuum, thus influenced by nobody. Another very modern and quite interesting modification has been done by Chitra and Musco in \cite{Chitra2019} by adding a new actor to the Friedkin-Johnsen dynamics: a network administrator. He solely is allowed to change the weights of the connections in the social network graph which resulted in a massive increase of polarization in their model. Chitra's and Musco's research has shown that a change of edge weight of 20\% already lead to a polarization increase of 180\%. This finding is especially relevant for the modern times, where many of such network administrators exist in form of recommendation algorithms \textbf{cite pariser?}. Thus, many relevant information for opinion building on a subject may not even be delivered to every individual and falsify the final popular opinion, since there was no common information pool. Hegselmann and Krause presented an approach in \cite{Hegselmann2002} that modeled the interaction in social networks when considering bias and ``confidence" during interaction: the \ac{BCM}. The design is quite simple: every agent has a continuous opinion value that is uniformly distributed in $\left[0, 1\right]$ and only interacts with like-minded agents. To be more specific: if the other agent's opinion differs from the own opinion by less than a fixed $\epsilon$, both opinion are changed following an update rule, otherwise there is no interaction at all. Vicario et al. extended the \ac{BCM} to the unbounded-confidence model \cite{Vicario2016}. The dynamics are the exact same as for the \ac{BCM}, except that they also added an update rule for the agents that hold an opinion differing by more than the fixed $\epsilon$. By doing so, they were able to replicate the observed rejection of divied opinions while still allowing some interaction, which is more realistic. Based on DeGroot's model and also considering bias and homophily, Dandekar, Goel and Lee proposed a generalization in \cite{Dandekar2013}. They based their work the fact that individuals tend to interact more with like-minded others (e.g. homophily) and on a psychological phenomenon called biased assimilation, which is perfectly explained in \cite{Lord2009}: 
+The next step now is to understand how opinion formation works and what modeling approach fits best for us. A lot of research has been done in this field with almost every work having a different focus, due to the immense dimension of the subject. One of the most famous models is the one presented by DeGroot in \cite{Degroot1974}, which aims for a consensus between all the involved agents and is based on the presumption that one individual analyses all of the opinions of the agents connected to him and then changes his mind following an update rule that basically is weighted averaging of the personal and surrounding opinions. This model has then been refined by Friedkin and Johnsen in \cite{Friedkin1990}, who added the term of ``innate opinion". By doing so, every agent was extended by an immutable vector that represented their opinion (values) as they would be if the agent was in a social vacuum, thus influenced by nobody. Another very modern and quite interesting modification has been done by Chitra and Musco in \cite{Chitra2019} by adding a new actor to the Friedkin-Johnsen dynamics: a network administrator. He solely is allowed to change the weights of the connections in the social network graph which resulted in a massive increase of polarization in their model. Chitra's and Musco's research has shown that a change of edge weight of 20\% already lead to a polarization increase of 180\%. This finding is especially relevant for the modern times, where many of such network administrators exist in form of recommendation algorithms \textbf{cite pariser?}%TODO: pariser lesen
+. Thus, many relevant information for opinion building on a subject may not even be delivered to every individual and falsify the final popular opinion, since there was no common information pool. Hegselmann and Krause presented an approach in \cite{Hegselmann2002} that modeled the interaction in social networks when considering bias and ``confidence" during interaction: the \ac{BCM}. The design is quite simple: every agent has a continuous opinion value that is uniformly distributed in $\left[0, 1\right]$ and only interacts with like-minded agents. To be more specific: if the other agent's opinion differs from the own opinion by less than a fixed $\epsilon$, both opinion are changed following an update rule, otherwise there is no interaction at all. Vicario et al. extended the \ac{BCM} to the unbounded-confidence model \cite{Vicario2016}. The dynamics are the exact same as for the \ac{BCM}, except that they also added an update rule for the agents that hold an opinion differing by more than the fixed $\epsilon$. By doing so, they were able to replicate the observed rejection of divided opinions while still allowing some interaction, which is more realistic. Based on DeGroot's model and also considering bias and homophily, Dandekar, Goel and Lee proposed a generalization in \cite{Dandekar2013}. They based their work the fact that individuals tend to interact more with like-minded others (e.g. homophily) and on a psychological phenomenon called biased assimilation, which is perfectly explained in \cite{Lord2009}: 
 \begin{quote}
 	``Perceptions of new evidence are interpreted in such a way as to be assimilated into preexisting assumptions and expectations".
 \end{quote}
-According to \cite{Dandekar2013}, homophily alone cannot polarize society, biased assimilation is needed additionally. They also showed that some random-walk based recommending algorithms always polarised when used on biased individuals. 
-
-%TODO:biased voter model. 
-
+According to \cite{Dandekar2013}, homophily alone cannot polarize society, biased assimilation is needed additionally. They also showed that some random-walk based recommending algorithms always polarised when used on biased individuals. Finally, we would like to mention the work done by Das, Gollapudi and Munagala in \cite{Das2014} where they defined the \ac{BVM}. Its dynamics base on the flocking model, which basically represents the biased assimilation from above, and DeGroot's model. They aimed at modeling how different opinions are formed in social networks with informational influence. The term of informational influence has been studied by Asch in \cite{Asch1955} and the findings were: if an individual is told to answer a question and given several anonymised responses that allegedly came from a peer group (they were in fact constructed by the experiment's conductor), the individual would still be likely to give up his own answer and stick to the popular opinion, despite the lack of group pressure in this setting.
 
 \subsection{Voter model}
-Hier beschäftigen wir uns mit moran model. Funfact: eig für populationsgenetik entwickelt, aber isch dasselbe.
-bums knyckig definieren
+As just presented, there are several different approaches to modeling opinion formation in social networks and all of them inspired$\dots$ \textbf{schönen Satz bauen!} %TODO: finish this idea
+The model of interest to us will be the Moran model, first introduced in 1958 by Moran \cite{Moran1958}. It has originally been developed for the purpose of population genetics, but can be fitted into our context pretty easily. Some of the assumptions made in the model are:
+\begin{enumerate}
+	\item Constant population size $N$
+	\item All individuals have the same chances to generate offspring (even dead individuals, this is called ``selfing")
+	\item There is a constant birth/death rate $\mu$
+\end{enumerate}
+The model is defined as follows:
+\begin{definition}\textbf{(Moran model by \cite{Moran1958, Muller2015})}\\
+	Consider a total population size $N \in \mathbb{N}$, with $X_t$ describing the number of individuals of species $X$ at time $t$ and $Y_t$ those of species $Y$. Then:
+	\begin{align}\label{def:moran_model}
+	\begin{split}
+		X_t \rightarrow X_t + 1 &\textnormal{ at rate } \mu\textnormal{ }Y_t\textnormal{ }\frac{X_t}{N}\\
+		&\\
+		X_t \rightarrow X_t - 1 &\textnormal{ at rate } \mu\textnormal{ }X_t\textnormal{ }\frac{1 - X_t}{N}
+	\end{split}
+	\end{align}
+\end{definition}
+We may now easily reinterpret this model to depict the opinion of a population. If we consider $X_t$ and $Y_t$ as the number of \textbf{supporters} of opinion $X$ and $Y$ respectively and replace ``death" by ``not sharing this opinion anymore" and ``birth" by ``adopting this opinion", we get exactly what we want. But research has shown that one species will die out on the long run. In our adopted voter model, an opinion would die out, which is absolutely not the case, thus this very simple approach does not fit our needs very well for the moment. This problem will be adressed in the next subsections.
+
 \subsection{Noisy voter model}
 oben nicht ganz realistisch, also erweitern wir: meinungswechsel nur mit prob und nicht konst. rate.
 moran model erweitern, wsl nicht mal eigene subsection nötig, nur gemacht um zu strukturieren beim gehirnstürmen
