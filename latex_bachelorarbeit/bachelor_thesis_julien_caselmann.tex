@@ -1,3 +1,4 @@
+% !TeX spellcheck = en_GB
 \documentclass[12pt,a4paper,twoside]{article}
 \usepackage[english]{babel}
 \usepackage{amsmath}
@@ -151,7 +152,7 @@ x &: \textnormal{relative number of vaccinators in the population}\\
 \end{split}
 \end{align}
 
-The vaccine penalty $\omega$ basically describes the amount of risk a vaccination brings. The variables $S$ and $I$ follow the convention from the well-studied \ac{SIR} model developed by Kermack and McKendrick in 1927 (for more details, see \cite{Muller2015}). We may now define the model:
+The vaccine penalty $\omega$ basically describes the amount of risk a vaccination brings and $\kappa$ is a measure for the response speed of the population to external influences. A high value for $\kappa$ means that they change their opinion (pro-vaccine $\rightleftarrows$ contra-vaccine) immediately, a low $\kappa$ stands for a very slow reaction. The variables $S$ and $I$ follow the convention from the well-studied \ac{SIR} model developed by Kermack and McKendrick in 1927 (for more details, see \cite{Muller2015}). We may now define the model:
 \begin{model}\textbf{(Behaviour-incidence model by \cite{Bauch2012})}\label{model:bauch}\\
 	Let the context be defined as in \eqref{table:bauch_model_variables}. Then, the dynamics of the according behaviour-incidence model are:
 	\begin{align}
@@ -169,8 +170,7 @@ The modelling idea is that every person starts in the group of susceptibles $S$ 
 
 $I$ is designed in a similar way: newly infecteds were either infected in the observed population $\left(+\beta SI\right)$ or came from another population and brought the disease with them $\left(+\tau S\right)$. Again, an individual leaves $I$ at death $\left(-\mu I\right)$ or after recovering from the disease $\left(-\gamma I\right)$. 
 
-Finally, let us take a look at the vaccinator dynamics%TODO: what exactly does the scale factor kappa do? what would be an example of it?
-. They consist of two factors. The first one simply puts the relative number of vaccinators $x$ into relation with the non-vaccinators $\left(1-x\right)$, the second is the interesting one! It computes the difference between $I$ and the risk $\omega$ of taking the vaccine. It basically depicts the danger emerging from the disease, perceived by the population. When there is a high amount of infecteds and the vaccine penalty is low, the difference will be positive and quite big, leading to a higher growth rate of $x$ (more people will become vaccinators and vaccine their children at birth) and vice versa. When $\omega$ and $I$ are approximatively the same, the growth/decrease of $x$ will turn out quite insignificant.
+Finally, let us take a look at the vaccinator dynamics. They basically consist of two interesting parts, the first being $\kappa x \left(1 - x\right=$, where $\kappa$ scales as described above and the second being a ``pay-off check". It computes the difference between $I$ and the risk $\omega$ of taking the vaccine. It basically depicts the danger emerging from the disease, perceived by the population. When there is a high amount of infecteds and the vaccine penalty is low, the difference will be positive and quite big, leading to a higher growth rate of $x$ (more people will become vaccinators and vaccine their children at birth) and vice versa. When $\omega$ and $I$ are approximatively the same, the growth/decrease of $x$ will turn out quite insignificant.
 
 One may notice that the dynamics of the vaccinators $x$ as presented in Model \ref{model:bauch} are quite basic and not realistic at all. They imply that the only influencing factor in the switch between vaccinator and non-vaccinator is this kind of ``pay-off comparison" described by the difference $I - \omega$ and attribute it an extreme power. If for instance,we considered a population with $N$ individuals, almost no vaccinators at a time $t$, say $x(t) \leq 0.05$, a massive amount of infecteds $I \sim N$ and a somewhat decent vaccine risk. Even if the risk was still high, the enormous $I$ would lead to the ``pay-off being quite big. According to this model, a tremendous amount of anti-vaccinators would suddenly become vaccinators, despite their ideologies, fears and maybe also religious beliefs, whereas experience tells us the exact opposite. Even in such dramatic context, the path from being a staunch anti-vaccinator to taking a flu shot into consideration can be tedious, even if the vaccine is allegedly safe or herd immunity for the whole population could be reached with that shot \cite{Bednarz2020, Health2019}. Additionally, exchange between those two camps or differently weighted opinions are completely excluded from this model, yet highly present in the real world.
 
