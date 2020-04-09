@@ -2,9 +2,11 @@
 \documentclass[12pt,a4paper,twoside]{article}
 \usepackage[english]{babel}
 \usepackage{amsmath}
+\usepackage{amsthm}
 \usepackage{amssymb}
 \usepackage{amsfonts}
 \usepackage{graphicx}
+\usepackage{mathtools}
 \usepackage[utf8]{inputenc}
 \usepackage[hidelinks, final]{hyperref}
 \usepackage[printonlyused]{acronym}
@@ -132,7 +134,7 @@ Daf\"ur ist hier Platz.
 %\end{figure}
 
 \section{Mathematical Tools}
-
+%TODO: prolly nur sachen aus my model bifurcation analysis, davor sehe ich NOCH keine verwendung von mathe lul
 \section{Hesitancy Model}
 Firstly, we will have to take a look at a way to model vaccination hesitancy and try to understand, how the ``vaccinators" behave and where the dependencies of their behaviour lie. The medical/biological approach over the past few years has inter alia been to compose literature reviews and to form working groups such as in \cite{MacDonald2015} to be able to define so-called ``vaccine hesitancy determinants". Those are categories of reasons, for which individuals would decide not to take a vaccine. Then, a mathematical model of the dynamics had to be found, which takes into account the found determinants and one can analyse mathematically to potentially define explicit influence factors for the vaccine hesitancy dynamics. 
 
@@ -153,7 +155,7 @@ x &: \textnormal{relative number of vaccinators in the population}\\
 \end{align}
 
 The vaccine penalty $\omega$ basically describes the amount of risk a vaccination brings and $\kappa$ is a measure for the response speed of the population to external influences. A high value for $\kappa$ means that they change their opinion (pro-vaccine $\rightleftarrows$ contra-vaccine) immediately, a low $\kappa$ stands for a very slow reaction. The variables $S$ and $I$ follow the convention from the well-studied \ac{SIR} model developed by Kermack and McKendrick in 1927 (for more details, see \cite{Muller2015}). We may now define the model:
-\begin{model}\textbf{(Behaviour-incidence model by \cite{Bauch2012})}\label{model:bauch}\\
+\begin{model}[\textbf{Behaviour-incidence model by \cite{Bauch2012}}]\label{model:bauch}
 	Let the context be defined as in \eqref{table:bauch_model_variables}. Then, the dynamics of the according behaviour-incidence model are:
 	\begin{align}
 	\begin{split}
@@ -189,7 +191,7 @@ As just presented, understanding how the process of forming an opinion behaves i
 	\item Constant birth/death rate $\mu$
 \end{enumerate}
 The model is defined as follows:
-\begin{model}\textbf{(Moran model by \cite{Moran1958, Muller2015})}\label{model:moran}\\
+\begin{model}[\textbf{Moran model by \cite{Moran1958, Muller2015}}]\label{model:moran}
 	Consider a total population size $N \in \mathbb{N}$, with $X_t$ describing the number of individuals of species $X$ at time $t$, $Y_t$ those of species $Y$ and $X_t + Y_t = N \textnormal{  }\forall t \in \mathbb{N}$. Then:
 	\begin{align}
 	\begin{split}
@@ -201,9 +203,9 @@ The model is defined as follows:
 \end{model}
 We may now easily reinterpret this model to depict the opinion of a population. If we consider $X_t$ and $Y_t$ as the number of \textbf{supporters} of opinion $X$ and $Y$ respectively and replace ``death" by ``not sharing this opinion anymore" and ``birth" by ``adopting this opinion", we get exactly what we want. But research has shown that one species will die out on the long run. In our adopted voter model, an opinion would die out, which is absolutely not the case, thus this very simple approach does not fit our needs very well for the moment. This problem will be addressed in the next subsections.
 
-\subsection{Noisy voter model}%TODO: is this model also influenced by liggett? read it again
+\subsection{Noisy voter model}\label{subsec:noisy_voter_model}%TODO: is this model also influenced by liggett? read it again
 The first modification of Model \ref{model:moran} we are going to present is the noisy voter model. It addresses the problem of one species/opinion dying out on the long run, which is not wanted at all in our setting. The line of thought is quite simple: instead of pretending linear rates for the two transitions $X_t \rightarrow X_t + 1$ and $X_t \rightarrow X_t - 1$, we consider probabilities. This model has been formalized in different papers and reads as follows:
-\begin{model}\textbf{(Noisy voter model by \cite{Granovsky1995})}\label{model:noisy_voter_model}\\
+\begin{model}[\textbf{Noisy voter model by \cite{Granovsky1995}}]\label{model:noisy_voter_model}
 	Consider a population of size $N \in \mathbb{N}$, segregated into two groups: $X_t$ and $Y_t$, the supporters of opinion $X$ or $Y$ at time $t$ respectively, such that $N = X_t + Y_t$. An individual rethinks their opinion with rate $\mu$ and random opinion adoption probability $p$. Furthermore we consider following transition probabilities:
 	\begin{align}
 	\begin{split}\label{def:noisy_probs}
@@ -227,16 +229,63 @@ The transition rates of this model are very similar to those of Model \ref{model
 
 This adjustment of the Moran model \eqref{model:moran} seems very promising, as it eliminates the issue of an opinion dying out %TODO: stimmt das?
  and presents more realistic rates to model changes in opinions. Furthermore, it adds the aspect of ``opinion hopping" which is very desirable, due to its prominence in reality \textbf{cite: leute impfen sehr unregelmäßig, weil sie sich umentscheiden} %TODO: find source for this
-. A lot of individuals do not have an immutable opinion on vaccines and tend to follow trends and make a new decision every year, whether they're going to vaccinate or not %TODO: quelle dafür
+. A lot of individuals do not have an immutable opinion on vaccines and tend to follow trends, thus make a new decision every year, whether they're going to vaccinate or not %TODO: quelle dafür
 . In contrast, there is a non-negligible part of the population which changes its opinion very seldom or even not at all, due to religious, ideological or conspirational reasons \textbf{Quelle hierfür von papochka} %TODO: quelle dafür
 . This is not considered in Model \ref{model:noisy_voter_model}, thus yet for us to improve.
 %TODO: So leid es mir tut, ich checke die granovsky quelle nicht. einfach die noisy voter model kacke vom müller abschreiben und auf granovsky + liggett (evtl noch mehr) verweisen. dann funfacts dazu aus anderer literatur finden (ist dann wieder einfacher) um den bums bissl vorzustellen, damit es nicht zu kurz wird (moran model oben ist etwas kurz geraten).
 \subsection{Filter bubbles: zealot model}
-aber: obiges ist auch nicht optimal, da $t \rightarrow \infty:$ nur eine Meinung überlebt $\rightarrow$ unrealistisch. Außerdem ist es auch nicht wahr, dass jeder so reif/rational ist, regelmäßig über seine Ansichten zu reflektieren, geschweige denn sie zu überdenken $\rightarrow$ führen Fanatiker ein, die nur sehr langsam/gar nicht Meinung wechseln (Zeloten).\newline
-Fragen von gestern dazu klären und dann entspynnt aufschreiben.
-\subsection{Sano model}
-TODO: Recherche und entscheiden, ob relevant %TODO: do more research on sano model, so I know whether imma use it or nah
+%TODO: nice intro
+bla bla. Chinellato et al. presented a model that operates on a network with $N + N_0 + N_1$ nodes \cite{Chinellato2015}. All of the nodes either commit to state $0$ or $1$, which is encoded in a private state. Every single one of the $N$ nodes is able to change its opinion freely, those will be called ``free nodes" in the following. In contrast, the $N_0$ and $N_1$ nodes are stuck with state $0$ and $1$, respectively. These two groups represent the part of the population which rethinks its opinion very seldom, or as in this case: never, as mentioned in Subsection \ref{subsec:noisy_voter_model}. The scientific community agreed on a common name for agents with this kind of behaviour: zealots \cite{Mobilia2003, Chinellato2015, Braha2017}. In \cite{Chinellato2015}, the model considers discrete time steps and selects a random free node at every step and updates its private state following a simple rule:
+\begin{enumerate}\label{rule:chinellato_update}
+	\item state stays the same with probability $p$
+	\item state of a random connected neighbour is adopted with probability $1-p$
+\end{enumerate}
+They also showed that this model already may simulate various different situations such as dynamics of small external magnetic fields, elections, spread of epidemics and population dynamics. Again, the electoral/voting approach can easily be reinterpreted as vaccination behaviour to fit our needs. When considering a fully connected network (which is also the case in our setting), Chinellato et al. named the probability to have $m$ free nodes in state $1$ at time $t$ $P_t\left(m\right)$ and were able to compute the dynamics of the next time step:
+\begin{align}\label{eq:chinellato_dynamics}
+	\begin{split}
+	\begin{aligned}
+		P_{t+1}\left(m\right) &= P_t\left(m\right)\lbrace p +\frac{1-p}{N\left(N+N_0+N_1-1\right)}\\
+		&\qquad \times\left[m\left(m+N_1-1\right) +\left(N-m\right)\left(N+N_0-m-1\right)\right]\rbrace\\
+		&+P_t\left(m-1\right)\frac{1-p}{N\left(N+N_0+N_1-1\right)}\left(m+N_1-1\right)\left(N-m+1\right)\\
+		&+P_t\left(m+1\right)\frac{1-p}{N\left(N+N_0+N_1-1\right)}\left(m+1\right)\left(N+N_0-m-1\right).
+	\end{aligned}
+	\end{split}
+\end{align}
+The mid part of these dynamics will be clarified in the proof of the transition rates \eqref{def:transition_rates_zealot}, an exhaustive discussion may be found in \cite{Chinellato2015}. 
+
+We may now present a definition of the zealot model as defined by the transition probabilities \eqref{eq:chinellato_dynamics}, but with the simple difference that the zealots are consider as a part of the population:
+\begin{model}[\textbf{Zealot model for two parties by \cite{Chinellato2015}, Aguilar, und dem dritten}]\label{model:zealot}%TODO: Quellen
+Consider a population of size $N \in \mathbb{N}$, with $X_t, Y_t \in \lbrace 0,\dots,N\rbrace$ supporters of opinion $X$ and $Y$ at time $t$, respectively. Let $N = X_t + Y_t$. Furthermore, let $N_X$ and $N_Y > 0$ be the number of zealots, that support opinion $X$ and $Y$, respectively. An individual may reconsider his opinion with rate $\mu$, select another individual or a zealot and copy their opinion. The probability to be chosen during this reconsideration process is the same for all individuals and zealots. Then, the transition rates of the stochastic process are:
+\begin{align}\label{def:transition_rates_zealot}
+	\begin{split}
+	X_t \rightarrow X_t + 1 & \textnormal{ at rate } \mu\left(N-X_t\right)\frac{X_t + N_X}{N + N_X + N_Y} \\
+	X_t \rightarrow X_t - 1 & \textnormal{ at rate } \mu X_t\frac{N-X_t+N_Y}{N+N_X+N_Y}
+	\end{split}
+\end{align}
+\end{model}
+\begin{proof}
+The transition rates might not be obvious after considering the transition probabilities \eqref{eq:chinellato_dynamics}, so a derivation will be done here. First, we will reinterpret all the terms for transparency's sake. We do not consider nodes any more, but individuals in a population and they are not in state $0$ or $1$, but have the opinion $X$ or $Y$. $P_{t+1}\left(m\right)$ consists of three parts: 
+\begin{enumerate}
+	\item there were already $X_t$ supporters of $X$ and their final opinion didn't change
+	\item there was one supporter less and one individual's opinion switched from $Y$ to $X$
+	\item there was one supporter more and one individual's opinion switched from $X$ to $Y$
+\end{enumerate}
+Since the reasoning for the two transition rates is the exact same, we will just derive the rate for $X_t \rightarrow X_t + 1$, thus only consider the mid probability of \eqref{eq:chinellato_dynamics}. It describes the transition $m -1 \rightarrow m$, which is exactly equivalent to what we want, given that we do not consider the number of supporters $m$ any more, but the stochastic process $X_t$. $P_t \left(m-1\right)$ may be omitted $(\dagger)$, as it is just relevant for the probabilistic approach, whether we fall into that case or not. Then, we modify the denominator to fit our approach in which the zealots are part of the population $(\star)$. We know that the probability for an individual to overthink his opinion in the model of \Cite{Chinellato2015} is $1-p$, so we may define $\mu \coloneqq 1-p$ $(\ddagger)$. After simply rearranging the leftover fractions and replacing the notation, we get the wanted transition rate $\rho$ from \eqref{def:transition_rates_zealot}. In formulas:
+\begin{align*}
+	\rho &\equiv P_t\left(m-1\right)\frac{1-p}{N\left(N+N_X+N_Y-1\right)}\left(m+N_X-1\right)\left(N-m+1\right)\\
+	&\overset{(\dagger)}{\equiv} \frac{1-p}{N\left(N+N_X+N_Y-1\right)}\left(m+N_X-1\right)\left(N-m+1\right)\\
+	&\overset{(\star)}{\equiv} \frac{1-p}{N+N_X+N_Y}\left(m+N_X-1\right)\left(N-m+1\right)\\
+	&\overset{(\ddagger)}{\equiv} \frac{\mu}{N+N_X+N_Y}\left(m+N_X-1\right)\left(N-m+1\right)\\
+	&\equiv \mu \left(N-\left(m-1\right)\right)\frac{\left(m-1\right) + N_X}{N + N_X + N_Y}\\
+	&\equiv \mu\left(N-X_t\right)\frac{X_t + N_X}{N + N_X + N_Y}
+\end{align*}
+\end{proof}
+%TODO:blabla: we are almost happy, but what misses is partial isolation of zealots and influence blabla
+\subsection{Sano model/Zealot with reinforcement}
+%TODO: research and decide, which one to present
 \section{My Model}
+\subsection{Definition}
+\subsection{Bifurcation Analysis}
 \section{Discussion}
 
 \newpage
