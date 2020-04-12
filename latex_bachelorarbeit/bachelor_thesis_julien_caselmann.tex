@@ -238,7 +238,7 @@ This adjustment of the Moran model \eqref{model:moran} seems very promising, as 
 . This is not considered in Model \ref{model:noisy_voter_model}, thus yet for us to improve.
 %TODO: So leid es mir tut, ich checke die granovsky quelle nicht. einfach die noisy voter model kacke vom müller abschreiben und auf granovsky + liggett (evtl noch mehr) verweisen. dann funfacts dazu aus anderer literatur finden (ist dann wieder einfacher) um den bums bissl vorzustellen, damit es nicht zu kurz wird (moran model oben ist etwas kurz geraten).
 \subsection{Filter bubbles: zealot model}
-%TODO: nice intro
+%TODO: intro for zealot
 De Aguiar et al. presented a model that operates on a network with $N + N_0 + N_1$ nodes \cite{Aguiar2011, Chinellato2015, Braha2017}. All of the nodes either commit to state $0$ or $1$, which is encoded in a private state. Every single one of the $N$ nodes is able to change its opinion freely, those will be called ``free nodes" in the following. In contrast, the $N_0$ and $N_1$ nodes are stuck with state $0$ and $1$, respectively. These two groups represent the part of the population which rethinks its opinion very seldom, or as in this case: never, as mentioned in Subsection \ref{subsec:noisy_voter_model}. The scientific community agreed on a common name for agents with this kind of behaviour: zealots \cite{Mobilia2003, Chinellato2015, Braha2017}. In \cite{Chinellato2015}, the model considers discrete time steps and selects a random free node at every step and updates its private state following a simple rule:
 \begin{enumerate}\label{rule:chinellato_update}
 	\item state stays the same with probability $p$
@@ -284,10 +284,28 @@ Since the reasoning for the two transition rates is the exact same, we will just
 	&\equiv \mu\left(N-X_t\right)\frac{X_t + N_X}{N + N_X + N_Y}
 \end{align*}
 \end{proof}
-%TODO:blabla: we are almost happy, but what misses is partial isolation of zealots and influence blabla
+%TODO: outro of zealot: we are almost happy, but what misses is partial isolation of zealots and influence blabla
 \subsection{Sano model/Zealot with reinforcement}
+%TODO: intro for sano/zealot w reinforcement 
+%TODO: presentation of sano model
 Present Sano model briefly... in sano model are two new parameters: the rates of ``activeness" at which the zealots influence the population. In our setting, the pro-vaccination zealots mainly consist of the government, health bodies and their presence in the media (public health, mandatory vaccines) that will very actively propagate their opinion (close to 1) and not of single individuals. On the other side, we assume that the anti-immunization zealots behave quite the same and propagate their arguments and ideas very actively \cite{Davies2002, Meyer2004}. So Sano is just honourable mention, but we will present the reinforced zealot model (M.2.58) which perfectly fits our needs.
-\section{My Model}
+\begin{model}[\textbf{(Zealot model for two parties with reinforcement)}]\label{model:zealot_reinforcement}
+	Consider a population of size $N \in \mathbb{N}$, where $X_t, Y_t \in \lbrace 0,\dots, N\rbrace$ describe the amount of supporters of opinion $X$ and $Y$ at time $t$, respectively. Let $N = X_t + Y_t$. Furthermore, let $N_X$ and $N_Y > 0$ be the number of zealots that support opinion $X$ and $Y$, respectively. An individual may reconsider his opinion with rate $\mu$ via the same process as described in Model \ref{model:zealot} and in addition of the contact rates $\theta_X, \theta_Y$. Then, the transition rates of the stochastic process are:
+	\begin{align}\label{def:transition_rates_zealot_reinforcement}
+	\begin{split}
+	X_t \rightarrow X_t + 1 & \textnormal{ at rate } \mu\left(N-X_t\right)\frac{\theta_X (X_t + N_X)}{\theta_X (X_t + N_X) + (N - X_t + N_Y)} \\
+	&\\
+	X_t \rightarrow X_t - 1 & \textnormal{ at rate } \mu X_t\frac{\theta_Y(N-X_t+N_Y)}{(X_t + N_X) + \theta_Y(N-X_t+N_Y)}
+	\end{split}
+	\end{align}
+\end{model}
+\begin{proof}
+	When we take a look at \eqref{def:transition_rates_zealot}, we notice there is just a slight difference between the transition rates stated there and the ones we are currently looking at. It consists of the two contact rates $\theta_X$ and $\theta_Y$. They describe the probability of a $Y$-supporter getting in touch with a $X$-supporter ($\theta_X$) and vice-versa. With this additional information, the derivation of the transition rates is pretty easy:
+	
+	For $X_t \rightarrow X_t + 1$ we need a supporter of $Y$ to firstly, reconsider his opinion (happens at rate $\mu$) and secondly, actually change it to $X$. As stated in the opinion change dynamics in Model \ref{model:zealot}, which are also used here, this only happens if said supporter gets influenced by a supporter of $X$. So, we multiply the possible number of encounters with $X$-supporters $(X_t + N_X)$ with the probability $\theta_X$ of getting out of the ``Y filter bubble", divided by all possible encounters. The rate of the transition $X_t \rightarrow X_t - 1$ is derived exactly analogously.
+\end{proof}
+Lots of different modelling approaches to capture the essence of opinion formation in a (still very simplified) population and spectrum of opinions have been presented in this Section. We looked at the transitions of some of them and concluded that Model \ref{model:zealot_reinforcement} fits our assumptions about the behaviour of vaccine hesitancy best. In Section \ref{sec:my_model}, we will present a model for the dynamics of vaccine hesitancy, whose two fundamental parts, the equation structure and the opinion formation process, will be inspired by Bauch's behaviour-incidence model \eqref{model:bauch} and by \eqref{model:zealot_reinforcement}´.
+\section{My Model}\label{sec:my_model}
 \subsection{Definition}
 \subsection{Bifurcation Analysis}
 \section{Discussion}
