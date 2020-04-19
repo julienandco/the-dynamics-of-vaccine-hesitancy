@@ -1,0 +1,39 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[english]{babel}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{graphicx}
+\usepackage{mathtools}
+\usepackage[utf8]{inputenc}
+\usepackage{csquotes}
+\usepackage[hidelinks, final]{hyperref}
+\usepackage[printonlyused]{acronym}
+\usepackage{color}
+\usepackage{transparent}
+\begin{document}
+	\begin{center}
+		\underline{Ideen für Erweiterung des Zelotenmodells m. Reinforcement}
+	\end{center}
+\textbf{Idee 1}\newline
+Zwei Payoff-Funktionen: die eine für Impfgegner ($u_{con}$), die andere für Befürworter ($u_{pro}$). Diese Payoffs können positiv (impfen lohnt sich für mich) bzw. negativ sein (lohnt sich nicht). Danach wird auf den Payoff die Sigmoid Funktion angewandt, um aus dem Payoff eine Impfwahrscheinlichkeit zu machen. Diese zwei Wahrscheinlichkeiten werden jeweils in das Zeloten Modell m. Reinforcement übernommen (als Impfraten für die beiden jeweiligen Gruppen).
+	\begin{align*}
+		u_{pro}(\omega, \theta, I, \epsilon) &= (1-\omega) \times I \times \epsilon \times (\theta + \lambda_{\theta}) \\
+		&\qquad - (\omega - \lambda_{\omega})(1-\epsilon)(1-\theta)(1-I)\\
+	&\\
+		u_{con}(\omega, \theta, I, \epsilon) &= (\theta - \mu_{\theta})(\epsilon - \mu_{\epsilon})(\omega + \mu_{\omega}) - \omega(1-\epsilon)\theta \times I
+	\end{align*}
+	
+Hierbei sind $\lambda_{\theta}, \lambda_{\omega}, \mu_{\theta}, \mu_{\omega}$ und $\mu_{\epsilon}$ Bias-Werte. Ein Impfgegner wird die Wirksamkeit der Impfung drastisch und die Lethalität der Krankheit ein wenig abwerten wollen und dafür das Impfrisiko verstärkt wahrnehmen, wohingegen ein Befürworter das Risiko etwas kleinreden wird und die Gefahr der Krankheit verstärkt berücksichtigen.\newline
+In die Transition $X \rightarrow X + 1$ kommt dann die Impfwahrscheinlichkeit eines Impfgegners $(\mathrm{sig}\left( u_{con}\right))$, denn in dieser Transition geht es ja darum einen neuen Impfer zu gewinnen und analog kommt in die Transition $X \rightarrow X-1$ die Wslkt für Impfbefürworter, nicht mehr zu impfen $(\mathrm{sig}\left( -u_{pro}\right))$.\newline
+Das Minus vor $u_{pro}$ entsteht aus der Eigenschaft der Sigmoidfunktion, negative Werte auf geringe Wslkten und positive auf hohe Wslkt zu mappen. Wenn also der Payoff für einen Impfbefürworter erneut zu impfen, sehr groß ist, dann wird dieser mit sehr geringer Wslkt nicht impfen. Daher sig(-upro).(Bei Impfgegnern ist Lagerwechsel und Payoff pos. korreliert, bei Befürwortern negativ)\newline
+$\Rightarrow$ Ansatz für das Modell:
+\begin{align*}
+\begin{split}
+X_t \rightarrow X_t + 1 & \textnormal{ at rate } \mu\left(N-X_t\right)\frac{\theta_X (X_t + N_X)}{\theta_X (X_t + N_X) + (N - X_t + N_Y)} \times \mathrm{sig}\left(u_{con}(\omega, \theta, I, \epsilon)\right) \\
+&\\
+X_t \rightarrow X_t - 1 & \textnormal{ at rate } \mu X_t\frac{\theta_Y(N-X_t+N_Y)}{(X_t + N_X) + \theta_Y(N-X_t+N_Y)} \times \mathrm{sig}\left(- u_{pro}(\omega, \theta, I, \epsilon)\right)
+\end{split}
+\end{align*}
+\end{document}
