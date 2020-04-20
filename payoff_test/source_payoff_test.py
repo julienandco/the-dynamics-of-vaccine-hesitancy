@@ -8,7 +8,7 @@ def sig(x):
 def u_pro (omega, theta, i, epsilon):
     bias_theta = 0.0
     bias_omega = 0.0
-    #je näher omega am höchsten wert für risiko ist (1/1000), desto fetter muss das negative werden -> 1-(1/1000 - omega) = 999/1000 + omega
+    #je näher omega am höchsten wert für risiko ist (1/1000), desto fetter muss das negative werden -> 1000*omega
     return ((1-omega) * i * epsilon * (theta + bias_theta) - (1000*omega - bias_omega)*(1-epsilon)*(1-theta)*(1-i)) * 10
 
 def u_con (omega, theta, i, epsilon):
