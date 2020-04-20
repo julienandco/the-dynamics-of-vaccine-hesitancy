@@ -9,3 +9,4 @@ payoff_test/*
 !payoff_test/main_payoff_test.tex
 !payoff_test/source_payoff_test.py 
 !payoff_test/table_payoff_test.tex
+!payoff_test/table_2_payoff_test.tex
