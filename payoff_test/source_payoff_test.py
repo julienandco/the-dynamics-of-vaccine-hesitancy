@@ -1,17 +1,21 @@
 from random import seed
 import random
+import math
 
+def sig(x):
+    return (1/(1+math.exp(-x)))
 
 def u_pro (omega, theta, i, epsilon):
     bias_theta = 0.0
     bias_omega = 0.0
-    return (1-omega) * i * epsilon * (theta + bias_theta) - (omega - bias_omega)*(1-epsilon)*(1-theta)*(1-i)
+    #je näher omega am höchsten wert für risiko ist (1/1000), desto fetter muss das negative werden -> 1-(1/1000 - omega) = 999/1000 + omega
+    return ((1-omega) * i * epsilon * (theta + bias_theta) - (1000*omega - bias_omega)*(1-epsilon)*(1-theta)*(1-i)) * 10
 
 def u_con (omega, theta, i, epsilon):
     bias_theta = 0.0
     bias_omega = 0.0
     bias_epsilon = 0.0
-    return (theta-bias_theta)*(epsilon-bias_epsilon)*(omega+bias_omega)-omega*(1-epsilon)*theta*i
+    return ((theta-bias_theta)*(epsilon-bias_epsilon)*(omega+bias_omega)-omega*(1-epsilon)*theta*i) * 10
 
 def single_u(omega, theta, i, epsilon):
     return epsilon*theta*i*(1-omega)
@@ -35,6 +39,7 @@ seed(1)
 
 def buildRandomSamples():
     samples = []
+    #vaccine risk ist maximal 1/1000, vaccine efficacity ist mind. 70% sonst nicht zugelassen
     for i in range(1000):
         samples.append([random.uniform(0,1/1000), random.uniform(0,1), random.uniform(0,1), random.uniform(0.7, 1)])
     return samples
@@ -42,7 +47,7 @@ def buildRandomSamples():
 def compute(samples, fun_pro, fun_con):
     results = []
     for i in range(len(samples)):
-        results.append([i, round(samples[i][0], 6), round(samples[i][1], 6), round(samples[i][2], 6), round(samples[i][3], 6), round(apply(samples[i], fun_pro), 6), round(apply(samples[i], fun_con), 6)])
+        results.append([i, round(samples[i][0], 6), round(samples[i][1], 6), round(samples[i][2], 6), round(samples[i][3], 6), round(sig(-apply(samples[i], fun_pro)), 6), round(sig(apply(samples[i], fun_con)), 6)])
     return (fun_to_string(fun_pro), fun_to_string(fun_con), results)
 
 def outputToLatex(res):
