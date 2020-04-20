@@ -19,10 +19,10 @@
 \textbf{Idee 1}\newline
 Zwei Payoff-Funktionen: die eine für Impfgegner ($u_{con}$), die andere für Befürworter ($u_{pro}$). Diese Payoffs können positiv (impfen lohnt sich für mich) bzw. negativ sein (lohnt sich nicht). Danach wird auf den Payoff die Sigmoid Funktion angewandt, um aus dem Payoff eine Impfwahrscheinlichkeit zu machen. Diese zwei Wahrscheinlichkeiten werden jeweils in das Zeloten Modell m. Reinforcement übernommen (als Impfraten für die beiden jeweiligen Gruppen).
 	\begin{align*}
-		u_{pro}(\omega, \theta, I, \epsilon) &= (1-\omega) \times I \times \epsilon \times (\theta + \lambda_{\theta}) \\
-		&\qquad - (\omega - \lambda_{\omega})(1-\epsilon)(1-\theta)(1-I)\\
+		u_{pro}(\omega, \theta, I, \epsilon) &= [(1-1000\omega) \times I \times \epsilon \times (\theta + \lambda_{\theta}) \\
+		&\qquad - (1000\omega - \lambda_{\omega})(1-\epsilon)(1-\theta)(1-I)] \times 10\\
 	&\\
-		u_{con}(\omega, \theta, I, \epsilon) &= (\theta - \mu_{\theta})(\epsilon - \mu_{\epsilon})(\omega + \mu_{\omega}) - \omega(1-\epsilon)\theta \times I
+		u_{con}(\omega, \theta, I, \epsilon) &= (\theta - \mu_{\theta})(\epsilon - \mu_{\epsilon})(\omega + \mu_{\omega}) - \omega(1-\epsilon)\theta \times I \textbf{   TODO}
 	\end{align*}
 	
 Hierbei sind $\lambda_{\theta}, \lambda_{\omega}, \mu_{\theta}, \mu_{\omega}$ und $\mu_{\epsilon}$ Bias-Werte. Ein Impfgegner wird die Wirksamkeit der Impfung drastisch und die Lethalität der Krankheit ein wenig abwerten wollen und dafür das Impfrisiko verstärkt wahrnehmen, wohingegen ein Befürworter das Risiko etwas kleinreden wird und die Gefahr der Krankheit verstärkt berücksichtigen.\newline
@@ -37,5 +37,5 @@ X_t \rightarrow X_t - 1 & \textnormal{ at rate } \mu X_t\frac{\theta_Y(N-X_t+N_Y
 \end{split}
 \end{align*}
 \textbf{Probleme von Idee 1:}\newline
-Die Werte der Payoff-Funktionen sind mir zu klein (man könnte am ende einfach mit Faktor multiplizieren, gefällt mir aber nicht so) und spiegeln ein nicht ganz plausibles Verhalten wider.
+Die Werte der Payoff-Funktion für Befürworter sehen ok aus, nur bei den Impfgegnern läuft noch was schief: sie wechseln jedes mal zu pro-impfen!!! sehr unplausibel
 \end{document}

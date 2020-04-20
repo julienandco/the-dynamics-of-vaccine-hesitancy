@@ -9,13 +9,14 @@ def u_pro (omega, theta, i, epsilon):
     bias_theta = 0.0
     bias_omega = 0.0
     #je näher omega am höchsten wert für risiko ist (1/1000), desto fetter muss das negative werden -> 1000*omega
-    return ((1-omega) * i * epsilon * (theta + bias_theta) - (1000*omega - bias_omega)*(1-epsilon)*(1-theta)*(1-i)) * 10
+    return ((1-(1000*omega)) * i * epsilon * (theta + bias_theta) - (1000*omega - bias_omega)*(1-epsilon)*(1-theta)*(1-i)) * 10
 
 def u_con (omega, theta, i, epsilon):
+    #noch sehr whack
     bias_theta = 0.0
     bias_omega = 0.0
     bias_epsilon = 0.0
-    return ((theta-bias_theta)*(epsilon-bias_epsilon)*(omega+bias_omega)-omega*(1-epsilon)*theta*i) * 10
+    return ((theta-bias_theta)*(epsilon-bias_epsilon)*(1-(1000*omega)+bias_omega)-1000*omega*(1-epsilon)*(1-theta)*(1-i)) * 10
 
 def single_u(omega, theta, i, epsilon):
     return epsilon*theta*i*(1-omega)
