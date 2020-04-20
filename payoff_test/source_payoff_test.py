@@ -1,5 +1,5 @@
 from random import seed
-from random import random
+import random
 
 
 def u_pro (omega, theta, i, epsilon):
@@ -28,7 +28,7 @@ seed(1)
 def buildRandomSamples():
     samples = []
     for i in range(1000):
-        samples.append([random()*1/1000, random(), random(), random()])
+        samples.append([random.uniform(0,1/1000), random.uniform(0,1), random.uniform(0,1), random.uniform(0.7, 1)])
     return samples
 
 def compute(samples):
@@ -52,5 +52,3 @@ res= compute(sam)
 
 with open('table_2_payoff_test.tex', 'w') as file:
     file.write(outputToLatex(res))
-
-
