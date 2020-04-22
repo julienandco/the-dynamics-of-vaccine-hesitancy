@@ -79,22 +79,22 @@ def buildRandomSamples():
     samples = []
     #vaccine risk ist maximal 1/1000, vaccine efficacity ist mind. 75% sonst nicht zugelassen
     for i in range(1000):
-        samples.append([random.uniform(0,1/10000), random.uniform(0,1), random.uniform(0,1), random.uniform(0.75, 1)])
+        samples.append([random.uniform(0, 1/100000), random.uniform(0,1), random.uniform(0,1), random.uniform(0.75, 1)])
     return samples
 
-def compute(samples, fun_pro, fun_con, app_sigma):
+def compute(samples, fun_pro, fun_con, app_sigmoid):
     results = []
     for i in range(len(samples)):
-        if app_sigma:
+        if app_sigmoid:
             results.append([i, round(samples[i][0], 6), round(samples[i][1], 6), round(samples[i][2], 6), round(samples[i][3], 6), round(sig(-apply(samples[i], fun_pro)), 6), round(sig(apply(samples[i], fun_con)), 6)])
         else:
             results.append([i, round(samples[i][0], 6), round(samples[i][1], 6), round(samples[i][2], 6), round(samples[i][3], 6), round(apply(samples[i], fun_pro), 6), round(apply(samples[i], fun_con), 6)])
-    return (fun_to_string(fun_pro), fun_to_string(fun_con), results)
+    return (fun_to_string(fun_pro), fun_to_string(fun_con), str(app_sigmoid), results)
 
-def outputToLatex(res, sig):
-    txt = '\\begin{table}\n\\caption{Pro:' + res[0] + ', Con:' + res[1] + '$\\mathrm{sig}:' + str(sig) + '$}\n\\begin{tabular}{c|c|c|c|c|c|c}\n\\# & $\\omega$ & $\\theta$ & $I$ & $\\epsilon$ & Pro & Con' + "\\" + "\\\n" + '\\hline\n'
+def outputToLatex(res):
+    txt = '\\begin{table}\n\\caption{Pro:' + res[0] + ', Con:' + res[1] + '$\\mathrm{sig}:' + res[2] + '$}\n\\begin{tabular}{c|c|c|c|c|c|c}\n\\# & $\\omega$ & $\\theta$ & $I$ & $\\epsilon$ & Pro & Con' + "\\" + "\\\n" + '\\hline\n'
     counter = 0
-    results = res[2]
+    results = res[3]
     for i in range(len(results)):
         txt += str(results[i][0]) + ' & ' + str(results[i][1]) + ' & ' + str(results[i][2]) + ' & ' + str(results[i][3]) +  ' & ' + str(results[i][4]) + ' & ' + str(results[i][5]) + ' & ' + str(results[i][6]) + '\\\\\n'
         if i == counter + 45:
@@ -103,8 +103,8 @@ def outputToLatex(res, sig):
     return (txt + '\\end{tabular}\n\\end{table}')
 
 sam = buildRandomSamples()
-sig = False
-res= compute(sam, counter_u_pro, counter_u_con, sig)
+sigmoid = False
+res = compute(sam, counter_u_pro, counter_u_con, sigmoid)
 
 with open('table_2_payoff_test.tex', 'w') as file:
-    file.write(outputToLatex(res, sig))
+    file.write(outputToLatex(res))
