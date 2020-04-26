@@ -45,4 +45,42 @@ Wieder payoff funktionen. Diesmal eher als Counter (min/max: -4/4, damit Sigmoid
 	siehe Python Datei
 \end{align*}
 \textbf{TODO: payoff für con ist immer negativ $\rightarrow$ impfen wirklich nie, was auch unplausibel ist. Außerdem wurden die Funktionen mit if-else statements implementiert. Mathematisches Äquivalent dazu?}
+\newpage
+\textbf{Idee 3}\newline
+Anmerkung in Meeting 4: persönliche Payoffberechnung und Einflussnahme anderer sollen nicht parallel voneinander passieren, sondern abhängig sein. Ansatz mit Payoff gefällt, also wird dieser beibehalten und die Funktionen werden an die Anmerkung angepasst.\newline
+$\Rightarrow$ Zwei simple Payoff-Terme:
+\begin{align*}
+	\textnormal{spricht für Impfung:}& \theta + I\\
+	\textnormal{spricht gg. Impfung:}& 1-\epsilon + 100000\omega
+\end{align*}
+Bei der Transition $X \rightarrow X + 1$ muss ein Impfgegner zu einem Befürworter ``konvertiert" werden. Der sog. ``influence factor" $\Pi_{pro}$ (Einfluss, den die Pro-Leute haben) wird also davon abhängen, wieviele Leute impfen und wieviele Pro-Impf-Zeloten es gibt:
+\begin{equation}
+	\Pi_{pro} = X_t + p_{meet Z_1}
+\end{equation}
+Wobei $p_{meet Z_1}$ die Wahrscheinlichkeit beschreibt, einen Pro(1)-Impf-Zeloten zu treffen (nach dem Zel-Modell m. Reinforcement):
+\begin{equation}
+	p_{meet Z_1} = \frac{\theta_X N_X}{\theta_X(N_X + X_t) + (N-X_t + N_Y)}.
+\end{equation}
+Jetzt können wir unsere neue Payoff-Funktion für Impfgegner, die Befürworter werden sollen, aufschreiben:
+\begin{equation}
+	u_{con}\left(\omega, \theta, I, \epsilon, \Pi_{pro}\right) = \Pi_{pro} * (\theta + I) - (2 -\Pi_{pro})(1-\epsilon + 100000\omega).
+\end{equation}
+Komplett analog definieren wir für die Transition $X \rightarrow X-1$ die folgenden Variablen:
+\begin{align*}
+	\Pi_{con} &= N-X_t + p_{meet Z_0}\\
+	&\\
+	p_{meet Z_0} &= \frac{\theta_Y N_Y}{X_t + N_X + \theta_Y(N-X_t+N_Y)}
+\end{align*}
+Jetzt können wir den Payoff für Impfbefürworter, die Gegner werden sollen, aufschreiben:
+\begin{equation}
+	u_{pro}\left(\omega, \theta, I, \epsilon, \Pi_{con}\right) = (2-\Pi_{con})(\theta + I) - \Pi_{con} (1-\epsilon+100000\omega)
+\end{equation}
+$\Rightarrow$ Modell:
+\begin{align*}
+\begin{split}
+X_t \rightarrow X_t + 1 & \textnormal{ at rate } \mu\left(N-X_t\right)\frac{\theta_X (X_t + N_X)}{\theta_X (X_t + N_X) + (N - X_t + N_Y)} \times \mathrm{sigmoid}\left(u_{con}\right) \\
+&\\
+X_t \rightarrow X_t - 1 & \textnormal{ at rate } \mu X_t\frac{\theta_Y(N-X_t+N_Y)}{(X_t + N_X) + \theta_Y(N-X_t+N_Y)} \times \mathrm{sigmoid}\left(- u_{pro}\right)
+\end{split}
+\end{align*}
 \end{document}
