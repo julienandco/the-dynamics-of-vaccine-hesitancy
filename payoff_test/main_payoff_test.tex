@@ -6,6 +6,14 @@
 \usepackage{amssymb}
 \usepackage{graphicx}
 \begin{document}
+Model idea:
+\begin{align*}
+\begin{split}
+X_t \rightarrow X_t + 1 & \textnormal{ at rate } \mu\left(N-X_t\right)\frac{\theta_X (X_t + N_X + \theta + I)}{\theta_X (X_t + N_X + \theta + I) + (N - X_t + N_Y + 1-\epsilon + \kappa\omega)} \\
+&\\
+X_t \rightarrow X_t - 1 & \textnormal{ at rate } \mu X_t\frac{\theta_Y(N-X_t+N_Y+1-\epsilon+\kappa\omega)}{(X_t + N_X+\theta+I) + \theta_Y(N-X_t+N_Y+1-\epsilon+\kappa\omega)}
+\end{split}
+\end{align*}
+\input{table_5_payoff_test.tex}
 
-\input{table_3_payoff_test.tex}
 \end{document}

@@ -83,4 +83,13 @@ X_t \rightarrow X_t + 1 & \textnormal{ at rate } \mu\left(N-X_t\right)\frac{\the
 X_t \rightarrow X_t - 1 & \textnormal{ at rate } \mu X_t\frac{\theta_Y(N-X_t+N_Y)}{(X_t + N_X) + \theta_Y(N-X_t+N_Y)} \times \mathrm{sigmoid}\left(- u_{pro}\right)
 \end{split}
 \end{align*}
+\newpage
+\textbf{Idee 4}\newline
+\begin{align*}
+\begin{split}
+X_t \rightarrow X_t + 1 & \textnormal{ at rate } \mu\left(N-X_t\right)\frac{\theta_X (X_t + N_X + \theta + I)}{\theta_X (X_t + N_X + \theta + I) + (N - X_t + N_Y + 1-\epsilon + \kappa\omega)} \\
+&\\
+X_t \rightarrow X_t - 1 & \textnormal{ at rate } \mu X_t\frac{\theta_Y(N-X_t+N_Y+1-\epsilon+\kappa\omega)}{(X_t + N_X+\theta+I) + \theta_Y(N-X_t+N_Y+1-\epsilon+\kappa\omega)}
+\end{split}
+\end{align*}
 \end{document}
