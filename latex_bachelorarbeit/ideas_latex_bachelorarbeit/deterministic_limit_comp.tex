@@ -1,0 +1,93 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[english]{babel}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{graphicx}
+\usepackage{mathtools}
+\usepackage[utf8]{inputenc}
+\usepackage{csquotes}
+\usepackage[hidelinks, final]{hyperref}
+\usepackage[printonlyused]{acronym}
+\usepackage{color}
+\usepackage{transparent}
+\newtheorem{prop}{Proposition}[section]
+\begin{document}
+\textbf{first try (07/05/2020)}
+\begin{prop}\label{result}
+	Let $N_X = n_X N, N_Y = n_Y N$. Then, the determinstic limit for $x\left(t\right) = \frac{X_t}{N}$ reads
+	\begin{align}
+	\begin{split}
+	\dot{x} = &-\mu x\frac{\theta_Y(N-x+n_Y + bN +1-\epsilon+\kappa\omega)}{(x + n_X+aI) + \theta_YN-x+n_Y + bN +1-\epsilon+\kappa\omega)} \\
+	&\\
+	\qquad &+ \mu\left(1-x\right)\frac{\theta_X (x + n_X + aI)}{\theta_X (x + n_X + aI) + (N-x + n_Y + bN + 1-\epsilon + \kappa\omega)}
+		\end{split}
+	\end{align} 
+\end{prop}
+\begin{proof}\phantom{lol}\newline
+\textbf{1. Master equation}\newline
+For simplicity, define
+\begin{align*}
+\Delta &\coloneqq\frac{\theta_X (X_t + N_X + aI)}{\theta_X (X_t + N_X + aI) + (N-X_t + N_Y + bN + 1-\epsilon + \kappa\omega)} \\
+&\\
+\square &\coloneqq\frac{\theta_Y(N-X_t + N_Y + bN +1-\epsilon+\kappa\omega)}{(X_t + N_X + aI) + \theta_Y(N-X_t + N_Y + bN +1-\epsilon+\kappa\omega)}
+\end{align*}
+The transition rates of our model are:
+\begin{align*}\label{def:transition_rates_my_model}
+X_t \rightarrow X_t + 1 & \textnormal{ at rate } \mu N-X_t\times \Delta \\
+&\\
+X_t \rightarrow X_t - 1 & \textnormal{ at rate } \mu X_t\times \square
+\end{align*}
+$\Rightarrow$ the master equation reads:
+\begin{equation}
+	\dot{p_i} = \square\times p_{i+1} + \Delta\times p_{k-1} - \left(\Delta + \square\right)\times p_i
+\end{equation}
+\textbf{2. Kramer-Moyal expansion}\newline
+Again, we define for simplicity:
+\begin{align*}
+\dagger &\coloneqq \frac{\theta_X (i-1 + N_X + aI)}{\theta_X (i-1 + N_X + aI) + (N-i+1 + N_Y + bN + 1-\epsilon + \kappa\omega)}\\
+\ddagger &\coloneqq \frac{\theta_Y(N-i-1 + N_Y + bN +1-\epsilon+\kappa\omega)}{(i+1 + N_X+aI) + \theta_Y(N-i-1 + N_Y + bN +1-\epsilon+\kappa\omega)}
+\end{align*}
+Now, we assume $p_i(t) \approx h\times u\left(\frac{i}{N}, t\right), h=\frac{1}{N}$ and $x = hi$ and compute:
+\begin{align}\label{computation}
+\begin{split}
+	&\partial_t \left(u\left(\frac{i}{n}, t\right)\right) = \dot{p_i} = \square\times p_{i+1} + \Delta\times p_{k-1} - \left(\Delta + \square\right)\times p_i\\
+	&= \frac{1}{h}\left[\mu(x+h)\times \ddagger\times u\left(x+h,t\right)\right.\\
+	&\left. + \mu(1-(x-h))\times \dagger \times u\left(x-h,t \right)\right.\\
+	&\left.- \left(\mu(1-x)\frac{\theta_X (i + N_X + aI)}{\theta_X (i + N_X + aI) + (N-i + N_Y + bN + 1-\epsilon + \kappa\omega)}\right.\right.\\
+		&\qquad \left.\left. + \mu x\frac{\theta_Y(N-i + N_Y + bN +1-\epsilon+\kappa\omega)}{(i + N_X+aI) + \theta_Y(N-i + N_Y + bN +1-\epsilon+\kappa\omega)} \right)\times u\left(x,t\right)\right]
+		\end{split}
+\end{align}
+
+We will now compute the Taylor series of second order for the $u\left(x-h,t\right)$ and $u\left(x+h,t\right)$ terms:
+\begin{align*}
+	&\mu(1-(x-h))\times \dagger \times u\left(x-h,t \right)\\
+	&= \mu(1-x)\dagger u\left(x,t\right) - h\partial_x \left(\mu(1-x)\dagger u\right)+\frac{1}{2}h^2\partial^2_x\left(\mu(1-x)\dagger u\right)\\
+	&\\
+	&\\
+	&\mu(x+h)\times \ddagger \times u\left(x+h,t\right) \\
+	&= \mu x \ddagger u(x,t) + h\partial_x \left(\mu x \ddagger u\right) + \frac{1}{2}h^2\partial^2_x\left(\mu x\ddagger u\right)
+\end{align*}
+We may now resume the computations \eqref{computation} from above and add those new results:
+\begin{align*}
+&\partial_t \left(u\left(\frac{i}{n}, t\right)\right) = \dots \\
+&= -\partial_x\left(\mu(1-x)\frac{\theta_X (x + n_X + aI)}{\theta_X (x + n_X + aI) + (N-x + n_Y + bN + 1-\epsilon + \kappa\omega)}\right.\\
+&\left.\qquad - \mu x \frac{\theta_Y(N-x+n_Y + bN +1-\epsilon+\kappa\omega)}{(x + n_X+aI) + \theta_YN-x+n_Y + bN +1-\epsilon+\kappa\omega)} \right)\\
+&\qquad + \frac{1}{2N} \dots\\
+&\\
+&\textnormal{So, for } N \rightarrow \infty: \\
+\partial_t \left(u\left(\frac{i}{n}, t\right)\right)&= -\partial_x\left(\mu(1-x)\frac{\theta_X (x + n_X + aI)}{\theta_X (x + n_X + aI) + (N-x + n_Y + bN + 1-\epsilon + \kappa\omega)}\right.\\
+&\left.\qquad - \mu x \frac{\theta_Y(N-x+n_Y + bN +1-\epsilon+\kappa\omega)}{(x + n_X+aI) + \theta_YN-x+n_Y + bN +1-\epsilon+\kappa\omega)} \right)
+\end{align*}
+This means that the ODE due to the drift term in case $N \leftarrow \infty$ reads 
+\begin{align*}
+	\dot{x} = &-\mu x\frac{\theta_Y(N-x+n_Y + bN +1-\epsilon+\kappa\omega)}{(x + n_X+aI) + \theta_YN-x+n_Y + bN +1-\epsilon+\kappa\omega)} \\
+	&\\
+	\qquad &+ \mu\left(1-x\right)\frac{\theta_X (x + n_X + aI)}{\theta_X (x + n_X + aI) + (N-x + n_Y + bN + 1-\epsilon + \kappa\omega)}
+\end{align*}
+Which is exatly the result stated in \eqref{result}
+\end{proof}
+%	&\Rightarrow 
+
+\end{document}
