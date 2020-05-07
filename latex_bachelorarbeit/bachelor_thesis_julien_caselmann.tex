@@ -122,6 +122,7 @@ Daf\"ur ist hier Platz.
 	\acro{BVM}{biased voter model}
 	\acro{AfD}{Alternative für Deutschland}
 	\acro{GDR}{German Democratic Republic}
+	\acro{ODE}{Ordinary Differential Equation}
 	%if one acronym's plural form is more than just an "s" attached, you have to specify that:
 	\acro{SQ}{sexy query}
 	\acroplural{SQ}[SQs]{sexy queries}
@@ -186,7 +187,7 @@ Finally, let us take a look at the vaccinator dynamics. Their growth factor cons
 
 One may notice that the dynamics of the vaccinators $x$ as presented in Model \ref{model:bauch} are quite basic and not realistic at all. They imply that the only influencing factor in the switch between vaccinator and non-vaccinator is this kind of ``pay-off comparison" described by the difference $I - \omega$ and attribute it an extreme power. If for instance,we considered a population with $N$ individuals, almost no vaccinators at a time $t$, say $x(t) \leq 0.05$, a massive amount of infecteds $I \sim N$ and a somewhat decent vaccine risk. Even if the risk was still high, the enormous $I$ would lead to the ``pay-off being quite big. According to this model, a tremendous amount of anti-vaccinators would suddenly become vaccinators, despite their ideologies, fears and maybe also religious beliefs, whereas experience tells us the exact opposite. Even in such dramatic context, the path from being a staunch anti-vaccinator to taking a flu shot into consideration can be tedious, even if the vaccine is allegedly safe or herd immunity for the whole population could be reached with that shot \cite{Meyer2004, Bednarz2020, Health2019}. Additionally, exchange between those two camps or differently weighted opinions, such as rumours or impactful people are completely excluded from this model, yet highly present in the real world \cite{Pincock2004}.
 
-\section{Opinion model}
+\section{Opinion model}\label{sec:opinion_model}
 The next step now is to understand how opinion formation works and what modelling approach fits best for us. A lot of research has been done in this field with almost every work having a different focus, due to the immense dimension of the subject. One of the most famous models is the one presented by DeGroot in \cite{Degroot1974}, which aims for a consensus between all the involved agents and is based on the presumption that one individual analyses all of the opinions of the agents connected to him and then changes his mind following an update rule that basically is weighted averaging of the personal and surrounding opinions. This model has then been refined by Friedkin and Johnsen in \cite{Friedkin1990}, who added the term of ``innate opinion". By doing so, every agent was extended by an immutable vector that represented their opinion (values) as they would be if the agent was in a social vacuum, thus influenced by nobody. Another very modern and quite interesting modification has been done by Chitra and Musco in \cite{Chitra2019} by adding a new actor to the Friedkin-Johnsen dynamics: a network administrator. He solely is allowed to change the weights of the connections in the social network graph which resulted in a massive increase of polarization in their model. Chitra's and Musco's research has shown that a change of edge weight of 20\% already lead to a polarization increase of 180\%. This finding is especially relevant for the modern times, where many of such network administrators exist in form of recommendation algorithms \cite{Pariser2011}. Thus, many relevant information for opinion building on a subject may not even be delivered to every individual and falsify the final popular opinion, since there was no common information pool. Hegselmann and Krause presented an approach in \cite{Hegselmann2002} that modelled the interaction in social networks when considering bias and ``confidence" during interaction: the \ac{BCM}. The design is quite simple: every agent has a continuous opinion value that is uniformly distributed in the interval $\left[0, 1\right]$ and only interacts with like-minded agents. To be more specific: if the other agent's opinion differs from the own opinion by less than a fixed $\epsilon$, both opinion are changed following an update rule, otherwise there is no interaction at all. Vicario et al. extended the \ac{BCM} to the unbounded-confidence model \cite{Vicario2016}. The dynamics are the exact same as for the \ac{BCM}, except that they also added an update rule for the agents that hold an opinion differing by more than the fixed $\epsilon$. By doing so, they were able to replicate the observed rejection of divided opinions while still allowing some interaction, which is more realistic. Based on DeGroot's model and also considering bias and homophily, Dandekar, Goel and Lee proposed a generalization in \cite{Dandekar2013}. They based their work the fact that individuals tend to interact more with like-minded others (i.e. homophily) and on a psychological phenomenon called biased assimilation, which is perfectly explained in \cite{Lord2009}: 
 \begin{quote}
 	``Perceptions of new evidence are interpreted in such a way as to be assimilated into preexisting assumptions and expectations".
@@ -316,9 +317,41 @@ Sano assumes that only a part $\phi_X, \phi_Y$, respectively, of the zealots wou
 	
 	For $X_t \rightarrow X_t + 1$ we need a supporter of $Y$ to firstly, reconsider his opinion (happens at rate $\mu$) and secondly, actually change it to $X$. As stated in the opinion change dynamics in Model \ref{model:zealot}, which are also used here, this only happens if said supporter gets influenced by a supporter of $X$. So, we multiply the possible number of encounters with $X$-supporters $(X_t + N_X)$ with the probability $\theta_X$ of getting out of the ``Y filter bubble", divided by all possible encounters. The rate of the transition $X_t \rightarrow X_t - 1$ is derived exactly analogously.
 \end{proof}
-Lots of different modelling approaches to capture the essence of opinion formation in a (still very simplified) population and spectrum of opinions have been presented in this Section. We looked at the transitions of some of them and concluded that Model \ref{model:zealot_reinforcement} fits our assumptions about the behaviour of vaccine hesitancy best. In Section \ref{sec:my_model}, we will present a model for the dynamics of vaccine hesitancy, whose two fundamental parts, the equation structure and the opinion formation process, will be inspired by Bauch's behaviour-incidence model \eqref{model:bauch} and by \eqref{model:zealot_reinforcement}.
+
 \section{My Model}\label{sec:my_model}
-\subsection{Definition}
+Lots of different modelling approaches to capture the essence of opinion formation in a (still very simplified) population and spectrum of opinions have been presented in Section \ref{sec:opinion_model}. We looked at the transitions of some of them and concluded that Model \ref{model:zealot_reinforcement} fits our assumptions about the behaviour of vaccine hesitancy best. In this section, we will present a model for the dynamics of vaccine hesitancy, whose two fundamental parts, the equation structure and the opinion formation process, will be inspired by Bauch's behaviour-incidence model \eqref{model:bauch} and by \eqref{model:zealot_reinforcement}. To render the opinion formation and influencing process in the model more realistic, the idea of payoff functions taken from the field of financial mathematics has also been included in the new model.%TODO: Quelle?
+Firstly, we will derive the transition rates for the stochastic process $X_t$ as they are described by our model. Then, we will compute the deterministic limit to get rid of the stochastics and handle a system of \acp{ODE}, which we may then analyse thoroughly.
+
+\subsection{Derivation of the transition rates}
+To be able to derive the transition rates, we have to state the model behaviour we wish for. The transition rates of \eqref{def:transition_rates_zealot_reinforcement} are already quite nice, but do not fit our needs entirely. We want to integrate the aspect of mutual influence between the individuals in the population and the personal ``payoff" everybody computes in their heads before making a somewhat important decision. One could come up with a very sophisticated and realistic ``payoff function" for both pro and anti-immunization parties and integrate it into the model, thus tremendously raise the complexity. We figured that a simpler way of doing so would be to modify the two parts of the extended population that are already used $\left(X_t + N_X\textnormal{ and }N- X_t + N_Y\right)$ so that they become a ``pro-vaccination" and ``anti-vaccination" part. Yet again, to reduce complexity, the factor considered as most relevant to the ``pro" part of the personal payoff computation is the prevalence of the disease, described by $aI$, where $a$ is a scaling factor and $I$ represents the number of infecteds, just as introduced in \eqref{table:bauch_model_variables}. On the other hand, the factors considered as most relevant to the arguments against a vaccination are the vaccination efficiency $\epsilon$ and the vaccine risk $\omega$. %TODO why the fuck bN in the transitions?
+Additionally, we will assume that the two zealot groups $N_X$ and $N_Y$ scale linearly with the total population size $N$:
+\begin{align}\label{eq:zealots_scale_linearly}
+\begin{split}
+	N_X &= n_X N\\
+	N_Y &= n_Y N
+	\end{split}
+\end{align}
+Taking all of these thoughts into consideration, we propose the following transition rates:
+\begin{model}[\textbf{My model}]%TODO: in den Raten wirklich schon durch N teilen?
+	Consider the same context as in Model \ref{model:zealot_reinforcement}. Additionally, let $a ,b, \kappa, n_X, n_Y \in \mathbb{N}$ and $I, \epsilon, \omega$ as defined in \eqref{table:bauch_model_variables}. Then,
+\begin{align}\label{def:transition_rates_my_model}
+\begin{split}
+X_t \rightarrow X_t + 1 & \textnormal{ at rate } \mu\frac{N-X_t}{N}\frac{\theta_X (\frac{X_t}{N} + n_X + aI)}{\theta_X (\frac{X_t}{N} + n_X + aI) + (\frac{N-X_t}{N} + n_Y + bN + 1-\epsilon + \kappa\omega)} \\
+&\\
+X_t \rightarrow X_t - 1 & \textnormal{ at rate } \mu\frac{X_t}{N}\frac{\theta_Y(\frac{N-X_t}{N}+n_Y + bN +1-\epsilon+\kappa\omega)}{(\frac{X_t}{N} + n_X+aI) + \theta_Y(\frac{N-X_t}{N}+n_Y + bN +1-\epsilon+\kappa\omega)}
+\end{split}
+\end{align}
+\end{model}
+\subsection{Computation of the deterministic limit}
+\begin{prop}
+	Let $N_X = n_X N, N_Y = n_Y N$. Then, the determinstic limit for $x\left(t\right) = \frac{X_t}{N}$ reads
+	\begin{equation}
+		todo
+	\end{equation} 
+\end{prop}
+\begin{proof}
+	all computations here
+\end{proof}
 \subsection{Bifurcation Analysis}
 \section{Discussion}
 
