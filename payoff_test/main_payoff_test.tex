@@ -9,10 +9,18 @@
 Model idea:
 \begin{align*}
 \begin{split}
-X_t \rightarrow X_t + 1 & \textnormal{ at rate } \mu\left(N-X_t\right)\frac{\theta_X (X_t + N_X + \theta + I)}{\theta_X (X_t + N_X + \theta + I) + (N - X_t + N_Y + 1-\epsilon + \kappa\omega)} \\
+X_t \rightarrow X_t + 1 & \textnormal{ at rate } \mu\frac{N-X_t}{N}\frac{\theta_X (\frac{X_t}{N} + N_X + \theta + I)}{\theta_X (\frac{X_t}{N} + N_X + \theta + I) + (\frac{N-X_t}{N} + N_Y + 1-\epsilon + \kappa\omega)} \\
 &\\
-X_t \rightarrow X_t - 1 & \textnormal{ at rate } \mu X_t\frac{\theta_Y(N-X_t+N_Y+1-\epsilon+\kappa\omega)}{(X_t + N_X+\theta+I) + \theta_Y(N-X_t+N_Y+1-\epsilon+\kappa\omega)}
+X_t \rightarrow X_t - 1 & \textnormal{ at rate } \mu\frac{X_t}{N}\frac{\theta_Y(\frac{N-X_t}{N}+N_Y+1-\epsilon+\kappa\omega)}{(\frac{X_t}{N} + N_X+\theta+I) + \theta_Y(\frac{N-X_t}{N}+N_Y+1-\epsilon+\kappa\omega)}
 \end{split}
+\end{align*}
+Idea as a SIS Model $\left(S \sim \frac{N-X_t}{N}, I \sim \frac{X_t}{N}\right)$:
+\begin{align*}
+	\dot{\left(\frac{N-X_t}{N}\right)} = &- \mu\frac{\theta_X (\frac{X_t}{N} + N_X + \theta + I)}{\theta_X (\frac{X_t}{N} + N_X + \theta + I) + (\frac{N-X_t}{N} + N_Y + 1-\epsilon + \kappa\omega)} \times \frac{X_t(N-X_t)}{N^2} \\
+	&\qquad + \mu\frac{\theta_Y(\frac{N-X_t}{N}+N_Y+1-\epsilon+\kappa\omega)}{(\frac{X_t}{N} + N_X+\theta+I) + \theta_Y(\frac{N-X_t}{N}+N_Y+1-\epsilon+\kappa\omega)} \times \frac{X_t}{N}\\
+	&\\
+	\dot{\left(\frac{X_t}{N}\right)} = & \mu\frac{\theta_X (\frac{X_t}{N} + N_X + \theta + I)}{\theta_X (\frac{X_t}{N} + N_X + \theta + I) + (\frac{N-X_t}{N} + N_Y + 1-\epsilon + \kappa\omega)} \times \frac{X_t(N-X_t)}{N^2} \\
+	&\qquad - \mu\frac{\theta_Y(\frac{N-X_t}{N}+N_Y+1-\epsilon+\kappa\omega)}{(\frac{X_t}{N} + N_X+\theta+I) + \theta_Y(\frac{N-X_t}{N}+N_Y+1-\epsilon+\kappa\omega)} \times \frac{X_t}{N}
 \end{align*}
 \input{table_5_payoff_test.tex}
 

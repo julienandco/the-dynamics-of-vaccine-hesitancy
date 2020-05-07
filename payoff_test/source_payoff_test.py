@@ -72,10 +72,10 @@ def u_pro_mark2(omega, theta, i, epsilon, kappa, X, p_meet_Z1, p_meet_Z0):
 # third try (31 April - 7 May 2020) this time: payoff included in transition rates!
 
 def transition_pro(omega, theta, i, epsilon, kappa, N, X, N_X, N_Y, theta_X, theta_Y, mu):
-    return (mu*(N-X)*((theta_X * (X + N_X + theta + i))/(theta_X*(X+N_X+theta+i)+(N-X+N_Y + 1-epsilon+kappa*omega))))
+    return (mu * (N-X)/N * ((theta_X * (X/N + N_X/N + theta + i)) / (theta_X * (X/N + N_X/N + theta + i) + ((N-X)/N + N_Y/N + 1 - epsilon + kappa * omega))))
 
 def transition_con(omega, theta, i, epsilon, kappa, N, X, N_X, N_Y, theta_X, theta_Y, mu):
-    return (mu*X * ((theta_Y * (N-X+N_Y + 1-epsilon+kappa*omega))/((X+N_X+theta+i) + theta_Y * (N-X+N_Y+1-epsilon+kappa*omega))))
+    return (mu * X/N * ((theta_Y * ((N-X)/N + N_Y/N + 1 - epsilon + kappa * omega)) / ((X/N + N_X/N + theta + i) + theta_Y * ((N-X)/N + N_Y/N + 1 - epsilon + kappa * omega))))
 
 #######################################################################################################
 
@@ -99,7 +99,7 @@ def fun_to_string(fun):
     elif fun == transition_pro:
         return 'rate for $X_t \\rightarrow X_t + 1$'
     else:
-        return 'You need to define a string for this function'
+        return 'You need to define a toString for this function'
 
 def apply(samples, fun_pro, fun_con, **kwargs):
     args = kwargs.get('args',[])
@@ -238,6 +238,9 @@ def outputToLatex(res,args,skipKappa,maxElementsPerPage,allDynamic):
     return (txt + '\\end{tabular*}\n\\end{table}')
 
 
+
+
+
 #######################################################################################################
 # set all parameters here
 kappa = 100000
@@ -273,11 +276,8 @@ fileName = 'table_5_payoff_test.tex'
 # do not touch!
 
 samples = buildRandomSamples(numberOfSamples,kappa, allDynamic, maxElementsPerPage)
-if fun_pro == transition_pro:
-    args = buildRandomArguments(transition_pro,kappa,N=pop,maxZelX = max_Zel_X, maxZelY = max_Zel_Y)
-elif fun_pro == u_pro_mark2:
-    args = buildRandomArguments(u_pro_mark2,kappa)
-
+#note: we always pass all args, because of the if-else in buildRandomArgs: if we want args for u_pro_mark2 f.ex., he ain't gonna look at maxZel etcx anyhoobs!
+args = buildRandomArguments(transition_pro,kappa,N=pop,maxZelX = max_Zel_X, maxZelY = max_Zel_Y)
 res = compute(samples,args, fun_pro, fun_con, sig=useSigmoid)
 
 with open(fileName, 'w+') as file:
