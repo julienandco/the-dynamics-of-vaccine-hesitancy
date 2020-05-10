@@ -1,0 +1,27 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[english]{babel}
+\usepackage{amsmath}
+\delimitershortfall=-1pt
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{graphicx}
+\usepackage{mathtools}
+\usepackage[utf8]{inputenc}
+\usepackage{csquotes}
+\usepackage[hidelinks, final]{hyperref}
+\usepackage[printonlyused]{acronym}
+\usepackage{color}
+\usepackage{transparent}
+\newtheorem{prop}{Proposition}[section]
+\begin{document}
+	The transition rates of our model are:
+	\begin{align*}\label{def:transition_rates_my_model}
+	X_t \rightarrow X_t + 1 & \textnormal{ at rate } \mu N-X_t\times \frac{\theta_X (X_t + N_X + aI)}{\theta_X (X_t + N_X + aI) + (N-X_t + N_Y + bN)} \\
+	&\\
+	X_t \rightarrow X_t - 1 & \textnormal{ at rate } \mu X_t\times \frac{\theta_Y(N-X_t + N_Y + bN)}{(X_t + N_X + aI) + \theta_Y(N-X_t + N_Y + bN)}
+	\end{align*}
+	%\input{first_try.tex}
+	%\newpage
+	\input{second_try.tex}
+\end{document}
