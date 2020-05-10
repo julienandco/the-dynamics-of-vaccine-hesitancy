@@ -6,8 +6,10 @@
 !/latex_bachelorarbeit/bachelor_thesis_julien_caselmann.bib
 /latex_bachelorarbeit/ideas_latex_bachelorarbeit/payoff*
 !/latex_bachelorarbeit/ideas_latex_bachelorarbeit/payoff_function_ideas.tex
-/latex_bachelorarbeit/ideas_latex_bachelorarbeit/deterministic*
-!/latex_bachelorarbeit/ideas_latex_bachelorarbeit/deterministic_limit_comp.tex
+/latex_bachelorarbeit/ideas_latex_bachelorarbeit/deterministic_limit/deterministic*
+!/latex_bachelorarbeit/ideas_latex_bachelorarbeit/deterministic_limit/deterministic_limit.tex
+!/latex_bachelorarbeit/ideas_latex_bachelorarbeit/deterministic_limit/first_try.tex
+!/latex_bachelorarbeit/ideas_latex_bachelorarbeit/deterministic_limit/second_try.tex
 payoff_test/*
 !payoff_test/main_payoff_test.tex
 !payoff_test/source_payoff_test.py 
