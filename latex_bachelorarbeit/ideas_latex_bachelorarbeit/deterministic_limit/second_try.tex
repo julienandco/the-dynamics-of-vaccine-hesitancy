@@ -1,28 +1,34 @@
 \textbf{second try (10/05/2020)}
 \begin{prop}\label{result_2}
 	Let $N_X = n_X N, N_Y = n_Y N$ and $i \coloneqq \frac{I}{N}$. Then, the determinstic limit for $x\left(t\right) = \frac{X_t}{N}$ reads
-	\begin{align}
+	\begin{align*}
 	\begin{split}
 	\dot{x} = &-\mu x\frac{\theta_Y(1-x+n_Y+b)}{(x+n_X+ai) + \theta_Y(1-x+n_Y+b)}\\
 	\qquad&+ \mu \left(1-x\right)\frac{\theta_X (x+ n_X+ ai)}{\theta_X (x + n_X + ai) + (1-x + n_Y + b)}
 	\end{split}
-	\end{align}
+	\end{align*}
 \end{prop}
 \begin{proof}\phantom{lol}\\
 	\textbf{1. Master equation}\newline
-	For simplicity, define
+	For better readability and improved simplicity, we will refer to the transition rates of the model as:
 	\begin{align*}
 	F_+ \left(X_t\right) &\coloneqq\frac{\theta_X (X_t + N_X + aI)}{\theta_X (X_t + N_X + aI) + (N-X_t + N_Y + bN)} \\
 	&\\
 	F_- \left(X_t\right) &\coloneqq\frac{\theta_Y(N-X_t + N_Y + bN)}{(X_t + N_X + aI) + \theta_Y(N-X_t + N_Y + bN)}
 	\end{align*}
 	$\Rightarrow$ the master equation reads:
-	\begin{equation*}
-	\dot{p_k}\left(t\right) = F_- \left(k+1\right)\times p_{k+1}\left(t\right) + F_+ \left(k-1\right)\times p_{k-1}\left(t\right) - \left(F_+\left(k\right) + F_-\left(k\right)\right)\times p_k\left(t\right)
-	\end{equation*}
+	\begin{align}\label{eq:master_eq_2}
+	\begin{split}
+	\dot{p_k}\left(t\right) &= F_+ \left(k-1\right)\times p_{k-1}\left(t\right) + F_- \left(k+1\right)\times p_{k+1}\left(t\right)\\
+		&\qquad - \left(F_+\left(k\right) + F_-\left(k\right)\right)\times p_k\left(t\right)
+	\end{split}
+	\end{align}
 	\textbf{2. Kramer-Moyal expansion}\newline
-	Now, we assume $p_k(t) \approx hu\left(\frac{k}{N}, t\right), h=\frac{1}{N}$ and $x = hk$.\newline
-	Again, we define for simplicity $(f_+(x) = F_+(x) \times \frac{h}{h}, f_-(x) = F_-(x) \times \frac{h}{h})$:
+	Now, we assume
+	\begin{equation}\label{assumptions_2}
+		p_k(t) \approx hu\left(\frac{k}{N}, t\right), h=\frac{1}{N}\textnormal{ and }x = hk.
+	\end{equation} 
+	Again, we define for simplicity by expanding $F_+(x)$ and $F_-(x)$ with $\frac{h}{h}$, respectively:
 	\begin{align}\label{def:daggers_2}
 	\begin{split}
 	f_+(x) &\coloneqq \frac{\theta_X (x+ n_X+ ai)}{\theta_X (x + n_X + ai) + (1-x + n_Y + b)}\\
@@ -33,25 +39,29 @@
 	\begin{align}\label{computation_2}
 	\begin{split}
 	\partial_t \left(u\left(\frac{k}{n}, t\right)\right) &= \frac{1}{h}\dot{p_k}\left(t\right)\\
-	&\overset{p_k(t) \approx hu(\frac{k}{N},t)}{=} \frac{1}{h}\left[F_-(k+1)hu(x+h,t) + F_+(k-1)hu(x-h,t) - \left(F_+(k)+F_-(k)\right)hu(x,t)\right]\\
+	&\overset{(\ref{eq:master_eq_2},\ref{assumptions_2})}{=} \frac{1}{h}\left[F_+(k-1)hu(x-h,t) + F_-(k+1)hu(x+h,t)\right.\\
+		&\qquad\left. - \left(F_+(k)+F_-(k)\right)hu(x,t)\right]\\
 	&= \frac{1}{h}\left[\textcolor{blue}{\mu(1-(x-h))\times f_+(x-h) \times u\left(x-h,t \right)}\right.\\
 		&\qquad\left. + \textcolor{red}{\mu(x+h)\times f_-(x+h)\times u\left(x+h,t\right)}\right.\\
 		&\qquad\left.- \left(\mu(1-x)\times f_+(x) + \mu x\times f_-(x)\right)\times u\left(x,t\right)\right] 
 	\end{split}
 	\end{align}
 	We will now compute the Taylor series of second order for the \textcolor{blue}{blue} and \textcolor{red}{red} terms:
-	\begin{align*}
+	\begin{align}\label{taylor_results_2}
+	\begin{split}
 	&\textcolor{blue}{\mu(1-(x-h))\times f_+(x-h) \times u\left(x-h,t \right)}\\
-	&= \mu(1-x)f_+(x) u\left(x,t\right) - h\partial_x \left(\mu(1-x)f_+(x)u\right)+\frac{1}{2}h^2\partial^2_x\left(\mu(1-x)f_+(x)u\right)\\
+	&= \mu(1-x)f_+(x) u\left(x,t\right) - h\partial_x \left(\mu(1-x)f_+(x)u\right)\\
+		&\qquad +\frac{1}{2}h^2\partial^2_x\left(\mu(1-x)f_+(x)u\right)\\
 	&\\
 	&\\
 	&\textcolor{red}{\mu(x+h)\times f_-(x+h) \times u\left(x+h,t\right)} \\
 	&= \mu x f_-(x)u(x,t) + h\partial_x \left(\mu x f_-(x) u\right) + \frac{1}{2}h^2\partial^2_x\left(\mu xf_-(x) u\right)
-	\end{align*}
+	\end{split}
+	\end{align}
 	We may now resume the computations \eqref{computation_2} from above and add those new results:
 	\begin{align*}
 	\partial_t \left(u\left(\frac{k}{n}, t\right)\right) &= \dots \\
-	&= -\partial_x\big(\mu u(x,t)\left((1-x)f_+(x) - xf_-(x)\right)\big)\\
+	&\overset{(\ref{assumptions_2}, \ref{taylor_results_2})}{=} -\partial_x\big(\mu u(x,t)\left((1-x)f_+(x) - xf_-(x)\right)\big)\\
 	&\qquad + \frac{1}{2N} \partial^2_x\left(\mu u(x,t)\left((1-x)f_+(x) + xf_-(x)\right)\right)\\
 	\end{align*}
 	So, for $N \rightarrow \infty$:
@@ -60,11 +70,9 @@
 	\end{equation}
 
 	By the definition in \eqref{def:daggers_2}, this means that the ODE due to the drift term in case $N \rightarrow \infty$ reads 
-	\begin{align}
-	\begin{split}
+	\begin{align*}
 	\dot{x} = &-\mu x\frac{\theta_Y(1-x+n_Y+b)}{(x+n_X+ai) + \theta_Y(1-x+n_Y+b)}\\
 		\qquad&+ \mu \left(1-x\right)\frac{\theta_X (x+ n_X+ ai)}{\theta_X (x + n_X + ai) + (1-x + n_Y + b)}
-	\end{split}
-	\end{align}
-	Which is exactly the result stated in \eqref{result_2}
+	\end{align*}
+	Which is exactly the result stated in Proposition \ref{result_2}
 \end{proof}
