@@ -1,0 +1,23 @@
+\begin{align*}
+\dot{s} &= \frac{N\dot{S}-S\dot{N}}{N^2} = \frac{\dot{S}}{N} - \frac{S}{N}\frac{\dot{N}}{N}\\
+&\overset{(\ref{def:my_model}, \ref{def:scaled_variables_my_model})}{=} -\beta si + b\left(1-x\right) - bs\\
+&\\
+\dot{i} &= \frac{N\dot{I}-I\dot{N}}{N^2} = \frac{\dot{I}}{N} - \frac{I}{N}\frac{\dot{N}}{N}\\
+&\overset{(\ref{def:my_model}, \ref{def:scaled_variables_my_model})}{=} \beta si - i\left(\alpha + b\right)\\
+&\\
+\dot{r} &= \frac{N\dot{R}-R\dot{N}}{N^2} = \frac{\dot{R}}{N} - \frac{R}{N}\frac{\dot{N}}{N}\\
+&\overset{(\ref{def:my_model}, \ref{def:scaled_variables_my_model})}{=} \alpha i + bx - rb
+\end{align*}
+Note that $\dot{r}$ is not needed in the model anymore, since it does not occur in a single one of the other equations, giving us a three-dimensional system! Thus, our final model reads:
+\begin{model}[My model V1]
+	\begin{align}
+		\begin{split}
+			\dot{s} &= -\beta si + b\left(1-x\right) - bs\\
+			\dot{i} &= \beta si - i\left(\alpha + b\right)\\
+			\dot{x} &= -\mu x\frac{\theta_Y(1-x+n_Y+\Omega)}{(x+n_X+ai) + \theta_Y(1-x+n_Y+\Omega)}\\
+			&\qquad+ \mu \left(1-x\right)\frac{\theta_X (x+ n_X+ ai)}{\theta_X (x + n_X + ai) + (1-x + n_Y + \Omega)}
+		\end{split}
+	\end{align}
+\end{model}
+
+Note: every $b$ that occured in $\dot{x}$ was replaced by $\Omega$ to ensure there is no confusion with the birth rate $b$ used in $\dot{s}$ and $\dot{i}$.
