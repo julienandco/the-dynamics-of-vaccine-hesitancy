@@ -17,8 +17,8 @@
 !/latex_bachelorarbeit/ideas_latex_bachelorarbeit/jacobian_my_model/jacobian_my_model.tex
 !/latex_bachelorarbeit/ideas_latex_bachelorarbeit/jacobian_my_model/first_try_jacobian_my_model.tex
 /latex_bachelorarbeit/ideas_latex_bachelorarbeit/stationary_points/*
-!/latex_bachelorarbeit/ideas_latex_bachelorarbeit/statioinary_points/stationary_points_my_model.tex
-!/latex_bachelorarbeit/ideas_latex_bachelorarbeit/statioinary_points/special_stationary_point_my_model.tex
+!/latex_bachelorarbeit/ideas_latex_bachelorarbeit/stationary_points/stationary_points_my_model.tex
+!/latex_bachelorarbeit/ideas_latex_bachelorarbeit/stationary_points/special_stationary_point_my_model.tex
 payoff_test/*
 !payoff_test/main_payoff_test.tex
 !payoff_test/source_payoff_test.py 
