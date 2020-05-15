@@ -1,0 +1,31 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[english]{babel}
+\usepackage{amsmath}
+\delimitershortfall=-1pt
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{graphicx}
+\usepackage{mathtools}
+\usepackage[utf8]{inputenc}
+\usepackage{csquotes}
+\usepackage[hidelinks, final]{hyperref}
+\usepackage[printonlyused]{acronym}
+\usepackage{color}
+\usepackage{transparent}
+\newtheorem{model}{Model}[section]
+\begin{document}
+Our model looks like this:
+	\begin{model}[My model V1]
+		\begin{align}
+		\begin{split}
+		\dot{s} &= -\beta si + b\left(1-x\right) - bs\\
+		\dot{i} &= \beta si - i\left(\alpha + b\right)\\
+		\dot{x} &= -\mu x\frac{\theta_Y(1-x+n_Y+\Omega)}{(x+n_X+ai) + \theta_Y(1-x+n_Y+\Omega)}\\
+		&\qquad+ \mu \left(1-x\right)\frac{\theta_X (x+ n_X+ ai)}{\theta_X (x + n_X + ai) + (1-x + n_Y + \Omega)}
+		\end{split}
+		\end{align}
+	\end{model}
+The Jacobian reads as follows:\newline\newline
+\input{first_try_jacobian_my_model.tex}
+\end{document}
