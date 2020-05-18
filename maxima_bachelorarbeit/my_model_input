@@ -1,0 +1,5 @@
+
+s:=(-beta)*s*i+b*(1-x)+(-b)*s;
+s(t):=(-beta)*s(t)*i(t)+b(1-x(t))+(-b)*s(t);
+i(t):=beta*s(t)+i(t)+(-i(t))*(alpha+b);
+x(t):=((-mu)*x(t)*(theta_Y*(1-x(t)+n_Y+Omega)))/(x+n_X+a*i(t)+theta_y*(1-x(t)+n_Y+Omega))+(mu*(1-x(t))*(theta_X*(x(t)+n_X+a*i(t))))/(theta_x*(x(t)+n_X+a*i(t))+1-x(t)+n_Y+Omega);

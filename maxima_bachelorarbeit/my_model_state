@@ -1,0 +1,103 @@
+;;; -*- Mode: LISP; package:maxima; syntax:common-lisp; -*- 
+(in-package :maxima)
+(DSKSETQ $%I1
+         '((MDEFINE) $S
+           ((MPLUS) ((MTIMES) ((MMINUS) $BETA) $S $I)
+            ((MTIMES) $B ((MPLUS) 1. ((MMINUS) $X)))
+            ((MTIMES) ((MMINUS) $B) $S)))) 
+(ADDLABEL '$%I1) 
+(DSKSETQ $%I2
+         '((MDEFINE) (($S) $T)
+           ((MPLUS) ((MTIMES) ((MMINUS) $BETA) (($S) $T) (($I) $T))
+            (($B) ((MPLUS) 1. ((MMINUS) (($X) $T))))
+            ((MTIMES) ((MMINUS) $B) (($S) $T))))) 
+(ADDLABEL '$%I2) 
+(DSKSETQ $%O2
+         '((MDEFINE SIMP) (($S) $T)
+           ((MPLUS) ((MTIMES) ((MMINUS) $BETA) (($S) $T) (($I) $T))
+            (($B) ((MPLUS) 1. ((MMINUS) (($X) $T))))
+            ((MTIMES) ((MMINUS) $B) (($S) $T))))) 
+(ADDLABEL '$%O2) 
+(DSKSETQ $%I3
+         '((MDEFINE) (($I) $T)
+           ((MPLUS) ((MTIMES) $BETA (($S) $T)) (($I) $T)
+            ((MTIMES) ((MMINUS) (($I) $T)) ((MPLUS) $ALPHA $B))))) 
+(ADDLABEL '$%I3) 
+(DSKSETQ $%O3
+         '((MDEFINE SIMP) (($I) $T)
+           ((MPLUS) ((MTIMES) $BETA (($S) $T)) (($I) $T)
+            ((MTIMES) ((MMINUS) (($I) $T)) ((MPLUS) $ALPHA $B))))) 
+(ADDLABEL '$%O3) 
+(DSKSETQ $%I4
+         '((MDEFINE) (($X) $T)
+           ((MPLUS)
+            ((MQUOTIENT)
+             ((MTIMES) ((MMINUS) $MU) (($X) $T)
+              ((MTIMES) |$theta_Y|
+               ((MPLUS) 1. ((MMINUS) (($X) $T)) |$n_Y| |$Omega|)))
+             ((MPLUS) $X |$n_X| ((MTIMES) $A (($I) $T))
+              ((MTIMES) $THETA_Y
+               ((MPLUS) 1. ((MMINUS) (($X) $T)) |$n_Y| |$Omega|))))
+            ((MQUOTIENT)
+             ((MTIMES) $MU ((MPLUS) 1. ((MMINUS) (($X) $T)))
+              ((MTIMES) |$theta_X|
+               ((MPLUS) (($X) $T) |$n_X| ((MTIMES) $A (($I) $T)))))
+             ((MPLUS)
+              ((MTIMES) $THETA_X
+               ((MPLUS) (($X) $T) |$n_X| ((MTIMES) $A (($I) $T))))
+              1. ((MMINUS) (($X) $T)) |$n_Y| |$Omega|))))) 
+(ADDLABEL '$%I4) 
+(DSKSETQ $%O4
+         '((MDEFINE SIMP) (($X) $T)
+           ((MPLUS)
+            ((MQUOTIENT)
+             ((MTIMES) ((MMINUS) $MU) (($X) $T)
+              ((MTIMES) |$theta_Y|
+               ((MPLUS) 1. ((MMINUS) (($X) $T)) |$n_Y| |$Omega|)))
+             ((MPLUS) $X |$n_X| ((MTIMES) $A (($I) $T))
+              ((MTIMES) $THETA_Y
+               ((MPLUS) 1. ((MMINUS) (($X) $T)) |$n_Y| |$Omega|))))
+            ((MQUOTIENT)
+             ((MTIMES) $MU ((MPLUS) 1. ((MMINUS) (($X) $T)))
+              ((MTIMES) |$theta_X|
+               ((MPLUS) (($X) $T) |$n_X| ((MTIMES) $A (($I) $T)))))
+             ((MPLUS)
+              ((MTIMES) $THETA_X
+               ((MPLUS) (($X) $T) |$n_X| ((MTIMES) $A (($I) $T))))
+              1. ((MMINUS) (($X) $T)) |$n_Y| |$Omega|))))) 
+(ADDLABEL '$%O4) 
+(MDEFPROP $S
+          ((LAMBDA) ((MLIST) $T)
+           ((MPLUS) ((MTIMES) ((MMINUS) $BETA) (($S) $T) (($I) $T))
+            (($B) ((MPLUS) 1. ((MMINUS) (($X) $T))))
+            ((MTIMES) ((MMINUS) $B) (($S) $T))))
+          MEXPR) 
+(ADD2LNC '(($S) $T) $FUNCTIONS) 
+(MDEFPROP $I
+          ((LAMBDA) ((MLIST) $T)
+           ((MPLUS) ((MTIMES) $BETA (($S) $T)) (($I) $T)
+            ((MTIMES) ((MMINUS) (($I) $T)) ((MPLUS) $ALPHA $B))))
+          MEXPR) 
+(ADD2LNC '(($I) $T) $FUNCTIONS) 
+(MDEFPROP $X
+          ((LAMBDA) ((MLIST) $T)
+           ((MPLUS)
+            ((MQUOTIENT)
+             ((MTIMES) ((MMINUS) $MU) (($X) $T)
+              ((MTIMES) |$theta_Y|
+               ((MPLUS) 1. ((MMINUS) (($X) $T)) |$n_Y| |$Omega|)))
+             ((MPLUS) $X |$n_X| ((MTIMES) $A (($I) $T))
+              ((MTIMES) $THETA_Y
+               ((MPLUS) 1. ((MMINUS) (($X) $T)) |$n_Y| |$Omega|))))
+            ((MQUOTIENT)
+             ((MTIMES) $MU ((MPLUS) 1. ((MMINUS) (($X) $T)))
+              ((MTIMES) |$theta_X|
+               ((MPLUS) (($X) $T) |$n_X| ((MTIMES) $A (($I) $T)))))
+             ((MPLUS)
+              ((MTIMES) $THETA_X
+               ((MPLUS) (($X) $T) |$n_X| ((MTIMES) $A (($I) $T))))
+              1. ((MMINUS) (($X) $T)) |$n_Y| |$Omega|))))
+          MEXPR) 
+(ADD2LNC '(($X) $T) $FUNCTIONS) 
+(SETQ $LINENUM 5.) 
+(SETQ *ALPHABET* (NCONC '(#\LOW_LINE #\PERCENT_SIGN) *ALPHABET*)) 

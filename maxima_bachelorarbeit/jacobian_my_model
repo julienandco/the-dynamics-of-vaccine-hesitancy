@@ -1,0 +1,13 @@
+
+f(x):=(x+2+(-x)/2)/(x/3);
+A:matrix([1,2],[3,f(4)]);
+f(x):=mu*x;
+f(x):=(mu*x*(a*theta_Y*(1-x+n_Y+Omega)))/(x+n_Y+a*i+theta_Y*(1-x+n_Y+Omega))^2;
+g(x):=mu*(1-x)*((a*theta_X*(1-x+n_Y+Omega))/(theta_X*(x+n_X+a*i)+1-x+n_Y+Omega)^2);
+delta(x):=f(x)+g(x);
+sq1(x):=((-mu)*(theta_Y*(1-x+n_Y+Omega)))/(x+n_X+a*i+theta_Y*(1-x+n_y+Omega));
+sq2(x):=((-mu)*theta_X*(x+n_X+a*i))/(theta_X*(x+n_X+a*i)+1-x+n_Y+Omega);
+sq3(x):=(x*theta_Y*(x+n_X+a*i+theta_Y*(1-x+n_y+Omega)+(1-x+n_Y+Omega)*(1-theta_Y)))/(x+n_X+a*i+theta_Y*(1-x+n_Y+Omega))^2;
+sq4(x):=((1-x)*theta_X*(theta_X*(x+n_X+a*i)+1-x+n_Y+Omega+(-(x+n_X+ai))*(theta_X-1)))/(theta_X*(x+n_X+a*i)+1-x+n_Y+Omega)^2;
+square(x):=sq1(x)+sq2(x)+mu*sq3(x)+mu*sq4(x);
+J:matrix([(-b)-beta*i,(-beta)*s,-b],[beta*i,beta*s-(alpha+b),0],[0,delta(x),square(x)]);

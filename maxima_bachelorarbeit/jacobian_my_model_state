@@ -1,0 +1,405 @@
+;;; -*- Mode: LISP; package:maxima; syntax:common-lisp; -*- 
+(in-package :maxima)
+(DSKSETQ $%I1
+         '((MDEFINE) (($F) $X)
+           ((MQUOTIENT) ((MPLUS) $X 2. ((MQUOTIENT) ((MMINUS) $X) 2.))
+            ((MQUOTIENT) $X 3.)))) 
+(ADDLABEL '$%I1) 
+(DSKSETQ $%O1
+         '((MDEFINE SIMP) (($F) $X)
+           ((MQUOTIENT) ((MPLUS) $X 2. ((MQUOTIENT) ((MMINUS) $X) 2.))
+            ((MQUOTIENT) $X 3.)))) 
+(ADDLABEL '$%O1) 
+(DSKSETQ $%I2
+         '((MSETQ) |$a| (($MATRIX) ((MLIST) 1. 2.) ((MLIST) 3. (($F) 4.))))) 
+(ADDLABEL '$%I2) 
+(DSKSETQ $%O2 '(($MATRIX SIMP) ((MLIST SIMP) 1. 2.) ((MLIST SIMP) 3. 3.))) 
+(ADDLABEL '$%O2) 
+(DSKSETQ $%I3 '((MDEFINE) (($F) $X) ((MTIMES) $MU $X))) 
+(ADDLABEL '$%I3) 
+(DSKSETQ $%O3 '((MDEFINE SIMP) (($F) $X) ((MTIMES) $MU $X))) 
+(ADDLABEL '$%O3) 
+(DSKSETQ $%I4
+         '((MDEFINE) (($F) $X)
+           ((MQUOTIENT)
+            ((MTIMES) $MU $X
+             ((MTIMES) $A |$theta_Y|
+              ((MPLUS) 1. ((MMINUS) $X) |$n_Y| |$Omega|)))
+            ((MEXPT)
+             ((MPLUS) $X |$n_Y| ((MTIMES) $A $I)
+              ((MTIMES) |$theta_Y| ((MPLUS) 1. ((MMINUS) $X) |$n_Y| |$Omega|)))
+             2.)))) 
+(ADDLABEL '$%I4) 
+(DSKSETQ $%O4
+         '((MDEFINE SIMP) (($F) $X)
+           ((MQUOTIENT)
+            ((MTIMES) $MU $X
+             ((MTIMES) $A |$theta_Y|
+              ((MPLUS) 1. ((MMINUS) $X) |$n_Y| |$Omega|)))
+            ((MEXPT)
+             ((MPLUS) $X |$n_Y| ((MTIMES) $A $I)
+              ((MTIMES) |$theta_Y| ((MPLUS) 1. ((MMINUS) $X) |$n_Y| |$Omega|)))
+             2.)))) 
+(ADDLABEL '$%O4) 
+(DSKSETQ $%I5
+         '((MDEFINE) (($G) $X)
+           ((MTIMES) $MU ((MPLUS) 1. ((MMINUS) $X))
+            ((MQUOTIENT)
+             ((MTIMES) $A |$theta_X|
+              ((MPLUS) 1. ((MMINUS) $X) |$n_Y| |$Omega|))
+             ((MEXPT)
+              ((MPLUS)
+               ((MTIMES) |$theta_X| ((MPLUS) $X |$n_X| ((MTIMES) $A $I))) 1.
+               ((MMINUS) $X) |$n_Y| |$Omega|)
+              2.))))) 
+(ADDLABEL '$%I5) 
+(DSKSETQ $%O5
+         '((MDEFINE SIMP) (($G) $X)
+           ((MTIMES) $MU ((MPLUS) 1. ((MMINUS) $X))
+            ((MQUOTIENT)
+             ((MTIMES) $A |$theta_X|
+              ((MPLUS) 1. ((MMINUS) $X) |$n_Y| |$Omega|))
+             ((MEXPT)
+              ((MPLUS)
+               ((MTIMES) |$theta_X| ((MPLUS) $X |$n_X| ((MTIMES) $A $I))) 1.
+               ((MMINUS) $X) |$n_Y| |$Omega|)
+              2.))))) 
+(ADDLABEL '$%O5) 
+(DSKSETQ $%I6 '((MDEFINE) (($DELTA) $X) ((MPLUS) (($F) $X) (($G) $X)))) 
+(ADDLABEL '$%I6) 
+(DSKSETQ $%O6 '((MDEFINE SIMP) (($DELTA) $X) ((MPLUS) (($F) $X) (($G) $X)))) 
+(ADDLABEL '$%O6) 
+(DSKSETQ $%I7
+         '((MDEFINE) (($SQ1) $X)
+           ((MQUOTIENT)
+            ((MTIMES) ((MMINUS) $MU)
+             ((MTIMES) |$theta_Y| ((MPLUS) 1. ((MMINUS) $X) |$n_Y| |$Omega|)))
+            ((MPLUS) $X |$n_X| ((MTIMES) $A $I)
+             ((MTIMES) |$theta_Y| ((MPLUS) 1. ((MMINUS) $X) $N_Y |$Omega|)))))) 
+(ADDLABEL '$%I7) 
+(DSKSETQ $%O7
+         '((MDEFINE SIMP) (($SQ1) $X)
+           ((MQUOTIENT)
+            ((MTIMES) ((MMINUS) $MU)
+             ((MTIMES) |$theta_Y| ((MPLUS) 1. ((MMINUS) $X) |$n_Y| |$Omega|)))
+            ((MPLUS) $X |$n_X| ((MTIMES) $A $I)
+             ((MTIMES) |$theta_Y| ((MPLUS) 1. ((MMINUS) $X) $N_Y |$Omega|)))))) 
+(ADDLABEL '$%O7) 
+(DSKSETQ $%I8
+         '((MDEFINE) (($SQ2) $X)
+           ((MQUOTIENT)
+            ((MTIMES) ((MMINUS) $MU) |$theta_X|
+             ((MPLUS) $X |$n_X| ((MTIMES) $A $I)))
+            ((MPLUS) ((MTIMES) |$theta_X| ((MPLUS) $X |$n_X| ((MTIMES) $A $I)))
+             1. ((MMINUS) $X) |$n_Y| |$Omega|)))) 
+(ADDLABEL '$%I8) 
+(DSKSETQ $%O8
+         '((MDEFINE SIMP) (($SQ2) $X)
+           ((MQUOTIENT)
+            ((MTIMES) ((MMINUS) $MU) |$theta_X|
+             ((MPLUS) $X |$n_X| ((MTIMES) $A $I)))
+            ((MPLUS) ((MTIMES) |$theta_X| ((MPLUS) $X |$n_X| ((MTIMES) $A $I)))
+             1. ((MMINUS) $X) |$n_Y| |$Omega|)))) 
+(ADDLABEL '$%O8) 
+(DSKSETQ $%I9
+         '((MDEFINE) (($SQ3) $X)
+           ((MQUOTIENT)
+            ((MTIMES) $X |$theta_Y|
+             ((MPLUS) $X |$n_X| ((MTIMES) $A $I)
+              ((MTIMES) |$theta_Y| ((MPLUS) 1. ((MMINUS) $X) $N_Y |$Omega|))
+              ((MTIMES) ((MPLUS) 1. ((MMINUS) $X) |$n_Y| |$Omega|)
+               ((MPLUS) 1. ((MMINUS) |$theta_Y|)))))
+            ((MEXPT)
+             ((MPLUS) $X |$n_X| ((MTIMES) $A $I)
+              ((MTIMES) |$theta_Y| ((MPLUS) 1. ((MMINUS) $X) |$n_Y| |$Omega|)))
+             2.)))) 
+(ADDLABEL '$%I9) 
+(DSKSETQ $%O9
+         '((MDEFINE SIMP) (($SQ3) $X)
+           ((MQUOTIENT)
+            ((MTIMES) $X |$theta_Y|
+             ((MPLUS) $X |$n_X| ((MTIMES) $A $I)
+              ((MTIMES) |$theta_Y| ((MPLUS) 1. ((MMINUS) $X) $N_Y |$Omega|))
+              ((MTIMES) ((MPLUS) 1. ((MMINUS) $X) |$n_Y| |$Omega|)
+               ((MPLUS) 1. ((MMINUS) |$theta_Y|)))))
+            ((MEXPT)
+             ((MPLUS) $X |$n_X| ((MTIMES) $A $I)
+              ((MTIMES) |$theta_Y| ((MPLUS) 1. ((MMINUS) $X) |$n_Y| |$Omega|)))
+             2.)))) 
+(ADDLABEL '$%O9) 
+(DSKSETQ $%I10
+         '((MDEFINE) (($SQ4) $X)
+           ((MQUOTIENT)
+            ((MTIMES) ((MPLUS) 1. ((MMINUS) $X)) |$theta_X|
+             ((MPLUS)
+              ((MTIMES) |$theta_X| ((MPLUS) $X |$n_X| ((MTIMES) $A $I))) 1.
+              ((MMINUS) $X) |$n_Y| |$Omega|
+              ((MTIMES) ((MMINUS) ((MPLUS) $X |$n_X| $AI))
+               ((MPLUS) |$theta_X| ((MMINUS) 1.)))))
+            ((MEXPT)
+             ((MPLUS)
+              ((MTIMES) |$theta_X| ((MPLUS) $X |$n_X| ((MTIMES) $A $I))) 1.
+              ((MMINUS) $X) |$n_Y| |$Omega|)
+             2.)))) 
+(ADDLABEL '$%I10) 
+(DSKSETQ $%O10
+         '((MDEFINE SIMP) (($SQ4) $X)
+           ((MQUOTIENT)
+            ((MTIMES) ((MPLUS) 1. ((MMINUS) $X)) |$theta_X|
+             ((MPLUS)
+              ((MTIMES) |$theta_X| ((MPLUS) $X |$n_X| ((MTIMES) $A $I))) 1.
+              ((MMINUS) $X) |$n_Y| |$Omega|
+              ((MTIMES) ((MMINUS) ((MPLUS) $X |$n_X| $AI))
+               ((MPLUS) |$theta_X| ((MMINUS) 1.)))))
+            ((MEXPT)
+             ((MPLUS)
+              ((MTIMES) |$theta_X| ((MPLUS) $X |$n_X| ((MTIMES) $A $I))) 1.
+              ((MMINUS) $X) |$n_Y| |$Omega|)
+             2.)))) 
+(ADDLABEL '$%O10) 
+(DSKSETQ $%I11
+         '((MDEFINE) (($SQUARE) $X)
+           ((MPLUS) (($SQ1) $X) (($SQ2) $X) ((MTIMES) $MU (($SQ3) $X))
+            ((MTIMES) $MU (($SQ4) $X))))) 
+(ADDLABEL '$%I11) 
+(DSKSETQ $%O11
+         '((MDEFINE SIMP) (($SQUARE) $X)
+           ((MPLUS) (($SQ1) $X) (($SQ2) $X) ((MTIMES) $MU (($SQ3) $X))
+            ((MTIMES) $MU (($SQ4) $X))))) 
+(ADDLABEL '$%O11) 
+(DSKSETQ $%I12
+         '((MSETQ) |$j|
+           (($MATRIX)
+            ((MLIST) ((MPLUS) ((MMINUS) $B) ((MMINUS) ((MTIMES) $BETA $I)))
+             ((MTIMES) ((MMINUS) $BETA) $S) ((MMINUS) $B))
+            ((MLIST) ((MTIMES) $BETA $I)
+             ((MPLUS) ((MTIMES) $BETA $S) ((MMINUS) ((MPLUS) $ALPHA $B))) 0.)
+            ((MLIST) 0. (($DELTA) $X) (($SQUARE) $X))))) 
+(ADDLABEL '$%I12) 
+(DSKSETQ $%O12
+         '(($MATRIX SIMP)
+           ((MLIST SIMP)
+            ((MPLUS SIMP) ((MTIMES SIMP) -1. $B) ((MTIMES SIMP) -1. $BETA $I))
+            ((MTIMES SIMP) -1. $BETA $S) ((MTIMES SIMP) -1. $B))
+           ((MLIST SIMP) ((MTIMES SIMP) $BETA $I)
+            ((MPLUS SIMP) ((MTIMES SIMP) -1. $ALPHA) ((MTIMES SIMP) -1. $B)
+             ((MTIMES SIMP) $BETA $S))
+            0.)
+           ((MLIST SIMP) 0.
+            ((MPLUS SIMP)
+             ((MTIMES SIMP) $A $MU |$theta_Y|
+              ((MPLUS SIMP) 1. |$Omega| |$n_Y| ((MTIMES SIMP) -1. $X)) $X
+              ((MEXPT SIMP)
+               ((MPLUS SIMP) ((MTIMES SIMP) $A $I) |$n_Y|
+                ((MTIMES SIMP) |$theta_Y|
+                 ((MPLUS SIMP) 1. |$Omega| |$n_Y| ((MTIMES SIMP) -1. $X)))
+                $X)
+               -2.))
+             ((MTIMES SIMP) $A $MU |$theta_X|
+              ((MPLUS SIMP) 1. ((MTIMES SIMP) -1. $X))
+              ((MPLUS SIMP) 1. |$Omega| |$n_Y| ((MTIMES SIMP) -1. $X))
+              ((MEXPT SIMP)
+               ((MPLUS SIMP) 1. |$Omega| |$n_Y| ((MTIMES SIMP) -1. $X)
+                ((MTIMES SIMP) |$theta_X|
+                 ((MPLUS SIMP) ((MTIMES SIMP) $A $I) |$n_X| $X)))
+               -2.)))
+            ((MPLUS SIMP)
+             ((MTIMES SIMP) $MU |$theta_Y| $X
+              ((MEXPT SIMP)
+               ((MPLUS SIMP) ((MTIMES SIMP) $A $I) |$n_X|
+                ((MTIMES SIMP) |$theta_Y|
+                 ((MPLUS SIMP) 1. |$Omega| |$n_Y| ((MTIMES SIMP) -1. $X)))
+                $X)
+               -2.)
+              ((MPLUS SIMP) ((MTIMES SIMP) $A $I) |$n_X|
+               ((MTIMES SIMP) ((MPLUS SIMP) 1. ((MTIMES SIMP) -1. |$theta_Y|))
+                ((MPLUS SIMP) 1. |$Omega| |$n_Y| ((MTIMES SIMP) -1. $X)))
+               ((MTIMES SIMP) |$theta_Y|
+                ((MPLUS SIMP) 1. |$Omega| $N_Y ((MTIMES SIMP) -1. $X)))
+               $X))
+             ((MTIMES SIMP) $MU |$theta_X|
+              ((MPLUS SIMP) 1. ((MTIMES SIMP) -1. $X))
+              ((MEXPT SIMP)
+               ((MPLUS SIMP) 1. |$Omega| |$n_Y| ((MTIMES SIMP) -1. $X)
+                ((MTIMES SIMP) |$theta_X|
+                 ((MPLUS SIMP) ((MTIMES SIMP) $A $I) |$n_X| $X)))
+               -2.)
+              ((MPLUS SIMP) 1. |$Omega| |$n_Y|
+               ((MTIMES SIMP) ((MPLUS SIMP) -1. |$theta_X|)
+                ((MPLUS SIMP) ((MTIMES SIMP) -1. $AI)
+                 ((MTIMES SIMP) -1. |$n_X|) ((MTIMES SIMP) -1. $X)))
+               ((MTIMES SIMP) -1. $X)
+               ((MTIMES SIMP) |$theta_X|
+                ((MPLUS SIMP) ((MTIMES SIMP) $A $I) |$n_X| $X))))
+             ((MTIMES SIMP) -1. $MU |$theta_Y|
+              ((MPLUS SIMP) 1. |$Omega| |$n_Y| ((MTIMES SIMP) -1. $X))
+              ((MEXPT SIMP)
+               ((MPLUS SIMP) ((MTIMES SIMP) $A $I) |$n_X|
+                ((MTIMES SIMP) |$theta_Y|
+                 ((MPLUS SIMP) 1. |$Omega| $N_Y ((MTIMES SIMP) -1. $X)))
+                $X)
+               -1.))
+             ((MTIMES SIMP) -1. $MU |$theta_X|
+              ((MPLUS SIMP) ((MTIMES SIMP) $A $I) |$n_X| $X)
+              ((MEXPT SIMP)
+               ((MPLUS SIMP) 1. |$Omega| |$n_Y| ((MTIMES SIMP) -1. $X)
+                ((MTIMES SIMP) |$theta_X|
+                 ((MPLUS SIMP) ((MTIMES SIMP) $A $I) |$n_X| $X)))
+               -1.)))))) 
+(ADDLABEL '$%O12) 
+(DSKSETQ |$a| '(($MATRIX SIMP) ((MLIST SIMP) 1. 2.) ((MLIST SIMP) 3. 3.))) 
+(ADD2LNC '|$a| $VALUES) 
+(DSKSETQ |$j|
+         '(($MATRIX SIMP)
+           ((MLIST SIMP)
+            ((MPLUS SIMP) ((MTIMES SIMP) -1. $B) ((MTIMES SIMP) -1. $BETA $I))
+            ((MTIMES SIMP) -1. $BETA $S) ((MTIMES SIMP) -1. $B))
+           ((MLIST SIMP) ((MTIMES SIMP) $BETA $I)
+            ((MPLUS SIMP) ((MTIMES SIMP) -1. $ALPHA) ((MTIMES SIMP) -1. $B)
+             ((MTIMES SIMP) $BETA $S))
+            0.)
+           ((MLIST SIMP) 0.
+            ((MPLUS SIMP)
+             ((MTIMES SIMP) $A $MU |$theta_Y|
+              ((MPLUS SIMP) 1. |$Omega| |$n_Y| ((MTIMES SIMP) -1. $X)) $X
+              ((MEXPT SIMP)
+               ((MPLUS SIMP) ((MTIMES SIMP) $A $I) |$n_Y|
+                ((MTIMES SIMP) |$theta_Y|
+                 ((MPLUS SIMP) 1. |$Omega| |$n_Y| ((MTIMES SIMP) -1. $X)))
+                $X)
+               -2.))
+             ((MTIMES SIMP) $A $MU |$theta_X|
+              ((MPLUS SIMP) 1. ((MTIMES SIMP) -1. $X))
+              ((MPLUS SIMP) 1. |$Omega| |$n_Y| ((MTIMES SIMP) -1. $X))
+              ((MEXPT SIMP)
+               ((MPLUS SIMP) 1. |$Omega| |$n_Y| ((MTIMES SIMP) -1. $X)
+                ((MTIMES SIMP) |$theta_X|
+                 ((MPLUS SIMP) ((MTIMES SIMP) $A $I) |$n_X| $X)))
+               -2.)))
+            ((MPLUS SIMP)
+             ((MTIMES SIMP) $MU |$theta_Y| $X
+              ((MEXPT SIMP)
+               ((MPLUS SIMP) ((MTIMES SIMP) $A $I) |$n_X|
+                ((MTIMES SIMP) |$theta_Y|
+                 ((MPLUS SIMP) 1. |$Omega| |$n_Y| ((MTIMES SIMP) -1. $X)))
+                $X)
+               -2.)
+              ((MPLUS SIMP) ((MTIMES SIMP) $A $I) |$n_X|
+               ((MTIMES SIMP) ((MPLUS SIMP) 1. ((MTIMES SIMP) -1. |$theta_Y|))
+                ((MPLUS SIMP) 1. |$Omega| |$n_Y| ((MTIMES SIMP) -1. $X)))
+               ((MTIMES SIMP) |$theta_Y|
+                ((MPLUS SIMP) 1. |$Omega| $N_Y ((MTIMES SIMP) -1. $X)))
+               $X))
+             ((MTIMES SIMP) $MU |$theta_X|
+              ((MPLUS SIMP) 1. ((MTIMES SIMP) -1. $X))
+              ((MEXPT SIMP)
+               ((MPLUS SIMP) 1. |$Omega| |$n_Y| ((MTIMES SIMP) -1. $X)
+                ((MTIMES SIMP) |$theta_X|
+                 ((MPLUS SIMP) ((MTIMES SIMP) $A $I) |$n_X| $X)))
+               -2.)
+              ((MPLUS SIMP) 1. |$Omega| |$n_Y|
+               ((MTIMES SIMP) ((MPLUS SIMP) -1. |$theta_X|)
+                ((MPLUS SIMP) ((MTIMES SIMP) -1. $AI)
+                 ((MTIMES SIMP) -1. |$n_X|) ((MTIMES SIMP) -1. $X)))
+               ((MTIMES SIMP) -1. $X)
+               ((MTIMES SIMP) |$theta_X|
+                ((MPLUS SIMP) ((MTIMES SIMP) $A $I) |$n_X| $X))))
+             ((MTIMES SIMP) -1. $MU |$theta_Y|
+              ((MPLUS SIMP) 1. |$Omega| |$n_Y| ((MTIMES SIMP) -1. $X))
+              ((MEXPT SIMP)
+               ((MPLUS SIMP) ((MTIMES SIMP) $A $I) |$n_X|
+                ((MTIMES SIMP) |$theta_Y|
+                 ((MPLUS SIMP) 1. |$Omega| $N_Y ((MTIMES SIMP) -1. $X)))
+                $X)
+               -1.))
+             ((MTIMES SIMP) -1. $MU |$theta_X|
+              ((MPLUS SIMP) ((MTIMES SIMP) $A $I) |$n_X| $X)
+              ((MEXPT SIMP)
+               ((MPLUS SIMP) 1. |$Omega| |$n_Y| ((MTIMES SIMP) -1. $X)
+                ((MTIMES SIMP) |$theta_X|
+                 ((MPLUS SIMP) ((MTIMES SIMP) $A $I) |$n_X| $X)))
+               -1.)))))) 
+(ADD2LNC '|$j| $VALUES) 
+(MDEFPROP $F
+          ((LAMBDA) ((MLIST) $X)
+           ((MQUOTIENT)
+            ((MTIMES) $MU $X
+             ((MTIMES) $A |$theta_Y|
+              ((MPLUS) 1. ((MMINUS) $X) |$n_Y| |$Omega|)))
+            ((MEXPT)
+             ((MPLUS) $X |$n_Y| ((MTIMES) $A $I)
+              ((MTIMES) |$theta_Y| ((MPLUS) 1. ((MMINUS) $X) |$n_Y| |$Omega|)))
+             2.)))
+          MEXPR) 
+(ADD2LNC '(($F) $X) $FUNCTIONS) 
+(MDEFPROP $G
+          ((LAMBDA) ((MLIST) $X)
+           ((MTIMES) $MU ((MPLUS) 1. ((MMINUS) $X))
+            ((MQUOTIENT)
+             ((MTIMES) $A |$theta_X|
+              ((MPLUS) 1. ((MMINUS) $X) |$n_Y| |$Omega|))
+             ((MEXPT)
+              ((MPLUS)
+               ((MTIMES) |$theta_X| ((MPLUS) $X |$n_X| ((MTIMES) $A $I))) 1.
+               ((MMINUS) $X) |$n_Y| |$Omega|)
+              2.))))
+          MEXPR) 
+(ADD2LNC '(($G) $X) $FUNCTIONS) 
+(MDEFPROP $DELTA ((LAMBDA) ((MLIST) $X) ((MPLUS) (($F) $X) (($G) $X))) MEXPR) 
+(ADD2LNC '(($DELTA) $X) $FUNCTIONS) 
+(MDEFPROP $SQ1
+          ((LAMBDA) ((MLIST) $X)
+           ((MQUOTIENT)
+            ((MTIMES) ((MMINUS) $MU)
+             ((MTIMES) |$theta_Y| ((MPLUS) 1. ((MMINUS) $X) |$n_Y| |$Omega|)))
+            ((MPLUS) $X |$n_X| ((MTIMES) $A $I)
+             ((MTIMES) |$theta_Y| ((MPLUS) 1. ((MMINUS) $X) $N_Y |$Omega|)))))
+          MEXPR) 
+(ADD2LNC '(($SQ1) $X) $FUNCTIONS) 
+(MDEFPROP $SQ2
+          ((LAMBDA) ((MLIST) $X)
+           ((MQUOTIENT)
+            ((MTIMES) ((MMINUS) $MU) |$theta_X|
+             ((MPLUS) $X |$n_X| ((MTIMES) $A $I)))
+            ((MPLUS) ((MTIMES) |$theta_X| ((MPLUS) $X |$n_X| ((MTIMES) $A $I)))
+             1. ((MMINUS) $X) |$n_Y| |$Omega|)))
+          MEXPR) 
+(ADD2LNC '(($SQ2) $X) $FUNCTIONS) 
+(MDEFPROP $SQ3
+          ((LAMBDA) ((MLIST) $X)
+           ((MQUOTIENT)
+            ((MTIMES) $X |$theta_Y|
+             ((MPLUS) $X |$n_X| ((MTIMES) $A $I)
+              ((MTIMES) |$theta_Y| ((MPLUS) 1. ((MMINUS) $X) $N_Y |$Omega|))
+              ((MTIMES) ((MPLUS) 1. ((MMINUS) $X) |$n_Y| |$Omega|)
+               ((MPLUS) 1. ((MMINUS) |$theta_Y|)))))
+            ((MEXPT)
+             ((MPLUS) $X |$n_X| ((MTIMES) $A $I)
+              ((MTIMES) |$theta_Y| ((MPLUS) 1. ((MMINUS) $X) |$n_Y| |$Omega|)))
+             2.)))
+          MEXPR) 
+(ADD2LNC '(($SQ3) $X) $FUNCTIONS) 
+(MDEFPROP $SQ4
+          ((LAMBDA) ((MLIST) $X)
+           ((MQUOTIENT)
+            ((MTIMES) ((MPLUS) 1. ((MMINUS) $X)) |$theta_X|
+             ((MPLUS)
+              ((MTIMES) |$theta_X| ((MPLUS) $X |$n_X| ((MTIMES) $A $I))) 1.
+              ((MMINUS) $X) |$n_Y| |$Omega|
+              ((MTIMES) ((MMINUS) ((MPLUS) $X |$n_X| $AI))
+               ((MPLUS) |$theta_X| ((MMINUS) 1.)))))
+            ((MEXPT)
+             ((MPLUS)
+              ((MTIMES) |$theta_X| ((MPLUS) $X |$n_X| ((MTIMES) $A $I))) 1.
+              ((MMINUS) $X) |$n_Y| |$Omega|)
+             2.)))
+          MEXPR) 
+(ADD2LNC '(($SQ4) $X) $FUNCTIONS) 
+(MDEFPROP $SQUARE
+          ((LAMBDA) ((MLIST) $X)
+           ((MPLUS) (($SQ1) $X) (($SQ2) $X) ((MTIMES) $MU (($SQ3) $X))
+            ((MTIMES) $MU (($SQ4) $X))))
+          MEXPR) 
+(ADD2LNC '(($SQUARE) $X) $FUNCTIONS) 
+(SETQ $LINENUM 13.) 
+(SETQ *ALPHABET* (NCONC '(#\LOW_LINE #\PERCENT_SIGN) *ALPHABET*)) 

@@ -1,0 +1,1 @@
+solve([0 = 1-x-s, (1-x)*(theta_X*(x+n_X))/(theta_X*(x+n_X)+1-x+n_Y+Omega) = x*(theta_Y*(1-x+n_Y+Omega))/(x+n_X+theta_Y*(1-x+n_Y+Omega))],[s,x]);
