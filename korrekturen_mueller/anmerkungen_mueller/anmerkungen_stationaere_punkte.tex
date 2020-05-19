@@ -1,0 +1,33 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[english]{babel}
+\usepackage{amsmath}
+\delimitershortfall=-1pt
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{graphicx}
+\usepackage{mathtools}
+\usepackage[utf8]{inputenc}
+\usepackage{csquotes}
+\usepackage[hidelinks, final]{hyperref}
+\usepackage[printonlyused]{acronym}
+\usepackage{color}
+\usepackage{transparent}
+\begin{document}
+assume $i \neq 0$ (interesting case):\newline
+$\dot{i} = 0 \Rightarrow s = \frac{\alpha + b}{\beta}$,\newline
+$\dot{s} = 0 \Rightarrow i = \frac{b(1-x)-bs}{\beta s} = \frac{b(1-x)}{\beta\frac{\alpha + b}{\beta}}-\frac{b}{\beta}$\newline\newline
+$i = i(x) = \frac{b}{\alpha + b}(1-x) - \frac{b}{\beta}$ (affine-linear in x!)\newline\newline
+
+$\phi(x) = x+n+ai(x), \eta(x) = 1-x+n+\Omega, \phi(x),\eta(x):$ linear\newline
+\textbf{Idee}
+\begin{enumerate}
+	\item Lokalisiere Sattel-Knoten oder Pitchfork
+	\item Versuche weitere Bedingungen zu finden, dass $\pm i\omega$ EW sind
+	\item $x$ erfüllt Polynom 3.Ordnung: $\mu x \theta_Y \eta(x)\left(\theta_X\phi(x)+ \eta(x)\right) = \mu(1-x)\theta_X\phi(x)\left(\phi(x)+\theta_Y\eta(x)\right)$\\
+	$\Rightarrow p(x) = 0, \mathrm{grad}(p) = 3$
+	\item \textbf{Saddle-node}: doppelte Nullstellen! $p'(x) = 0$
+	\item $p(x) = 0, p'(x) = 0 \overset{Lineare Gleichung}{\Rightarrow}x = x^* = \dots$\\
+	$\overset{Einsetzen}{\Rightarrow}p(x^*) = 0, p'(x^*) = 0 \leftarrow$ Bedingungen an Parameter
+\end{enumerate}
+\end{document}
