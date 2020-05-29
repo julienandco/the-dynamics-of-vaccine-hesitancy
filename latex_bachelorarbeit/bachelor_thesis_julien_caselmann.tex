@@ -347,7 +347,7 @@ X_t \rightarrow X_t - 1 & \textnormal{ at rate } \mu X_t\frac{\theta_Y(N-X_t+N_Y
 \end{align}
 \end{model}
 	We know by following common $SIR$-modeling approaches with standard incidence, that our stochastic process looks like this:
-\begin{align}\label{def:my_model}
+\begin{align}\label{def:stoch_process_my_model}
 \begin{split}
 \dot{S} &= -\beta S\frac{I}{N} + bN\left(1-\frac{X_t}{N}\right) - \mu S\\
 \dot{I} &= \beta S\frac{I}{N}  - \alpha I - \mu I\\
@@ -455,8 +455,8 @@ In addition to the context of Model \ref{def:transition_rates_my_model}, we will
 \subsection{Definition of my model}
 %TODO: klären, ob OMEGA != b !! Ich glaube nämlich, es ist gleich, also muss auch in den x' gleichungen ein b stehen!
 Now that all the computations are done, we may regroup all of the results and formulate the system of \acp{ODE} that describes our model:
-\begin{model}[My model]\label{model:my_model}
-Consider a population of size $N \in \mathbb{N}$, where $X_t \in \lbrace 0,\dots,N\rbrace$ and $N-X_t$ describe the amount of vaccinators and anti-vaccinators at time $t$, respectively. Furthermore, let $N_X$ and $N_Y > 0$ be the number of zealots that support vaccination and refuse it, respectively. Let $\alpha,\beta,a,b \in \left[0,1\right]$, with the same meaning as in \eqref{def:my_model}. An individual of the population (who is not a zealot) may reconsider his opinion with rate $\mu$ via the same process as described in Model \ref{model:zealot} and in addition of the contact rates $\theta_X, \theta_Y$. Let $S \in \lbrace 0,\dots,N\rbrace$ and $I \in  \lbrace 0,\dots,N\rbrace$ describe the amount of susceptibles and infecteds, just as in \eqref{table:bauch_model_variables}. Now, rescale $S,I$ and $X_t$ as done in \eqref{def:scaled_variables_my_model} and assume $N_X$ and $N_Y$ to scale linearly with the population size $N$, as in Proposition \ref{prop:det_limit_my_model}. Then, the model reads as follows:
+\begin{model}[\textbf{My model}]\label{model:my_model}
+Consider a population of size $N \in \mathbb{N}$, where $X_t \in \lbrace 0,\dots,N\rbrace$ and $N-X_t$ describe the amount of vaccinators and anti-vaccinators at time $t$, respectively. Furthermore, let $N_X$ and $N_Y > 0$ be the number of zealots that support vaccination and refuse it, respectively. Let $\alpha,\beta,a,b \in \left[0,1\right]$, with the same meaning as in \eqref{def:stoch_process_my_model}. An individual of the population (who is not a zealot) may reconsider his opinion with rate $\mu$ via the same process as described in Model \ref{model:zealot} and in addition of the contact rates $\theta_X, \theta_Y$. Let $S \in \lbrace 0,\dots,N\rbrace$ and $I \in  \lbrace 0,\dots,N\rbrace$ describe the amount of susceptibles and infecteds, just as in \eqref{table:bauch_model_variables}. Now, rescale $S,I$ and $X_t$ as done in \eqref{def:scaled_variables_my_model} and assume $N_X$ and $N_Y$ to scale linearly with the population size $N$, as in Proposition \ref{prop:det_limit_my_model}. Then, the model reads as follows:
 	\begin{align}
 	\begin{split}
 	\dot{s} &= -\beta si + b\left(1-x\right) - bs\\
