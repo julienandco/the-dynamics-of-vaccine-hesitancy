@@ -346,7 +346,8 @@ X_t \rightarrow X_t - 1 & \textnormal{ at rate } \mu X_t\frac{\theta_Y(N-X_t+N_Y
 \end{split}
 \end{align}
 \end{model}
-	We know by following common $SIR$-modeling approaches with standard incidence, that our stochastic process looks like this:
+
+We know by following common $SIR$-modeling approaches with standard incidence, that our stochastic process looks like this:
 \begin{align}\label{def:stoch_process_my_model}
 \begin{split}
 \dot{S} &= -\beta S\frac{I}{N} + bN\left(1-\frac{X_t}{N}\right) - \mu S\\
@@ -356,10 +357,12 @@ X_t \rightarrow X_t - 1 & \textnormal{ at rate } \mu X_t\frac{\theta_Y(N-X_t+N_Y
 X_t &\rightarrow X_t \pm 1\textnormal{ with rates as described in \eqref{def:transition_rates_my_model}}
 \end{split}
 \end{align}
+
 In this context, $\beta$ is the rate of infection and $\alpha$ the recovery rate, $b$ stands for the birth and $\mu$ for the death rate. As just mentioned, this is a stochastic process, but we want to work with a system of \acp{ODE}. To do so, we will have to compute the deterministic limit of all of the components of the model $(S,I, R$ and $X_t)$. We define:
 \begin{equation}\label{def:scaled_variables_my_model}
 s\coloneqq \frac{S}{N}, i\coloneqq \frac{I}{N}, r\coloneqq \frac{R}{N}, x\coloneqq \frac{X_t}{N}
 \end{equation}
+
 We may now compute:
 \begin{align*}
 \dot{s} &= \frac{N\dot{S}-S\dot{N}}{N^2} = \frac{\dot{S}}{N} - \frac{S}{N}\frac{\dot{N}}{N}\\
@@ -371,6 +374,7 @@ We may now compute:
 \dot{r} &= \frac{N\dot{R}-R\dot{N}}{N^2} = \frac{\dot{R}}{N} - \frac{R}{N}\frac{\dot{N}}{N}\\
 &\overset{(\ref{def:my_model}, \ref{def:scaled_variables_my_model})}{=} \alpha i + bx - rb
 \end{align*}
+
 Note that $\dot{r}$ is not needed in the model any more, since it occurs in none of the other equations, giving us a three-dimensional system! It is already obvious for $\dot{s}$ and $\dot{i}$ and it also misses in $\dot{x}$, as we will see in Subsection \ref{subsec:det_lim_comp}. 
 
 \subsection{Computation of the deterministic limit}\label{subsec:det_lim_comp}
@@ -452,6 +456,7 @@ In addition to the context of Model \ref{def:transition_rates_my_model}, we will
 	\end{align*}
 	Which is exactly the result stated in Proposition \ref{prop:det_limit_my_model}
 \end{proof}
+
 \subsection{Definition of my model}
 %TODO: klären, ob OMEGA != b !! Ich glaube nämlich, es ist gleich, also muss auch in den x' gleichungen ein b stehen!
 Now that all the computations are done, we may regroup all of the results and formulate the system of \acp{ODE} that describes our model:
