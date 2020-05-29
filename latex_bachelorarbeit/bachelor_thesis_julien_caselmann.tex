@@ -26,7 +26,7 @@ giveninits,
 uniquename=init]{biblatex}
 \addbibresource{bachelor_thesis_julien_caselmann.bib}
 %TODO: many weird sources, fix them
-
+%TODO: structure of the model wie in müllers whom? paper!!!
 \newtheorem{definition}{Definition}[section]
 \newtheorem{thm}{Theorem}[section]
 \newtheorem{lem}{Lemma}[section]
@@ -336,7 +336,7 @@ Lots of different modelling approaches to capture the essence of opinion formati
 \subsection{Derivation of the transition rates}
 To be able to derive the transition rates, we have to state the model behaviour we wish for. The transition rates of \eqref{def:transition_rates_zealot_reinforcement} are already quite nice, but do not fit our needs entirely. We want to integrate the aspect of mutual influence between the individuals in the population and the personal ``payoff" everybody computes in their heads before making a somewhat important decision. One could come up with a very sophisticated and realistic ``payoff function" for both pro and anti-immunization parties and integrate it into the model, thus tremendously raise the complexity. We figured that a simpler way of doing so would be to modify the two parts of the extended population that are already used $\left(X_t + N_X\textnormal{ and }N- X_t + N_Y\right)$ so that they become a ``pro-vaccination" and ``anti-vaccination" part. Yet again, to reduce complexity, the factor considered as most relevant for the personal payoff computation is the prevalence of the disease, described by $aI$, where $a$ is a scaling factor and $I$ represents the number of infecteds, just as introduced in \eqref{table:bauch_model_variables}. %TODO why the fuck bN in the transitions?
 Taking all of these thoughts into consideration, we propose the following transition rates:
-\begin{model}[\textbf{My model}]
+\begin{model}[\textbf{Transition rates/stochastic process of my model}]
 	Consider the same context as in Model \ref{model:zealot_reinforcement}. Additionally, let $a,\kappa, n_X, n_Y \in \mathbb{N}$ be scaling factors, $b \in \mathbb{N}$ the birth rate of the population and $I$ as defined in \eqref{table:bauch_model_variables}. Then,
 \begin{align}\label{def:transition_rates_my_model}
 \begin{split}
@@ -346,23 +346,126 @@ X_t \rightarrow X_t - 1 & \textnormal{ at rate } \mu X_t\frac{\theta_Y(N-X_t+N_Y
 \end{split}
 \end{align}
 \end{model}
-\subsection{Computation of the deterministic limit}
-In addition to the context of Model \ref{def:transition_rates_my_model}, we will assume that the two zealot groups $N_X$ and $N_Y$ scale linearly with the total population size $N$:
-\begin{align}\label{eq:zealots_scale_linearly}
+	We know by following common $SIR$-modeling approaches with standard incidence, that our stochastic process looks like this:
+\begin{align}\label{def:my_model}
 \begin{split}
-N_X &= n_X N\\
-N_Y &= n_Y N
+\dot{S} &= -\beta S\frac{I}{N} + bN\left(1-\frac{X_t}{N}\right) - \mu S\\
+\dot{I} &= \beta S\frac{I}{N}  - \alpha I - \mu I\\
+\dot{R} &= \alpha I + bN\frac{X_t}{N} - \mu R\\
+\dot{N} &= bN - \mu N\\
+X_t &\rightarrow X_t \pm 1\textnormal{ with rates as described in \eqref{def:transition_rates_my_model}}
 \end{split}
 \end{align}
-\begin{prop}
-	Let $N_X = n_X N, N_Y = n_Y N$. Then, the determinstic limit for $x\left(t\right) = \frac{X_t}{N}$ reads
-	\begin{equation}
-		todo
-	\end{equation} 
+In this context, $\beta$ is the rate of infection and $\alpha$ the recovery rate, $b$ stands for the birth and $\mu$ for the death rate. As just mentioned, this is a stochastic process, but we want to work with a system of \acp{ODE}. To do so, we will have to compute the deterministic limit of all of the components of the model $(S,I, R$ and $X_t)$. We define:
+\begin{equation}\label{def:scaled_variables_my_model}
+s\coloneqq \frac{S}{N}, i\coloneqq \frac{I}{N}, r\coloneqq \frac{R}{N}, x\coloneqq \frac{X_t}{N}
+\end{equation}
+We may now compute:
+\begin{align*}
+\dot{s} &= \frac{N\dot{S}-S\dot{N}}{N^2} = \frac{\dot{S}}{N} - \frac{S}{N}\frac{\dot{N}}{N}\\
+&\overset{(\ref{def:my_model}, \ref{def:scaled_variables_my_model})}{=} -\beta si + b\left(1-x\right) - bs\\
+&\\
+\dot{i} &= \frac{N\dot{I}-I\dot{N}}{N^2} = \frac{\dot{I}}{N} - \frac{I}{N}\frac{\dot{N}}{N}\\
+&\overset{(\ref{def:my_model}, \ref{def:scaled_variables_my_model})}{=} \beta si - i\left(\alpha + b\right)\\
+&\\
+\dot{r} &= \frac{N\dot{R}-R\dot{N}}{N^2} = \frac{\dot{R}}{N} - \frac{R}{N}\frac{\dot{N}}{N}\\
+&\overset{(\ref{def:my_model}, \ref{def:scaled_variables_my_model})}{=} \alpha i + bx - rb
+\end{align*}
+Note that $\dot{r}$ is not needed in the model any more, since it occurs in none of the other equations, giving us a three-dimensional system! It is already obvious for $\dot{s}$ and $\dot{i}$ and it also misses in $\dot{x}$, as we will see in Subsection \ref{subsec:det_lim_comp}. 
+
+\subsection{Computation of the deterministic limit}\label{subsec:det_lim_comp}
+In addition to the context of Model \ref{def:transition_rates_my_model}, we will assume that the two zealot groups $N_X$ and $N_Y$ scale linearly with the total population size $N$:
+\begin{prop}\label{prop:det_limit_my_model}
+	Let $i \coloneqq \frac{I}{N}, n_X \coloneqq \frac{N_X}{N}$ and $n_Y \coloneqq \frac{N_Y}{N}$. Then, the determinstic limit for $x\left(t\right) \coloneqq \frac{X_t}{N}$ reads
+	\begin{align*}
+	\begin{split}
+	\dot{x} = &-\mu x\frac{\theta_Y(1-x+n_Y+b)}{(x+n_X+ai) + \theta_Y(1-x+n_Y+b)}\\
+	\qquad&+ \mu \left(1-x\right)\frac{\theta_X (x+ n_X+ ai)}{\theta_X (x + n_X + ai) + (1-x + n_Y + b)}
+	\end{split}
+	\end{align*}
 \end{prop}
-\begin{proof}
-	all computations here
+\begin{proof}\phantom{lol}\\
+	\textbf{1. Master equation}\newline
+	For better readability and improved simplicity, we will refer to the transition rates of the model as:
+	\begin{align*}
+	F_+ \left(X_t\right) &\coloneqq\frac{\theta_X (X_t + N_X + aI)}{\theta_X (X_t + N_X + aI) + (N-X_t + N_Y + bN)} \\
+	&\\
+	F_- \left(X_t\right) &\coloneqq\frac{\theta_Y(N-X_t + N_Y + bN)}{(X_t + N_X + aI) + \theta_Y(N-X_t + N_Y + bN)}
+	\end{align*}
+	Having clarified the notation, the master equation now reads:
+	\begin{align}\label{eq:master_eq_my_model}
+	\begin{split}
+	\dot{p_k}\left(t\right) &= F_+ \left(k-1\right)\times p_{k-1}\left(t\right) + F_- \left(k+1\right)\times p_{k+1}\left(t\right)\\
+	&\qquad - \left(F_+\left(k\right) + F_-\left(k\right)\right)\times p_k\left(t\right)
+	\end{split}
+	\end{align}
+	\textbf{2. Kramer-Moyal expansion}\newline
+	Now, we assume
+	\begin{equation}\label{eq:kramer_moyal_assumptions}
+	p_k(t) \approx hu\left(\frac{k}{N}, t\right), h=\frac{1}{N}\textnormal{ and }x = hk.
+	\end{equation} 
+	Again, we define for simplicity by expanding $F_+(x)$ and $F_-(x)$ with $\frac{h}{h}$, respectively:
+	\begin{align}\label{def:abbreviation_scaled_transition_rates}
+	\begin{split}
+	f_+(x) &\coloneqq \frac{\theta_X (x+ n_X+ ai)}{\theta_X (x + n_X + ai) + (1-x + n_Y + b)}\\
+	f_-(x) &\coloneqq \frac{\theta_Y(1-x+n_Y+b)}{(x+n_X+ai) + \theta_Y(1-x+n_Y+b)}
+	\end{split}
+	\end{align}
+	We compute:
+	\begin{align}\label{comp:kramer_moyal_expansion}
+	\begin{split}
+	\partial_t \left(u\left(\frac{k}{n}, t\right)\right) &= \frac{1}{h}\dot{p_k}\left(t\right)\\
+	&\overset{(\ref{eq:master_eq_my_model},\ref{eq:kramer_moyal_assumptions})}{=} \frac{1}{h}\left[F_+(k-1)hu(x-h,t) + F_-(k+1)hu(x+h,t)\right.\\
+	&\qquad\left. - \left(F_+(k)+F_-(k)\right)hu(x,t)\right]\\
+	&= \frac{1}{h}\left[\textcolor{blue}{\mu(1-(x-h))\times f_+(x-h) \times u\left(x-h,t \right)}\right.\\
+	&\qquad\left. + \textcolor{red}{\mu(x+h)\times f_-(x+h)\times u\left(x+h,t\right)}\right.\\
+	&\qquad\left.- \left(\mu(1-x)\times f_+(x) + \mu x\times f_-(x)\right)\times u\left(x,t\right)\right] 
+	\end{split}
+	\end{align}
+	We will now compute the Taylor series of second order for the \textcolor{blue}{blue} and \textcolor{red}{red} terms:
+	\begin{align}\label{comp:taylor_series}
+	\begin{split}
+	&\textcolor{blue}{\mu(1-(x-h))\times f_+(x-h) \times u\left(x-h,t \right)}\\
+	&= \mu(1-x)f_+(x) u\left(x,t\right) - h\partial_x \left(\mu(1-x)f_+(x)u\right)\\
+	&\qquad +\frac{1}{2}h^2\partial^2_x\left(\mu(1-x)f_+(x)u\right)\\
+	&\\
+	&\\
+	&\textcolor{red}{\mu(x+h)\times f_-(x+h) \times u\left(x+h,t\right)} \\
+	&= \mu x f_-(x)u(x,t) + h\partial_x \left(\mu x f_-(x) u\right) + \frac{1}{2}h^2\partial^2_x\left(\mu xf_-(x) u\right)
+	\end{split}
+	\end{align}
+	We may now resume the computations \eqref{comp:kramer_moyal_expansion} from above and add those new results:
+	\begin{align*}
+	\partial_t \left(u\left(\frac{k}{n}, t\right)\right) &= \dots \\
+	&\overset{(\ref{eq:kramer_moyal_assumptions}, \ref{comp:taylor_series})}{=} -\partial_x\big(\mu u(x,t)\left((1-x)f_+(x) - xf_-(x)\right)\big)\\
+	&\qquad + \frac{1}{2N} \partial^2_x\left(\mu u(x,t)\left((1-x)f_+(x) + xf_-(x)\right)\right)\\
+	\end{align*}
+	So, for $N \rightarrow \infty$:
+	\begin{equation}
+	\partial_t \left(u\left(\frac{k}{n}, t\right)\right) = -\partial_x\left(\mu u(x,t)\left((1-x)f_+(x) - xf_-(x)\right)\right)
+	\end{equation}
+	
+	By the definition in \eqref{def:abbreviation_scaled_transition_rates}, this means that the ODE due to the drift term in case $N \rightarrow \infty$ reads 
+	\begin{align*}
+	\dot{x} = &-\mu x\frac{\theta_Y(1-x+n_Y+b)}{(x+n_X+ai) + \theta_Y(1-x+n_Y+b)}\\
+	\qquad&+ \mu \left(1-x\right)\frac{\theta_X (x+ n_X+ ai)}{\theta_X (x + n_X + ai) + (1-x + n_Y + b)}
+	\end{align*}
+	Which is exactly the result stated in Proposition \ref{prop:det_limit_my_model}
 \end{proof}
+\subsection{Definition of my model}
+%TODO: klären, ob OMEGA != b !! Ich glaube nämlich, es ist gleich, also muss auch in den x' gleichungen ein b stehen!
+Now that all the computations are done, we may regroup all of the results and formulate the system of \acp{ODE} that describes our model:
+\begin{model}[My model]\label{model:my_model}
+Consider a population of size $N \in \mathbb{N}$, where $X_t \in \lbrace 0,\dots,N\rbrace$ and $N-X_t$ describe the amount of vaccinators and anti-vaccinators at time $t$, respectively. Furthermore, let $N_X$ and $N_Y > 0$ be the number of zealots that support vaccination and refuse it, respectively. Let $\alpha,\beta,a,b \in \left[0,1\right]$, with the same meaning as in \eqref{def:my_model}. An individual of the population (who is not a zealot) may reconsider his opinion with rate $\mu$ via the same process as described in Model \ref{model:zealot} and in addition of the contact rates $\theta_X, \theta_Y$. Let $S \in \lbrace 0,\dots,N\rbrace$ and $I \in  \lbrace 0,\dots,N\rbrace$ describe the amount of susceptibles and infecteds, just as in \eqref{table:bauch_model_variables}. Now, rescale $S,I$ and $X_t$ as done in \eqref{def:scaled_variables_my_model} and assume $N_X$ and $N_Y$ to scale linearly with the population size $N$, as in Proposition \ref{prop:det_limit_my_model}. Then, the model reads as follows:
+	\begin{align}
+	\begin{split}
+	\dot{s} &= -\beta si + b\left(1-x\right) - bs\\
+	\dot{i} &= \beta si - i\left(\alpha + b\right)\\
+	\dot{x} &= -\mu x\frac{\theta_Y(1-x+n_Y+\Omega)}{(x+n_X+ai) + \theta_Y(1-x+n_Y+\Omega)}\\
+	&\qquad+ \mu \left(1-x\right)\frac{\theta_X (x+ n_X+ ai)}{\theta_X (x + n_X + ai) + (1-x + n_Y + \Omega)}
+	\end{split}
+	\end{align}
+\end{model}
 \subsection{Bifurcation Analysis}
 \section{Discussion}
 
