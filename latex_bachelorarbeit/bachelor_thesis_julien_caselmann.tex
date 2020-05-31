@@ -27,6 +27,7 @@ uniquename=init]{biblatex}
 \addbibresource{bachelor_thesis_julien_caselmann.bib}
 %TODO: many weird sources, fix them
 %TODO: structure of the model wie in müllers whom? paper!!!
+%TODO: die ganzen modell definitionen mit dem stoch process aspekt erweitern
 \newtheorem{definition}{Definition}[section]
 \newtheorem{thm}{Theorem}[section]
 \newtheorem{lem}{Lemma}[section]
@@ -148,7 +149,7 @@ Durch BS wird nicht mehr geimpft und dann gibts aufs Maul \cite{Pincock2004}\\
 %	\label{fig:example}
 %\end{figure}
 
-\section{Mathematical Tools}
+\section{Mathematical Tools} %TODO: kill this chapter, if numerics is too big. 
 master equations, kramers-moyal expansion
 
 \section{Hesitancy Model}
@@ -197,6 +198,7 @@ The next step now is to understand how opinion formation works and what modellin
 \begin{quote}
 	``Perceptions of new evidence are interpreted in such a way as to be assimilated into preexisting assumptions and expectations".
 \end{quote}
+
 According to \cite{Dandekar2013}, homophily alone cannot polarize society, biased assimilation is needed additionally. They also showed that some random-walk based recommending algorithms always polarised when used on biased individuals. Finally, we would like to mention the work done by Das, Gollapudi and Munagala in \cite{Das2014} where they defined the \ac{BVM}, which is totally different from the famous Williams-Bjerknes model \cite{Williams1972} for modelling tumour growth, known under the same name. Its dynamics base on the flocking model, which basically represents the biased assimilation from above, and DeGroot's model. They aimed at modelling how different opinions are formed in social networks with informational influence. The term of informational influence has been studied by Asch in \cite{Asch1955} and the findings were: if an individual is told to answer a question and given several anonymised responses that allegedly came from a peer group (they were in fact constructed by the experiment's conductor), the individual would still be likely to give up his own answer and stick to the popular opinion, despite the lack of group pressure in this setting.
 
 \subsection{Voter model}\label{subsec:voter_model}
@@ -206,6 +208,7 @@ As just presented, understanding how the process of forming an opinion behaves i
 	\item All individuals have the same chances to generate offspring (even dead individuals, this is called ``selfing")
 	\item Constant birth/death rate $\mu$
 \end{enumerate}
+
 The model is defined as follows:
 \begin{model}[\textbf{Moran model by \cite{Moran1958, Muller2015}}]\label{model:moran}
 	Consider a total population size $N \in \mathbb{N}$, with $X_t$ describing the number of individuals of species $X$ at time $t$, $Y_t$ those of species $Y$ and $X_t + Y_t = N \textnormal{  }\forall t \in \mathbb{N}$. Then:
@@ -217,7 +220,8 @@ The model is defined as follows:
 	\end{split}
 	\end{align}
 \end{model}
-We may now easily reinterpret this model to depict the opinion of a population. If we consider $X_t$ and $Y_t$ as the number of \textbf{supporters} of opinion $X$ and $Y$ respectively and replace ``death" by ``not sharing this opinion anymore" and ``birth" by ``adopting this opinion", we get exactly what we want. But research has shown that one species will die out on the long run. In our adopted voter model, an opinion would die out, which is absolutely not the case, thus this very simple approach does not fit our needs very well for the moment. This problem will be addressed in the next subsections.
+
+We may now easily reinterpret this model to depict the opinion of a population. If we consider $X_t$ and $Y_t$ as the number of supporters of opinion $X$ and $Y$ respectively and replace ``death" by ``not sharing this opinion anymore" and ``birth" by ``adopting this opinion", we get exactly what we want. But research has shown that one species will die out on the long run. In our adopted voter model, an opinion would die out, which is absolutely not the case, thus this very simple approach does not fit our needs very well for the moment. This problem will be addressed in the next subsections.
 
 \subsection{Noisy voter model}\label{subsec:noisy_voter_model}
 The first modification of Model \ref{model:moran} we are going to present is the noisy voter model. It addresses the problem of one species/opinion dying out on the long run, which is not wanted at all in our setting. The line of thought is quite simple: instead of pretending linear rates for the two transitions $X_t \rightarrow X_t + 1$ and $X_t \rightarrow X_t - 1$, we consider probabilities. This model has been presented by Granovsky and Madras in \cite{Granovsky1995}. It is a simple, ergodic variant of Liggett's voter model, as mentioned in Subsection \ref{subsec:voter_model} and reads as follows:
@@ -229,10 +233,12 @@ The first modification of Model \ref{model:moran} we are going to present is the
 		\textnormal{supporter of Y sticks to his opinion/now supports X:} &\textnormal{  } p_{Y,Y}\textnormal{ or rather }p_{Y,X}
 	\end{split}
 	\end{align}
+	
 	The two coherent probabilities add up to 1, respectively:
 	\begin{equation}\label{eq:noisy_probs_add_to_1}
 		p_{X,Y} + p_{X,X} = p_{Y,X} + p_{Y,Y} = 1
 	\end{equation}
+	
 	 Then, the transition rates of the noisy voter model are:
 	 \begin{align}\label{def:transition_rates_noisy_voter_model}
 	 	\begin{split}
@@ -241,6 +247,7 @@ The first modification of Model \ref{model:moran} we are going to present is the
 	 	\end{split}
 	 \end{align}
 \end{model}
+
 The transition rates of this model are very similar to those of Model \ref{model:moran}, with some refinements: the probabilities $p$ and $p_{\circ,\bullet}$ with $\circ,\bullet \in \lbrace X,Y\rbrace$. $p$ will be called here the random opinion adoption probability, since it depicts how likely it is that an observed individual will adopt the opinion of another individual that has been randomly chosen out of the population. Its counter probability $1-p$ stands for the other possibility that the currently observed individual will adopt one of the two possible opinions without having to be ``directly influenced" by another individual, no matter what the current situation in the population looks like (the opinion could not even be present in the population, but still be adopted after this step). The four different $p_{\circ ,\bullet}$ describe transition probabilities, namely the probability that a supporter of $X$ sticks to their opinion ($p_{X, X}$) or changes it ($p_{X, Y}$), analogously for supporters of $Y$. Now, the design of the transition rates may be explained in a pretty straight-forward manner: opinion $X$ gains another supporter if a $Y$-supporter ``gets influenced" by a $X$-supporter and adopts their opinion with probability $p$, or if a $Y$-supporter just randomly adopts one of the two opinions with probability $1-p$ and it turns out to be opinion $X$ with probability $p_{Y, X}$. The explanation for the loss of a $X$-supporter works exactly analogously.
 
 This adjustment of the Moran model \eqref{model:moran} seems very promising, as it eliminates the issue of an opinion dying out and presents more realistic rates to model changes in opinions. Furthermore, it adds the aspect of ``opinion hopping" which is very desirable, due to its prominence in reality. Schmitt presented the most common factors that influence the vaccination rate in Germany \cite{Schmitt2001}. According to german paediatricians, the most common reasons are missed appointments and illness at the planned date of  the shot, which both are very accidental causalities and do not imply a strong opposition to vaccination in general. As per the parents, the most relevant factors are the importance for the personal development of the child to actually experience the illness and the frequency of side-effects of the vaccine. Those facts correspond to our assumption that most of the individuals do not have an immutable opinion on vaccines and tend to follow trends and news development (such as a higher or lower risk of a certain vaccine) as well as differentiate between the illnesses, thus make a new decision every time, whether they're going to vaccinate or not. In contrast, there is a non-negligible part of the population which changes its opinion very seldom or even not at all, due to religious, ideological or esoteric reasons \cite{Novotny1988, Bednarz2020, Health2019}. Even though the group of anti-vaccinators may not be very representative for the population's opinion (in Germany for instance, radical immunization opponents are estimated to represent 3-5\% of the total population \cite{Meyer2004, HorstkotterNMullerUOmmenOPlatteAReckendreesBStanderVLangPThaissH2017, HorstkotterNMullerUOmmenOPlatteAReckendreesBStanderVLangPThaissH2018}), it should still be considered in our model for various reasons. Firstly, vaccination hesitancy has been classified as one of the top ten health threats in 2019 by the \ac{WHO} \cite{WHOAkbar2019}. Secondly, despite the net amount of absolute opponents to be non-representative, the results of the survey requested by the European Commission concerning Europeans' attitudes towards vaccinations \cite{KantarBelgium2019}, represented in Figure \ref{fig:vaccine_mistrust_eu} below, show a non-negligible mistrust in vaccines amongst european citizens. This is not considered in Model \ref{model:noisy_voter_model}, thus yet for us to improve.%TODO later: funfacts zu moran model oder passt Länge?
@@ -260,6 +267,7 @@ Our goal is to add the aspect of filter bubbles/echo chambers into our model, si
 	\item State stays the same with probability $p$
 	\item State of a random connected neighbour is adopted with probability $1-p$
 \end{enumerate}
+
 They also showed that this model already may simulate various different situations such as dynamics of small external magnetic fields, elections, spread of epidemics and population dynamics. Again, the electoral/voting approach can easily be reinterpreted as vaccination behaviour to fit our needs. When considering a fully connected network (which is also the case in our setting), De Aguiar et al. named the probability to have $m$ free nodes in state $1$ at time $t$ $P_t\left(m\right)$ and were able to compute the dynamics of the next time step:
 \begin{align}\label{eq:chinellato_dynamics}
 	\begin{split}
@@ -271,6 +279,7 @@ They also showed that this model already may simulate various different situatio
 	\end{aligned}
 	\end{split}
 \end{align}
+
 The mid part of these dynamics will be clarified in the proof of the transition rates \eqref{def:transition_rates_zealot}, an exhaustive discussion may be found in \cite{Aguiar2011, Chinellato2015}. 
 
 We may now present a definition of the zealot model as defined by the transition probabilities \eqref{eq:chinellato_dynamics}, but with the simple difference that we allow self-connection in the graph. In the population dynamics setting this would mean some kind of asexual reproduction, which might not be needed, but in our context it means ``self-influencing" which is totally possible. The model reads as follows:
@@ -283,6 +292,7 @@ Consider a population of size $N \in \mathbb{N}$, with $X_t, Y_t \in \lbrace 0,\
 	\end{split}
 \end{align}
 \end{model}
+
 \begin{proof}
 The transition rates might not be obvious after considering the transition probabilities \eqref{eq:chinellato_dynamics}, so a derivation will be done here. First, we will reinterpret all the terms for transparency's sake. We do not consider nodes any more, but individuals in a population and they are not in state $0$ or $1$, but have the opinion $X$ or $Y$. $P_{t+1}\left(m\right)$ consists of three parts: 
 \begin{enumerate}
@@ -290,7 +300,8 @@ The transition rates might not be obvious after considering the transition proba
 	\item there was one supporter less and one individual's opinion switched from $Y$ to $X$
 	\item there was one supporter more and one individual's opinion switched from $X$ to $Y$
 \end{enumerate}
-Since the reasoning for the two transition rates is the exact same, we will just derive the rate for $X_t \rightarrow X_t + 1$, thus only consider the mid probability of \eqref{eq:chinellato_dynamics}. It describes the transition $m -1 \rightarrow m$, which is exactly equivalent to what we want, given that we do not consider the number of supporters $m$ any more, but the stochastic process $X_t$. $P_t \left(m-1\right)$ may be omitted $(\dagger)$, as it is just relevant for the probabilistic approach, whether we fall into that case or not. Then, we modify the denominator to fit our approach with the ``self-influencing" $(\star)$. We know that the probability for an individual to overthink his opinion in the model of \cite{Aguiar2011, Chinellato2015} is $1-p$, so we may define $\mu \coloneqq 1-p$ $(\ddagger)$. After simply rearranging the leftover fractions and replacing the probability that $N - m + 1$ nodes are in state $0$ with terms of the stochastic process (as defined in Model \ref{model:zealot}: $N = X_t + Y_t$), we get the wanted transition rate $\rho$ from \eqref{def:transition_rates_zealot}. In formulas:
+
+Since the reasoning for the two transition rates is the exact same, we will just derive the rate for $X_t \rightarrow X_t + 1$, thus only consider the mid probability of \eqref{eq:chinellato_dynamics}. It describes the transition $m -1 \rightarrow m$, which is exactly equivalent to what we want, given that we do not consider the number of supporters $m$ any more, but the stochastic process $X_t$. $P_t \left(m-1\right)$ may be omitted $(\dagger)$, as it is just relevant for the probabilistic approach, whether we fall into that case or not. Then, we modify the denominator to fit our approach with the ``self-influencing" $(\star)$. We know that the probability for an individual to overthink his opinion in the model of \cite{Aguiar2011, Chinellato2015} is $1-p$, so we may define $\mu \coloneqq 1-p$ $(\ddagger)$. After simply rearranging the leftover fractions and replacing the probability that $N - m + 1$ nodes are in state $0$ with terms of the stochastic process (as defined in Model \ref{model:zealot}: $N = X_t + Y_t$), we get the wanted transition rate $\rho$ from \eqref{def:transition_rates_zealot}. In formulas: %TODOS: not happy with this equiv notation (maybe not a proof but rather an explanation)
 \begin{align*}
 	\rho &\equiv P_t\left(m-1\right)\frac{1-p}{N\left(N+N_X+N_Y-1\right)}\left(m+N_X-1\right)\left(N-m+1\right)\\
 	&\overset{(\dagger)}{\equiv} \frac{1-p}{N\left(N+N_X+N_Y-1\right)}\left(m+N_X-1\right)\left(N-m+1\right)\\
@@ -300,6 +311,7 @@ Since the reasoning for the two transition rates is the exact same, we will just
 	&\equiv \mu\left(N-X_t\right)\frac{X_t + N_X}{N + N_X + N_Y}
 \end{align*}
 \end{proof}
+
 This model looks very promising and almost suits our needs, but still lacks one aspect: reinforcement. This means that individuals, whose life is predominantly taking place in a filter bubble, are less likely to interact with a group of individuals who is representative for the population. Their social contacts will rather all be inside the filter bubble, thus all be like-minded and lead to the opinion to never change or even to enhance.
 
 Research has shown that most of the populist parties and candidates in Europe, as well as in the USA can be determined quite easily, since their parameter of reinforcement turns out to be pretty high \textbf{taken from MÜllers reinforcement paper}. In Germany for instance, the extreme right-wing party \ac{AfD} and the extreme left-wing party ``Die Linke" both show high reinforcement parameters. Additionally, the reinforcement of the \ac{AfD} seems to be linked with the ``new" german federal states, that used to be part of the \ac{GDR}, whilst there seem to be no geographical connections to the reinforcement of ``Die Linke". During the US presidential election 2016, the republican's reinforcement factor tripled, most likely due to Trump's populist arguments.%TODO later:mit Müller wg Zitat sprechen
@@ -311,9 +323,10 @@ We will start this subsection off by presenting the mean field voter model that 
 	\item Zealots influence free voters, not inversely
 	\item Not every zealot actively influences free voters, but only a fraction $\phi_X$ and $\phi_Y$, respectively
 \end{enumerate}
+
 The transitions between opinions for a free voter are the same as described in Model \ref{model:zealot}. With a given rate $\mu$, a voter rethinks his opinion, randomly picks another voter out of the population and copies their opinion. Additionally, this process may now be influenced by the zealots with rate $\phi_X$ and $\phi_Y$, respectively, so that the change of opinion is favourable for the opinion they root for.
 
-Sano assumes that only a part $\phi_X, \phi_Y$, respectively, of the zealots would influence the opinion of free nodes. An assumption we do not totally agree with. In our perception, the pro-vaccination zealots mainly consist of the government, health bodies and their presence in the media (public health programs, mandatory vaccines), thus they will very actively propagate their opinion. Therefore we consider every pro-vaccine zealot as active in our setting. On the other side, we assume that the anti-vaccine zealots behave quite the same and propagate their arguments and ideas very actively \cite{Davies2002, Meyer2004}. Hence, we do not think that an ``active influence rate", as it has been introduced by Sano will be needed in our model. Still, his work had to be presented here, because it addresses the issue in a very interesting innovative way. In the following, we will introduce the \textbf{reinforced zealot model}, which perfectly fits our needs. All of the new terms and notation will be explained will be explained in the subsequent proof. The model reads as follows:
+Sano assumes that only a part $\phi_X, \phi_Y$, respectively, of the zealots would influence the opinion of free nodes. An assumption we do not totally agree with. In our perception, the pro-vaccination zealots mainly consist of the government, health bodies and their presence in the media (public health programs, mandatory vaccines), thus they will very actively propagate their opinion. Therefore we consider every pro-vaccine zealot as active in our setting. On the other side, we assume that the anti-vaccine zealots behave quite the same and propagate their arguments and ideas very actively \cite{Davies2002, Meyer2004}. Hence, we do not think that an ``active influence rate", as it has been introduced by Sano will be needed in our model. Still, his work had to be presented here, because it addresses the issue in a very interesting innovative way. In the following, we will introduce the reinforced zealot model, which perfectly fits our needs. All of the new terms and notation will be explained will be explained in the subsequent proof. The model reads as follows:
 \begin{model}[\textbf{Zealot model for two parties with reinforcement}]\label{model:zealot_reinforcement}%TODO later: mit Müller wg Zitat sprechen
 	Consider a population of size $N \in \mathbb{N}$, where $X_t, Y_t \in \lbrace 0,\dots, N\rbrace$ describe the amount of supporters of opinion $X$ and $Y$ at time $t$, respectively. Let $N = X_t + Y_t$. Furthermore, let $N_X$ and $N_Y > 0$ be the number of zealots that support opinion $X$ and $Y$, respectively. An individual of the population (not a zealot) may reconsider his opinion with rate $\mu$ via the same process as described in Model \ref{model:zealot} and in addition of the contact rates $\theta_X, \theta_Y$. Then, the transition rates of the stochastic process are:
 	\begin{align}\label{def:transition_rates_zealot_reinforcement}
@@ -324,20 +337,19 @@ Sano assumes that only a part $\phi_X, \phi_Y$, respectively, of the zealots wou
 	\end{split}
 	\end{align}
 \end{model}
-\begin{proof}
-	When we take a look at \eqref{def:transition_rates_zealot}, we notice there is just a slight difference between the transition rates stated there and the ones we are currently looking at. It consists of the two contact rates $\theta_X$ and $\theta_Y$. They describe the probability of a $Y$-supporter getting in touch with a $X$-supporter ($\theta_X$) and vice-versa. With this additional information, the derivation of the transition rates is pretty easy:
-	
-	For $X_t \rightarrow X_t + 1$ we need a supporter of $Y$ to firstly, reconsider his opinion (happens at rate $\mu$) and secondly, actually change it to $X$. As stated in the opinion change dynamics in Model \ref{model:zealot}, which are also used here, this only happens if said supporter gets influenced by a supporter of $X$. So, we multiply the possible number of encounters with $X$-supporters $(X_t + N_X)$ with the probability $\theta_X$ of getting out of the ``Y filter bubble", divided by all possible encounters. The rate of the transition $X_t \rightarrow X_t - 1$ is derived exactly analogously.
-\end{proof}
 
-\section{My Model}\label{sec:my_model}
-Lots of different modelling approaches to capture the essence of opinion formation in a (still very simplified) population and spectrum of opinions have been presented in Section \ref{sec:opinion_model}. We looked at the transitions of some of them and concluded that Model \ref{model:zealot_reinforcement} fits our assumptions about the behaviour of vaccine hesitancy best. In this section, we will present a model for the dynamics of vaccine hesitancy, whose two fundamental parts, the equation structure and the opinion formation process, will be inspired by Bauch's behaviour-incidence model \eqref{model:bauch} and by \eqref{model:zealot_reinforcement}. To render the opinion formation and influencing process in the model more realistic, the idea of payoff functions taken from the field of financial mathematics has also been included in the new model. Firstly, we will derive the transition rates for the stochastic process $X_t$ as they are described by our model. Then, we will compute the deterministic limit to get rid of the stochastics and handle a system of \acp{ODE}, which we may then analyse thoroughly.
+When we take a look at \eqref{def:transition_rates_zealot}, we notice there is just a slight difference between the transition rates stated there and the ones we are currently looking at. It consists of the two contact rates $\theta_X$ and $\theta_Y$. They describe the probability of a $Y$-supporter getting in touch with a $X$-supporter ($\theta_X$) and vice-versa. With this additional information, the derivation of the transition rates of \eqref{def:transition_rates_zealot_reinforcement} is pretty easy:
+
+For $X_t \rightarrow X_t + 1$ we need a supporter of $Y$ to firstly, reconsider his opinion (happens at rate $\mu$) and secondly, actually change it to $X$. As stated in the opinion change dynamics in Model \ref{model:zealot}, which are also used here, this only happens if said supporter gets influenced by a supporter of $X$. So, we multiply the possible number of encounters with $X$-supporters $(X_t + N_X)$ with the probability $\theta_X$ of getting out of the ``Y filter bubble", divided by all possible encounters. The rate of the transition $X_t \rightarrow X_t - 1$ is derived exactly analogously.
+
+\section{Presentation of an alternate Model}\label{sec:my_model}
+Lots of different modelling approaches to capture the essence of opinion formation in a (still very simplified) population and spectrum of opinions have been presented in Section \ref{sec:opinion_model}. We looked at the transitions of some of them and concluded that Model \ref{model:zealot_reinforcement} fits our assumptions about the behaviour of vaccine hesitancy best. In this section, we will present a model for the dynamics of vaccine hesitancy, whose two fundamental parts, the equation structure and the opinion formation process, will be inspired by Bauch's behaviour-incidence model \eqref{model:bauch} and by the reinforced zealot model \eqref{model:zealot_reinforcement}. During model design, several approaches to render the opinion formation and influencing process in the model more realistic were considered. The notion of payoff functions taken from the field of financial mathematics seemed to suit our needs best and was strongly pursued for a few weeks. After encountering several complexity issues, the use of an entire payoff function has been put down and replaced by a payoff parameter, as will be described in the following. Firstly, we will derive the transition rates for the stochastic process $X_t$ as they are described by our model. Then, we will compute the deterministic limit to get rid of the stochastics and handle a system of \acp{ODE}, which we may then analyse thoroughly.
 
 \subsection{Derivation of the transition rates}
 To be able to derive the transition rates, we have to state the model behaviour we wish for. The transition rates of \eqref{def:transition_rates_zealot_reinforcement} are already quite nice, but do not fit our needs entirely. We want to integrate the aspect of mutual influence between the individuals in the population and the personal ``payoff" everybody computes in their heads before making a somewhat important decision. One could come up with a very sophisticated and realistic ``payoff function" for both pro and anti-immunization parties and integrate it into the model, thus tremendously raise the complexity. We figured that a simpler way of doing so would be to modify the two parts of the extended population that are already used $\left(X_t + N_X\textnormal{ and }N- X_t + N_Y\right)$ so that they become a ``pro-vaccination" and ``anti-vaccination" part. Yet again, to reduce complexity, the factor considered as most relevant for the personal payoff computation is the prevalence of the disease, described by $aI$, where $a$ is a scaling factor and $I$ represents the number of infecteds, just as introduced in \eqref{table:bauch_model_variables}. %TODO why the fuck bN in the transitions?
 Taking all of these thoughts into consideration, we propose the following transition rates:
-\begin{model}[\textbf{Transition rates/stochastic process of my model}]
-	Consider the same context as in Model \ref{model:zealot_reinforcement}. Additionally, let $a,\kappa, n_X, n_Y \in \mathbb{N}$ be scaling factors, $b \in \mathbb{N}$ the birth rate of the population and $I$ as defined in \eqref{table:bauch_model_variables}. Then,
+\begin{model}[\textbf{Transition rates/stochastic process within alternate Model}]
+	Consider the same context as in Model \ref{model:zealot_reinforcement}. Additionally, let $n_X, n_Y \in \mathbb{N}$ be scaling factors, $a \in \lbrace 0,1\rbrace$ the rate of immunizations after successful recovery, $b \in \mathbb{N}$ the birth rate of the population and $I$ the number of infecteds as defined in \eqref{table:bauch_model_variables}. Then,
 \begin{align}\label{def:transition_rates_my_model}
 \begin{split}
 X_t \rightarrow X_t + 1 & \textnormal{ at rate } \mu\left(N-X_t\right)\frac{\theta_X (X_t + N_X + aI)}{\theta_X (X_t + N_X + aI) + (N-X_t + N_Y + bN)} \\
@@ -347,18 +359,22 @@ X_t \rightarrow X_t - 1 & \textnormal{ at rate } \mu X_t\frac{\theta_Y(N-X_t+N_Y
 \end{align}
 \end{model}
 
-We know by following common $SIR$-modeling approaches with standard incidence, that our stochastic process looks like this:
-\begin{align}\label{def:stoch_process_my_model}
+By following common $SIR$-modeling approaches with standard incidence, we can write down a first draft of our model:
+\begin{align}\label{def:sir_modeling_my_model}
 \begin{split}
 \dot{S} &= -\beta S\frac{I}{N} + bN\left(1-\frac{X_t}{N}\right) - \mu S\\
 \dot{I} &= \beta S\frac{I}{N}  - \alpha I - \mu I\\
 \dot{R} &= \alpha I + bN\frac{X_t}{N} - \mu R\\
-\dot{N} &= bN - \mu N\\
-X_t &\rightarrow X_t \pm 1\textnormal{ with rates as described in \eqref{def:transition_rates_my_model}}
 \end{split}
 \end{align}
 
-In this context, $\beta$ is the rate of infection and $\alpha$ the recovery rate, $b$ stands for the birth and $\mu$ for the death rate. As just mentioned, this is a stochastic process, but we want to work with a system of \acp{ODE}. To do so, we will have to compute the deterministic limit of all of the components of the model $(S,I, R$ and $X_t)$. We define:
+This only takes into account the susceptibles, infecteds and recovereds, but we also want to consider the amount of vaccinators, which is currently described by a stochastic process:
+
+\begin{equation*}
+	X_t \rightarrow X_t \pm 1\textnormal{ with rates as described in \eqref{def:transition_rates_my_model}}
+\end{equation*}
+
+In this context, $\beta$ is the rate of infection and $\alpha$ the recovery rate, $b$ stands for the birth and $\mu$ for the death rate of the population. As one can see, this is a stochastic process mixed up with a three-dimensional system of \acp{ODE}, leading to a fourth dimension as soon as $X_t$ will be included. But we want to work solely with a system of \acp{ODE}, that has less than four dimensions preferably. To do so, we will have to compute the deterministic limit of all of the components of the model $(S,I, R$ and $X_t)$. Additionally, we will use $\dot{N} = bN - \mu N$ (another SIR-model commonalty). We define:
 \begin{equation}\label{def:scaled_variables_my_model}
 s\coloneqq \frac{S}{N}, i\coloneqq \frac{I}{N}, r\coloneqq \frac{R}{N}, x\coloneqq \frac{X_t}{N}
 \end{equation}
@@ -366,16 +382,16 @@ s\coloneqq \frac{S}{N}, i\coloneqq \frac{I}{N}, r\coloneqq \frac{R}{N}, x\colone
 We may now compute:
 \begin{align*}
 \dot{s} &= \frac{N\dot{S}-S\dot{N}}{N^2} = \frac{\dot{S}}{N} - \frac{S}{N}\frac{\dot{N}}{N}\\
-&\overset{(\ref{def:my_model}, \ref{def:scaled_variables_my_model})}{=} -\beta si + b\left(1-x\right) - bs\\
+&\overset{(\ref{def:sir_modeling_my_model}, \ref{def:scaled_variables_my_model})}{=} -\beta si + b\left(1-x\right) - bs\\
 &\\
 \dot{i} &= \frac{N\dot{I}-I\dot{N}}{N^2} = \frac{\dot{I}}{N} - \frac{I}{N}\frac{\dot{N}}{N}\\
-&\overset{(\ref{def:my_model}, \ref{def:scaled_variables_my_model})}{=} \beta si - i\left(\alpha + b\right)\\
+&\overset{(\ref{def:sir_modeling_my_model}, \ref{def:scaled_variables_my_model})}{=} \beta si - i\left(\alpha + b\right)\\
 &\\
 \dot{r} &= \frac{N\dot{R}-R\dot{N}}{N^2} = \frac{\dot{R}}{N} - \frac{R}{N}\frac{\dot{N}}{N}\\
-&\overset{(\ref{def:my_model}, \ref{def:scaled_variables_my_model})}{=} \alpha i + bx - rb
+&\overset{(\ref{def:sir_modeling_my_model}, \ref{def:scaled_variables_my_model})}{=} \alpha i + bx - rb
 \end{align*}
 
-Note that $\dot{r}$ is not needed in the model any more, since it occurs in none of the other equations, giving us a three-dimensional system! It is already obvious for $\dot{s}$ and $\dot{i}$ and it also misses in $\dot{x}$, as we will see in Subsection \ref{subsec:det_lim_comp}. 
+Note that $\dot{r}$ is not needed in the model any more, since it occurs in none of the other equations (it will be shown in Subsection \ref{subsec:det_lim_comp} that it does not occur in $\dot{x}$ neither), leading to our model being four-dimensional, but virtually three-dimensional! This will facilitate the upcoming model analysis tremendously. 
 
 \subsection{Computation of the deterministic limit}\label{subsec:det_lim_comp}
 In addition to the context of Model \ref{def:transition_rates_my_model}, we will assume that the two zealot groups $N_X$ and $N_Y$ scale linearly with the total population size $N$:
@@ -396,6 +412,7 @@ In addition to the context of Model \ref{def:transition_rates_my_model}, we will
 	&\\
 	F_- \left(X_t\right) &\coloneqq\frac{\theta_Y(N-X_t + N_Y + bN)}{(X_t + N_X + aI) + \theta_Y(N-X_t + N_Y + bN)}
 	\end{align*}
+	
 	Having clarified the notation, the master equation now reads:
 	\begin{align}\label{eq:master_eq_my_model}
 	\begin{split}
@@ -403,11 +420,13 @@ In addition to the context of Model \ref{def:transition_rates_my_model}, we will
 	&\qquad - \left(F_+\left(k\right) + F_-\left(k\right)\right)\times p_k\left(t\right)
 	\end{split}
 	\end{align}
+	
 	\textbf{2. Kramer-Moyal expansion}\newline
 	Now, we assume
 	\begin{equation}\label{eq:kramer_moyal_assumptions}
 	p_k(t) \approx hu\left(\frac{k}{N}, t\right), h=\frac{1}{N}\textnormal{ and }x = hk.
 	\end{equation} 
+	
 	Again, we define for simplicity by expanding $F_+(x)$ and $F_-(x)$ with $\frac{h}{h}$, respectively:
 	\begin{align}\label{def:abbreviation_scaled_transition_rates}
 	\begin{split}
@@ -415,35 +434,39 @@ In addition to the context of Model \ref{def:transition_rates_my_model}, we will
 	f_-(x) &\coloneqq \frac{\theta_Y(1-x+n_Y+b)}{(x+n_X+ai) + \theta_Y(1-x+n_Y+b)}
 	\end{split}
 	\end{align}
+	
 	We compute:
 	\begin{align}\label{comp:kramer_moyal_expansion}
 	\begin{split}
 	\partial_t \left(u\left(\frac{k}{n}, t\right)\right) &= \frac{1}{h}\dot{p_k}\left(t\right)\\
 	&\overset{(\ref{eq:master_eq_my_model},\ref{eq:kramer_moyal_assumptions})}{=} \frac{1}{h}\left[F_+(k-1)hu(x-h,t) + F_-(k+1)hu(x+h,t)\right.\\
 	&\qquad\left. - \left(F_+(k)+F_-(k)\right)hu(x,t)\right]\\
-	&= \frac{1}{h}\left[\textcolor{blue}{\mu(1-(x-h))\times f_+(x-h) \times u\left(x-h,t \right)}\right.\\
-	&\qquad\left. + \textcolor{red}{\mu(x+h)\times f_-(x+h)\times u\left(x+h,t\right)}\right.\\
+	&= \frac{1}{h}\left[\mu(1-(x-h))\times f_+(x-h) \times u\left(x-h,t \right)\right.\\
+	&\qquad\left. + \mu(x+h)\times f_-(x+h)\times u\left(x+h,t\right)\right.\\
 	&\qquad\left.- \left(\mu(1-x)\times f_+(x) + \mu x\times f_-(x)\right)\times u\left(x,t\right)\right] 
 	\end{split}
 	\end{align}
-	We will now compute the Taylor series of second order for the \textcolor{blue}{blue} and \textcolor{red}{red} terms:
+	
+	We will now compute the Taylor series of second order for the $x-h$ and $x+h$ terms:
 	\begin{align}\label{comp:taylor_series}
 	\begin{split}
-	&\textcolor{blue}{\mu(1-(x-h))\times f_+(x-h) \times u\left(x-h,t \right)}\\
+	&\mu(1-(x-h))\times f_+(x-h) \times u\left(x-h,t \right)\\
 	&= \mu(1-x)f_+(x) u\left(x,t\right) - h\partial_x \left(\mu(1-x)f_+(x)u\right)\\
 	&\qquad +\frac{1}{2}h^2\partial^2_x\left(\mu(1-x)f_+(x)u\right)\\
 	&\\
 	&\\
-	&\textcolor{red}{\mu(x+h)\times f_-(x+h) \times u\left(x+h,t\right)} \\
+	&\mu(x+h)\times f_-(x+h) \times u\left(x+h,t\right)\\
 	&= \mu x f_-(x)u(x,t) + h\partial_x \left(\mu x f_-(x) u\right) + \frac{1}{2}h^2\partial^2_x\left(\mu xf_-(x) u\right)
 	\end{split}
 	\end{align}
+	
 	We may now resume the computations \eqref{comp:kramer_moyal_expansion} from above and add those new results:
 	\begin{align*}
 	\partial_t \left(u\left(\frac{k}{n}, t\right)\right) &= \dots \\
 	&\overset{(\ref{eq:kramer_moyal_assumptions}, \ref{comp:taylor_series})}{=} -\partial_x\big(\mu u(x,t)\left((1-x)f_+(x) - xf_-(x)\right)\big)\\
 	&\qquad + \frac{1}{2N} \partial^2_x\left(\mu u(x,t)\left((1-x)f_+(x) + xf_-(x)\right)\right)\\
 	\end{align*}
+	
 	So, for $N \rightarrow \infty$:
 	\begin{equation}
 	\partial_t \left(u\left(\frac{k}{n}, t\right)\right) = -\partial_x\left(\mu u(x,t)\left((1-x)f_+(x) - xf_-(x)\right)\right)
@@ -454,13 +477,14 @@ In addition to the context of Model \ref{def:transition_rates_my_model}, we will
 	\dot{x} = &-\mu x\frac{\theta_Y(1-x+n_Y+b)}{(x+n_X+ai) + \theta_Y(1-x+n_Y+b)}\\
 	\qquad&+ \mu \left(1-x\right)\frac{\theta_X (x+ n_X+ ai)}{\theta_X (x + n_X + ai) + (1-x + n_Y + b)}
 	\end{align*}
+	
 	Which is exactly the result stated in Proposition \ref{prop:det_limit_my_model}
 \end{proof}
 
-\subsection{Definition of my model}
+\subsection{Definition of the alternate Model}
 %TODO: klären, ob OMEGA != b !! Ich glaube nämlich, es ist gleich, also muss auch in den x' gleichungen ein b stehen!
 Now that all the computations are done, we may regroup all of the results and formulate the system of \acp{ODE} that describes our model:
-\begin{model}[\textbf{My model}]\label{model:my_model}
+\begin{model}[\textbf{Alternate Model}]\label{model:my_model}
 Consider a population of size $N \in \mathbb{N}$, where $X_t \in \lbrace 0,\dots,N\rbrace$ and $N-X_t$ describe the amount of vaccinators and anti-vaccinators at time $t$, respectively. Furthermore, let $N_X$ and $N_Y > 0$ be the number of zealots that support vaccination and refuse it, respectively. Let $\alpha,\beta,a,b \in \left[0,1\right]$, with the same meaning as in \eqref{def:stoch_process_my_model}. An individual of the population (who is not a zealot) may reconsider his opinion with rate $\mu$ via the same process as described in Model \ref{model:zealot} and in addition of the contact rates $\theta_X, \theta_Y$. Let $S \in \lbrace 0,\dots,N\rbrace$ and $I \in  \lbrace 0,\dots,N\rbrace$ describe the amount of susceptibles and infecteds, just as in \eqref{table:bauch_model_variables}. Now, rescale $S,I$ and $X_t$ as done in \eqref{def:scaled_variables_my_model} and assume $N_X$ and $N_Y$ to scale linearly with the population size $N$, as in Proposition \ref{prop:det_limit_my_model}. Then, the model reads as follows:
 	\begin{align}
 	\begin{split}
