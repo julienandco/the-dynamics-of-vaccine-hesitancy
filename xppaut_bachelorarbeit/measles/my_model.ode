@@ -1,0 +1,9 @@
+# setup of my model for measles
+# you can also set an initial value for x and see the effect i mentioned: it will move towards the stationary state at 0.15... but extremely slowly 
+init s=0.75 i=0.25
+par a=0.995 b=1.57 omega=1.57 alpha=0.995 beta=0.9 mu=0.0125 thetax=0.16 thetay=0.09 nx=0.55 ny=0.05 
+ds/dt =  -beta*s*i + b*(1-x) - b*s
+di/dt = beta*s*i - i*(alpha+b)
+dx/dt = -mu*x*(thetay*(1-x+ny+omega))/(x+nx+a*i+thetay*(1-x+ny+omega)) + mu*(1-x)*(thetax*(x+nx+a*i))/(thetax*(x+nx+a*i)+1-x+ny+omega)
+done
+

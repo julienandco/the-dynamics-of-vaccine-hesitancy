@@ -1,7 +1,0 @@
-# first test of my model
-init s=0.9 i=0.1
-par beta=0.3 b=0.65 alpha=0.78 mu=0.44 thetax=0.39 thetay=0.24 nx=0.5 ny=0.5 a=0.46 omega=0.65
-ds/dt =  -beta*s*i + b*(1-x) - b*s
-di/dt = beta*s*i - i*(alpha+b)
-dx/dt = -mu*x*(thetay*(1-x+ny+omega))/(x+nx+a*i+thetay*(1-x+ny+omega)) + mu*(1-x)*(thetax*(x+nx+a*i))/(thetax*(x+nx+a*i)+1-x+ny+omega)
-done
