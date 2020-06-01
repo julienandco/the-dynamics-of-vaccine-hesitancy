@@ -346,15 +346,15 @@ For $X_t \rightarrow X_t + 1$ we need a supporter of $Y$ to firstly, reconsider 
 Lots of different modelling approaches to capture the essence of opinion formation in a (still very simplified) population and spectrum of opinions have been presented in Section \ref{sec:opinion_model}. We looked at the transitions of some of them and concluded that Model \ref{model:zealot_reinforcement} fits our assumptions about the behaviour of vaccine hesitancy best. In this section, we will present a model for the dynamics of vaccine hesitancy, whose two fundamental parts, the equation structure and the opinion formation process, will be inspired by Bauch's behaviour-incidence model \eqref{model:bauch} and by the reinforced zealot model \eqref{model:zealot_reinforcement}. During model design, several approaches to render the opinion formation and influencing process in the model more realistic were considered. The notion of payoff functions taken from the field of financial mathematics seemed to suit our needs best and was strongly pursued for a few weeks. After encountering several complexity issues, the use of an entire payoff function has been put down and replaced by a payoff parameter, as will be described in the following. Firstly, we will derive the transition rates for the stochastic process $X_t$ as they are described by our model. Then, we will compute the deterministic limit to get rid of the stochastics and handle a system of \acp{ODE}, which we may then analyse thoroughly.
 
 \subsection{Derivation of the transition rates}
-To be able to derive the transition rates, we have to state the model behaviour we wish for. The transition rates of \eqref{def:transition_rates_zealot_reinforcement} are already quite nice, but do not fit our needs entirely. We want to integrate the aspect of mutual influence between the individuals in the population and the personal ``payoff" everybody computes in their heads before making a somewhat important decision. One could come up with a very sophisticated and realistic ``payoff function" for both pro and anti-immunization parties and integrate it into the model, thus tremendously raise the complexity. We figured that a simpler way of doing so would be to modify the two parts of the extended population that are already used $\left(X_t + N_X\textnormal{ and }N- X_t + N_Y\right)$ so that they become a ``pro-vaccination" and ``anti-vaccination" part. Yet again, to reduce complexity, the factor considered as most relevant for the personal payoff computation is the prevalence of the disease, described by $aI$, where $a$ is a scaling factor and $I$ represents the number of infecteds, just as introduced in \eqref{table:bauch_model_variables}. %TODO why the fuck bN in the transitions?
+To be able to derive the transition rates, we have to state the model behaviour we wish for. The transition rates of \eqref{def:transition_rates_zealot_reinforcement} are already quite nice, but do not fit our needs entirely. We want to integrate the aspect of mutual influence between the individuals in the population and the personal ``payoff" everybody computes in their heads before making a somewhat important decision. One could come up with a very sophisticated and realistic ``payoff function" for both pro and anti-immunization parties and integrate it into the model, thus tremendously raise the complexity. We figured that a simpler way of doing so would be to modify the two parts of the extended population that are already used $\left(X_t + N_X\textnormal{ and }N- X_t + N_Y\right)$ so that they become a ``pro-vaccination" and ``anti-vaccination" part. Yet again, to reduce complexity, the factor considered as most relevant for the personal payoff computation of an individual that is rather tending towards vaccinating, is the prevalence of the disease, described by $aI$ with $a \in \mathbb{N}$ and $I$ as in \eqref{table:bauch_model_variables}. Whereas for the anti-vaccination part, we introduce another scaling factor $\Omega \in \mathbb{N}$ that describes an anti-vaccination influence in the thought process (an anti-vaxx study, big newspaper writing an article against it etc.).
 Taking all of these thoughts into consideration, we propose the following transition rates:
-\begin{model}[\textbf{Transition rates/stochastic process within alternate Model}]
-	Consider the same context as in Model \ref{model:zealot_reinforcement}. Additionally, let $n_X, n_Y \in \mathbb{N}$ be scaling factors, $a \in \lbrace 0,1\rbrace$ the rate of immunizations after successful recovery, $b \in \mathbb{N}$ the birth rate of the population and $I$ the number of infecteds as defined in \eqref{table:bauch_model_variables}. Then,
+\begin{model}[\textbf{Stochastic process within alternate Model}]
+	Consider the same context as in Model \ref{model:zealot_reinforcement}. Additionally, let $n_X, n_Y, a$ and $\Omega \in \mathbb{N}$ be scaling factors that describe different influences on the vaccinational behaviour of the population and $I$ the number of infecteds as defined in \eqref{table:bauch_model_variables}. Then, the rates of the underlying stochastic process read as:
 \begin{align}\label{def:transition_rates_my_model}
 \begin{split}
-X_t \rightarrow X_t + 1 & \textnormal{ at rate } \mu\left(N-X_t\right)\frac{\theta_X (X_t + N_X + aI)}{\theta_X (X_t + N_X + aI) + (N-X_t + N_Y + bN)} \\
+X_t \rightarrow X_t + 1 & \textnormal{ at rate } \mu\left(N-X_t\right)\frac{\theta_X (X_t + N_X + aI)}{\theta_X (X_t + N_X + aI) + (N-X_t + N_Y + \Omega N)} \\
 &\\
-X_t \rightarrow X_t - 1 & \textnormal{ at rate } \mu X_t\frac{\theta_Y(N-X_t+N_Y + bN)}{(X_t + N_X+aI) + \theta_Y(N-X_t+N_Y + bN)}
+X_t \rightarrow X_t - 1 & \textnormal{ at rate } \mu X_t\frac{\theta_Y(N-X_t+N_Y + \Omega N)}{(X_t + N_X+aI) + \theta_Y(N-X_t+N_Y + \Omega N)}
 \end{split}
 \end{align}
 \end{model}
@@ -399,8 +399,8 @@ In addition to the context of Model \ref{def:transition_rates_my_model}, we will
 	Let $i \coloneqq \frac{I}{N}, n_X \coloneqq \frac{N_X}{N}$ and $n_Y \coloneqq \frac{N_Y}{N}$. Then, the determinstic limit for $x\left(t\right) \coloneqq \frac{X_t}{N}$ reads
 	\begin{align*}
 	\begin{split}
-	\dot{x} = &-\mu x\frac{\theta_Y(1-x+n_Y+b)}{(x+n_X+ai) + \theta_Y(1-x+n_Y+b)}\\
-	\qquad&+ \mu \left(1-x\right)\frac{\theta_X (x+ n_X+ ai)}{\theta_X (x + n_X + ai) + (1-x + n_Y + b)}
+	\dot{x} = &-\mu x\frac{\theta_Y(1-x+n_Y+\Omega)}{(x+n_X+ai) + \theta_Y(1-x+n_Y+\Omega)}\\
+	\qquad&+ \mu \left(1-x\right)\frac{\theta_X (x+ n_X+ ai)}{\theta_X (x + n_X + ai) + (1-x + n_Y + \Omega)}
 	\end{split}
 	\end{align*}
 \end{prop}
@@ -408,9 +408,9 @@ In addition to the context of Model \ref{def:transition_rates_my_model}, we will
 	\textbf{1. Master equation}\newline
 	For better readability and improved simplicity, we will refer to the transition rates of the model as:
 	\begin{align*}
-	F_+ \left(X_t\right) &\coloneqq\frac{\theta_X (X_t + N_X + aI)}{\theta_X (X_t + N_X + aI) + (N-X_t + N_Y + bN)} \\
+	F_+ \left(X_t\right) &\coloneqq\frac{\theta_X (X_t + N_X + aI)}{\theta_X (X_t + N_X + aI) + (N-X_t + N_Y + \Omega N)} \\
 	&\\
-	F_- \left(X_t\right) &\coloneqq\frac{\theta_Y(N-X_t + N_Y + bN)}{(X_t + N_X + aI) + \theta_Y(N-X_t + N_Y + bN)}
+	F_- \left(X_t\right) &\coloneqq\frac{\theta_Y(N-X_t + N_Y + \Omega N)}{(X_t + N_X + aI) + \theta_Y(N-X_t + N_Y + \Omega N)}
 	\end{align*}
 	
 	Having clarified the notation, the master equation now reads:
@@ -430,8 +430,8 @@ In addition to the context of Model \ref{def:transition_rates_my_model}, we will
 	Again, we define for simplicity by expanding $F_+(x)$ and $F_-(x)$ with $\frac{h}{h}$, respectively:
 	\begin{align}\label{def:abbreviation_scaled_transition_rates}
 	\begin{split}
-	f_+(x) &\coloneqq \frac{\theta_X (x+ n_X+ ai)}{\theta_X (x + n_X + ai) + (1-x + n_Y + b)}\\
-	f_-(x) &\coloneqq \frac{\theta_Y(1-x+n_Y+b)}{(x+n_X+ai) + \theta_Y(1-x+n_Y+b)}
+	f_+(x) &\coloneqq \frac{\theta_X (x+ n_X+ ai)}{\theta_X (x + n_X + ai) + (1-x + n_Y + \Omega)}\\
+	f_-(x) &\coloneqq \frac{\theta_Y(1-x+n_Y+\Omega)}{(x+n_X+ai) + \theta_Y(1-x+n_Y+\Omega)}
 	\end{split}
 	\end{align}
 	
@@ -474,18 +474,18 @@ In addition to the context of Model \ref{def:transition_rates_my_model}, we will
 	
 	By the definition in \eqref{def:abbreviation_scaled_transition_rates}, this means that the ODE due to the drift term in case $N \rightarrow \infty$ reads 
 	\begin{align*}
-	\dot{x} = &-\mu x\frac{\theta_Y(1-x+n_Y+b)}{(x+n_X+ai) + \theta_Y(1-x+n_Y+b)}\\
-	\qquad&+ \mu \left(1-x\right)\frac{\theta_X (x+ n_X+ ai)}{\theta_X (x + n_X + ai) + (1-x + n_Y + b)}
+	\dot{x} = &-\mu x\frac{\theta_Y(1-x+n_Y+\Omega)}{(x+n_X+ai) + \theta_Y(1-x+n_Y+\Omega)}\\
+	\qquad&+ \mu \left(1-x\right)\frac{\theta_X (x+ n_X+ ai)}{\theta_X (x + n_X + ai) + (1-x + n_Y + \Omega)}
 	\end{align*}
 	
 	Which is exactly the result stated in Proposition \ref{prop:det_limit_my_model}
 \end{proof}
 
 \subsection{Definition of the alternate Model}
-%TODO: klären, ob OMEGA != b !! Ich glaube nämlich, es ist gleich, also muss auch in den x' gleichungen ein b stehen!
+
 Now that all the computations are done, we may regroup all of the results and formulate the system of \acp{ODE} that describes our model:
 \begin{model}[\textbf{Alternate Model}]\label{model:my_model}
-Consider a population of size $N \in \mathbb{N}$, where $X_t \in \lbrace 0,\dots,N\rbrace$ and $N-X_t$ describe the amount of vaccinators and anti-vaccinators at time $t$, respectively. Furthermore, let $N_X$ and $N_Y > 0$ be the number of zealots that support vaccination and refuse it, respectively. Let $\alpha,\beta,a,b \in \left[0,1\right]$, with the same meaning as in \eqref{def:stoch_process_my_model}. An individual of the population (who is not a zealot) may reconsider his opinion with rate $\mu$ via the same process as described in Model \ref{model:zealot} and in addition of the contact rates $\theta_X, \theta_Y$. Let $S \in \lbrace 0,\dots,N\rbrace$ and $I \in  \lbrace 0,\dots,N\rbrace$ describe the amount of susceptibles and infecteds, just as in \eqref{table:bauch_model_variables}. Now, rescale $S,I$ and $X_t$ as done in \eqref{def:scaled_variables_my_model} and assume $N_X$ and $N_Y$ to scale linearly with the population size $N$, as in Proposition \ref{prop:det_limit_my_model}. Then, the model reads as follows:
+Consider a population of size $N \in \mathbb{N}$, where $X_t \in \lbrace 0,\dots,N\rbrace$ and $N-X_t$ describe the amount of vaccinators and anti-vaccinators at time $t$, respectively. Furthermore, let $N_X$ and $N_Y > 0$ be the number of zealots that support vaccination and refuse it, respectively. Let $\alpha,\beta \in \left[0,1\right]$ and $a,b, \Omega \in \mathbb{N}$, with the same meaning as in \eqref{def:sir_modeling_my_model}. An individual of the population (who is not a zealot) may reconsider his opinion with rate $\mu \in \mathbb{N}$ via the same process as described in Model \ref{model:zealot} and in addition of the contact rates $\theta_X, \theta_Y \in \left[0,1\right]$. Let $S \in \lbrace 0,\dots,N\rbrace$ and $I \in  \lbrace 0,\dots,N\rbrace$ describe the amount of susceptibles and infecteds, just as in \eqref{table:bauch_model_variables}. Now, rescale $S,I$ and $X_t$ as done in \eqref{def:scaled_variables_my_model} and assume $N_X$ and $N_Y$ to scale linearly with the population size $N$, as in Proposition \ref{prop:det_limit_my_model}. Then, the model reads as follows:
 	\begin{align}
 	\begin{split}
 	\dot{s} &= -\beta si + b\left(1-x\right) - bs\\
