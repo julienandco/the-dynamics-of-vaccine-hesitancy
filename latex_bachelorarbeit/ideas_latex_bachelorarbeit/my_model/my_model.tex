@@ -15,21 +15,7 @@
 \usepackage{transparent}
 \newtheorem{model}{Model}[section]
 \begin{document}
-	We know by following common $SIR$-modeling approaches with standard incidence, that our stochastic process looks like this:
-	\begin{align}\label{def:my_model}
-	\begin{split}
-		\dot{S} &= -\beta S\frac{I}{N} + bN\left(1-\frac{X_t}{N}\right) - \mu S\\
-		\dot{I} &= \beta S\frac{I}{N}  - \alpha I - \mu I\\
-		\dot{R} &= \alpha I + bN\frac{X_t}{N} - \mu R\\
-		\dot{N} &= bN - \mu N\\
-		X_t &\rightarrow X_t \pm 1
-		\end{split}
-	\end{align}
-	This is a stochastic process, but we want to work with a system of ODEs. To do so, we will have to compute the deterministic limit of all of the components of the model $(S,I, R and X_t)$. We define:
-	\begin{equation}\label{def:scaled_variables_my_model}
-		s\coloneqq \frac{S}{N}, i\coloneqq \frac{I}{N}, r\coloneqq \frac{R}{N}, x\coloneqq \frac{X_t}{N}
-	\end{equation}
-	We may now compute:
+
 	\input{first_try_my_model.tex}
 	%\newpage
 	%\input{det_lim_final.tex}

@@ -1,15 +1,6 @@
-\begin{align*}
-\dot{s} &= \frac{N\dot{S}-S\dot{N}}{N^2} = \frac{\dot{S}}{N} - \frac{S}{N}\frac{\dot{N}}{N}\\
-&\overset{(\ref{def:my_model}, \ref{def:scaled_variables_my_model})}{=} -\beta si + b\left(1-x\right) - bs\\
-&\\
-\dot{i} &= \frac{N\dot{I}-I\dot{N}}{N^2} = \frac{\dot{I}}{N} - \frac{I}{N}\frac{\dot{N}}{N}\\
-&\overset{(\ref{def:my_model}, \ref{def:scaled_variables_my_model})}{=} \beta si - i\left(\alpha + b\right)\\
-&\\
-\dot{r} &= \frac{N\dot{R}-R\dot{N}}{N^2} = \frac{\dot{R}}{N} - \frac{R}{N}\frac{\dot{N}}{N}\\
-&\overset{(\ref{def:my_model}, \ref{def:scaled_variables_my_model})}{=} \alpha i + bx - rb
-\end{align*}
-Note that $\dot{r}$ is not needed in the model anymore, since it does not occur in a single one of the other equations, giving us a three-dimensional system! Thus, our final model reads:
+
 \begin{model}[My model V1]
+Consider a population of size $N \in \mathbb{N}$, where $X_t \in \lbrace 0,\dots,N\rbrace$ and $N-X_t$ describe the amount of vaccinators and anti-vaccinators at time $t$, respectively. Furthermore, let $N_X$ and $N_Y > 0$ be the number of zealots that support vaccination and refuse it, respectively. Let $\alpha,\beta \in \left[0,1\right]$ and $a,b, \Omega \in \mathbb{N}$ ($\alpha$ = recovery rate, $\beta$ = infection rate, $a$ = scaling factor for disease prevalence, $b$ = birth rate of pop., $\Omega$ scaling factor for anti-vaxx influence). An individual of the population (who is not a zealot) may reconsider his opinion with rate $\mu \in \mathbb{N}$ via the same process as described in the Zealot model and in addition of the contact rates $\theta_X, \theta_Y \in \left[0,1\right]$. Let $S \in \lbrace 0,\dots,N\rbrace$ and $I \in  \lbrace 0,\dots,N\rbrace$ describe the amount of susceptibles and infecteds. Now, rescale $S,I$ and $X_t$ via deterministic limit and assume $N_X$ and $N_Y$ to scale linearly with the population size $N$: $n_X,Y = \frac{N_X,Y}{N}$. Then, the model reads as follows:
 	\begin{align}
 		\begin{split}
 			\dot{s} &= -\beta si + b\left(1-x\right) - bs\\
@@ -20,4 +11,3 @@ Note that $\dot{r}$ is not needed in the model anymore, since it does not occur 
 	\end{align}
 \end{model}
 
-Note: every $b$ that occured in $\dot{x}$ was replaced by $\Omega$ to ensure there is no confusion with the birth rate $b$ used in $\dot{s}$ and $\dot{i}$.
