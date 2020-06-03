@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:osb="http://www.openswatchbook.org/uri/2009/osb"
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   inkscape:export-ydpi="96"
+   inkscape:export-xdpi="96"
+   inkscape:export-filename="D:\Dokumente\Uni\TUM\Mathe_B_Sc\SS_20\Bachelorarbeit\bachelorarbeit-repo\latex_bachelorarbeit\img\my_model.png"
+   sodipodi:docname="my_model.svg"
+   inkscape:version="1.0 (4035a4fb49, 2020-05-01)"
+   id="svg8"
+   version="1.1"
+   viewBox="0 0 210 297"
+   height="297mm"
+   width="210mm">
+  <defs
+     id="defs2">
+    <marker
+       inkscape:isstock="true"
+       style="overflow:visible;"
+       id="Arrow1Lend"
+       refX="0.0"
+       refY="0.0"
+       orient="auto"
+       inkscape:stockid="Arrow1Lend">
+      <path
+         transform="scale(0.8) rotate(180) translate(12.5,0)"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt;stroke-opacity:1;fill:#000000;fill-opacity:1"
+         d="M 0.0,0.0 L 5.0,-5.0 L -12.5,0.0 L 5.0,5.0 L 0.0,0.0 z "
+         id="path2979" />
+    </marker>
+    <marker
+       inkscape:isstock="true"
+       style="overflow:visible"
+       id="marker3260"
+       refX="0.0"
+       refY="0.0"
+       orient="auto"
+       inkscape:stockid="Arrow1Lstart">
+      <path
+         transform="scale(0.8) translate(12.5,0)"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt;stroke-opacity:1;fill:#000000;fill-opacity:1"
+         d="M 0.0,0.0 L 5.0,-5.0 L -12.5,0.0 L 5.0,5.0 L 0.0,0.0 z "
+         id="path3258" />
+    </marker>
+    <marker
+       inkscape:isstock="true"
+       style="overflow:visible"
+       id="Arrow1Lstart"
+       refX="0.0"
+       refY="0.0"
+       orient="auto"
+       inkscape:stockid="Arrow1Lstart">
+      <path
+         transform="scale(0.8) translate(12.5,0)"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt;stroke-opacity:1;fill:#000000;fill-opacity:1"
+         d="M 0.0,0.0 L 5.0,-5.0 L -12.5,0.0 L 5.0,5.0 L 0.0,0.0 z "
+         id="path2976" />
+    </marker>
+    <linearGradient
+       osb:paint="solid"
+       id="linearGradient888">
+      <stop
+         id="stop886"
+         offset="0"
+         style="stop-color:#5337a4;stop-opacity:1;" />
+    </linearGradient>
+    <marker
+       inkscape:stockid="Arrow1Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow1Lend-0"
+       style="overflow:visible"
+       inkscape:isstock="true">
+      <path
+         id="path2979-9"
+         d="M 0,0 5,-5 -12.5,0 5,5 Z"
+         style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1pt;stroke-opacity:1"
+         transform="matrix(-0.8,0,0,-0.8,-10,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow1Lend-5"
+       style="overflow:visible"
+       inkscape:isstock="true">
+      <path
+         id="path2979-7"
+         d="M 0,0 5,-5 -12.5,0 5,5 Z"
+         style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1pt;stroke-opacity:1"
+         transform="matrix(-0.8,0,0,-0.8,-10,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow1Lend-3"
+       style="overflow:visible"
+       inkscape:isstock="true">
+      <path
+         id="path2979-6"
+         d="M 0,0 5,-5 -12.5,0 5,5 Z"
+         style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1pt;stroke-opacity:1"
+         transform="matrix(-0.8,0,0,-0.8,-10,0)" />
+    </marker>
+  </defs>
+  <sodipodi:namedview
+     inkscape:window-maximized="1"
+     inkscape:window-y="-8"
+     inkscape:window-x="-8"
+     inkscape:window-height="1377"
+     inkscape:window-width="2560"
+     showgrid="false"
+     inkscape:document-rotation="0"
+     inkscape:current-layer="layer1"
+     inkscape:document-units="mm"
+     inkscape:cy="230.74624"
+     inkscape:cx="423.44125"
+     inkscape:zoom="1.7577363"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base" />
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     id="layer1"
+     inkscape:groupmode="layer"
+     inkscape:label="Layer 1">
+    <circle
+       r="29.802866"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.394266;stroke-opacity:1"
+       id="path10-3"
+       cx="49.258957"
+       cy="174.55421" />
+    <ellipse
+       ry="29.802866"
+       rx="29.802868"
+       cy="55.903999"
+       cx="102.72062"
+       id="path10"
+       style="fill:none;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:0.394267;stroke-opacity:1" />
+    <ellipse
+       ry="29.802866"
+       rx="29.802868"
+       cy="174.57722"
+       cx="165.05505"
+       id="path10-3-8"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.394267;stroke-opacity:1" />
+    <g
+       transform="translate(5.4501535,-13.419755)"
+       id="g2880">
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-weight:normal;font-size:3.73088px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.0932721"
+         x="98.492584"
+         y="58.808502"
+         id="text2863"
+         transform="scale(0.89717616,1.1146083)"><tspan
+           sodipodi:role="line"
+           id="tspan2861"
+           x="98.492584"
+           y="58.808502"
+           style="stroke-width:0.0932721">Susceptibles </tspan><tspan
+           sodipodi:role="line"
+           x="98.492584"
+           y="63.472103"
+           style="stroke-width:0.0932721"
+           id="tspan2867" /></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-weight:normal;font-size:6.22189px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.155548"
+         x="102.65112"
+         y="70.263412"
+         id="text2873"
+         transform="scale(0.91676917,1.0907871)"><tspan
+           sodipodi:role="line"
+           id="tspan2871"
+           x="102.65112"
+           y="70.263412"
+           style="stroke-width:0.155548">$s$</tspan></text>
+    </g>
+    <g
+       id="g2880-3"
+       transform="translate(-51.327462,103.5667)">
+      <g
+         transform="translate(3.8878937)"
+         id="g2936">
+        <text
+           xml:space="preserve"
+           style="font-style:normal;font-weight:normal;font-size:3.73088px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.0932721"
+           x="98.492584"
+           y="58.808502"
+           id="text2863-0"
+           transform="scale(0.89717616,1.1146083)"><tspan
+             sodipodi:role="line"
+             id="tspan2861-2"
+             x="98.492584"
+             y="58.808502"
+             style="stroke-width:0.0932721">Infecteds</tspan><tspan
+             sodipodi:role="line"
+             x="98.492584"
+             y="63.472103"
+             style="stroke-width:0.0932721"
+             id="tspan2867-2" /></text>
+        <text
+           xml:space="preserve"
+           style="font-style:normal;font-weight:normal;font-size:6.22189px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.155548"
+           x="100.10283"
+           y="70.263412"
+           id="text2873-0"
+           transform="scale(0.91676918,1.0907871)"><tspan
+             sodipodi:role="line"
+             id="tspan2871-0"
+             x="100.10283"
+             y="70.263412"
+             style="stroke-width:0.155548">$i$</tspan></text>
+      </g>
+    </g>
+    <g
+       transform="translate(11.429143,11.520259)"
+       id="g2948">
+      <text
+         transform="scale(0.89717616,1.1146083)"
+         id="text2863-2"
+         y="144.09563"
+         x="162.32889"
+         style="font-style:normal;font-weight:normal;font-size:3.73088px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.0932721"
+         xml:space="preserve"><tspan
+           style="stroke-width:0.0932721"
+           y="144.09563"
+           x="162.32889"
+           id="tspan2861-29"
+           sodipodi:role="line">Vaccinators </tspan><tspan
+           id="tspan2867-8"
+           style="stroke-width:0.0932721"
+           y="148.75923"
+           x="162.32889"
+           sodipodi:role="line" /></text>
+      <text
+         transform="scale(0.91676918,1.0907871)"
+         id="text2873-3"
+         y="157.41309"
+         x="163.54266"
+         style="font-style:normal;font-weight:normal;font-size:6.22189px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.155548"
+         xml:space="preserve"><tspan
+           style="stroke-width:0.155548"
+           y="157.41309"
+           x="163.54266"
+           id="tspan2871-2"
+           sodipodi:role="line">$x$</tspan></text>
+    </g>
+    <path
+       inkscape:connector-curvature="0"
+       inkscape:connector-type="polyline"
+       id="path3537"
+       d="M 88.828587,82.782206 54.428304,144.58672"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.263503px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow1Lend)" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.274222px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow1Lend-3)"
+       d="m 116.35266,82.784394 35.70337,64.491986"
+       id="path3537-2"
+       inkscape:connector-type="polyline"
+       inkscape:connector-curvature="0" />
+    <text
+       transform="matrix(0.44564022,-0.79088399,0.95970271,0.54076468,0,0)"
+       id="text3785"
+       y="105.7822"
+       x="-89.758614"
+       style="font-style:normal;font-weight:normal;font-size:4.70794px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.117699"
+       xml:space="preserve"><tspan
+         style="stroke-width:0.117699"
+         y="105.7822"
+         x="-89.758614"
+         id="tspan3783"
+         sodipodi:role="line">infection $\beta si$ </tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:4.70794px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.117699"
+       x="200.00264"
+       y="69.790779"
+       id="text3785-4"
+       transform="matrix(0.44564023,0.79088399,0.95970271,-0.54076468,0,0)"><tspan
+         sodipodi:role="line"
+         id="tspan3783-4"
+         x="200.00264"
+         y="69.790779"
+         style="stroke-width:0.117699" /></text>
+    <text
+       transform="matrix(0.48528929,0.8681629,-0.83851203,0.56056247,0,0)"
+       id="text3807"
+       y="-63.078564"
+       x="137.45747"
+       style="font-style:normal;font-weight:normal;font-size:5.35316px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.133829"
+       xml:space="preserve"><tspan
+         style="stroke-width:0.133829"
+         y="-63.078564"
+         x="137.45747"
+         id="tspan3805"
+         sodipodi:role="line">vaccination at birth $bs$</tspan></text>
+  </g>
+</svg>

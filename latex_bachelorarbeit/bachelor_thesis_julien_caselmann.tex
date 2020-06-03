@@ -26,8 +26,8 @@ giveninits,
 uniquename=init]{biblatex}
 \addbibresource{bachelor_thesis_julien_caselmann.bib}
 %TODO: many weird sources, fix them
-%TODO: structure of the model wie in müllers whom? paper!!!
-%TODO: die ganzen modell definitionen mit dem stoch process aspekt erweitern
+%TODO: structure of the model wie in müllers whom? paper!!! : wsl ist da das skalierte modell besser zu machen, nur da check ich nicht wofür die ganzen parameter stehen, weil das skalieren da echt wylde interpretationen hingelolt hat
+
 \newtheorem{definition}{Definition}[section]
 \newtheorem{thm}{Theorem}[section]
 \newtheorem{lem}{Lemma}[section]
@@ -140,6 +140,7 @@ Impfgegner: (nur 3-5\% in dütschland \cite{Meyer2004}).\\
 Sind sehr gefährlich wegen emotive appeals und allg. rhetorical appeals, zitieren medizinische studien und ziehen dann falsche schlüsse (was den meisten nicht auffällt, da paper für den laien schwere kost sind) \cite{Davies2002}.\\
 Krankheiten die durch impfung ausgerottet werden können, brechen in religiösen kreisen aus \cite{Novotny1988}.\\
 Durch BS wird nicht mehr geimpft und dann gibts aufs Maul \cite{Pincock2004}\\
+has nothing to do with this topic: but currently with corona: many misunderstandings of actual nubmers just cos peeps cant fractionize (find source)
 %How to input a inkscape image:
 %\begin{figure}
 %	\centering %(or not)
@@ -211,7 +212,7 @@ As just presented, understanding how the process of forming an opinion behaves i
 
 The model is defined as follows:
 \begin{model}[\textbf{Moran model by \cite{Moran1958, Muller2015}}]\label{model:moran}
-	Consider a total population size $N \in \mathbb{N}$, with $X_t$ describing the number of individuals of species $X$ at time $t$, $Y_t$ those of species $Y$ and $X_t + Y_t = N \textnormal{  }\forall t \in \mathbb{N}$. Then:
+	Consider a total population size $N \in \mathbb{N}$, with $X_t$ describing the number of individuals of species $X$ at time $t$, $Y_t$ those of species $Y$ and $X_t + Y_t = N \textnormal{  }\forall t \in \mathbb{N}$. Then the stochastic process counting the number of individuals of species $X$ and $Y$ at time $t$ is described by following transition rates:
 	\begin{align}
 	\begin{split}
 		X_t \rightarrow X_t + 1 &\textnormal{ at rate } \mu\textnormal{ }Y_t\textnormal{ }\frac{X_t}{N}\\
@@ -239,7 +240,7 @@ The first modification of Model \ref{model:moran} we are going to present is the
 		p_{X,Y} + p_{X,X} = p_{Y,X} + p_{Y,Y} = 1
 	\end{equation}
 	
-	 Then, the transition rates of the noisy voter model are:
+	 Then, the transition rates of the stochastic process described by the noisy voter model are:
 	 \begin{align}\label{def:transition_rates_noisy_voter_model}
 	 	\begin{split}
 	 	X_t \rightarrow X_t + 1 & \textnormal{ at rate } \mu Y_t\left(p\frac{X_t}{N} + \left(1-p\right) p_{Y,X}\right)\\
@@ -284,7 +285,7 @@ The mid part of these dynamics will be clarified in the proof of the transition 
 
 We may now present a definition of the zealot model as defined by the transition probabilities \eqref{eq:chinellato_dynamics}, but with the simple difference that we allow self-connection in the graph. In the population dynamics setting this would mean some kind of asexual reproduction, which might not be needed, but in our context it means ``self-influencing" which is totally possible. The model reads as follows:
 \begin{model}[\textbf{Zealot model for two parties by \cite{Aguiar2011, Chinellato2015, Braha2017}}]\label{model:zealot}
-Consider a population of size $N \in \mathbb{N}$, with $X_t, Y_t \in \lbrace 0,\dots,N\rbrace$ supporters of opinion $X$ and $Y$ at time $t$, respectively. Let $N = X_t + Y_t$. Furthermore, let $N_X$ and $N_Y > 0$ be the number of zealots, that support opinion $X$ and $Y$, respectively. An individual may reconsider his opinion with rate $\mu$, select another individual or zealot and copy their opinion. The probability to be chosen during this reconsideration process is the same for all individuals and zealots. Then, the transition rates of the stochastic process are:
+Consider a population of size $N \in \mathbb{N}$, with $X_t, Y_t \in \lbrace 0,\dots,N\rbrace$ supporters of opinion $X$ and $Y$ at time $t$, respectively. Let $N = X_t + Y_t$. Furthermore, let $N_X$ and $N_Y > 0$ be the number of zealots, that support opinion $X$ and $Y$, respectively. An individual may reconsider his opinion with rate $\mu$, select another individual or zealot and copy their opinion. The probability to be chosen during this reconsideration process is the same for all individuals and zealots. Then, the transition rates of the underlying stochastic process are:
 \begin{align}\label{def:transition_rates_zealot}
 	\begin{split}
 	X_t \rightarrow X_t + 1 & \textnormal{ at rate } \mu\left(N-X_t\right)\frac{X_t + N_X}{N + N_X + N_Y} \\
@@ -395,14 +396,14 @@ Note that $\dot{r}$ is not needed in the model any more, since it occurs in none
 
 \subsection{Computation of the deterministic limit}\label{subsec:det_lim_comp}
 In addition to the context of Model \ref{def:transition_rates_my_model}, we will assume that the two zealot groups $N_X$ and $N_Y$ scale linearly with the total population size $N$:
-\begin{prop}\label{prop:det_limit_my_model}
+\begin{prop}
 	Let $i \coloneqq \frac{I}{N}, n_X \coloneqq \frac{N_X}{N}$ and $n_Y \coloneqq \frac{N_Y}{N}$. Then, the determinstic limit for $x\left(t\right) \coloneqq \frac{X_t}{N}$ reads
-	\begin{align*}
+	\begin{align}\label{prop:det_limit_my_model}
 	\begin{split}
 	\dot{x} = &-\mu x\frac{\theta_Y(1-x+n_Y+\Omega)}{(x+n_X+ai) + \theta_Y(1-x+n_Y+\Omega)}\\
 	\qquad&+ \mu \left(1-x\right)\frac{\theta_X (x+ n_X+ ai)}{\theta_X (x + n_X + ai) + (1-x + n_Y + \Omega)}
 	\end{split}
-	\end{align*}
+	\end{align}
 \end{prop}
 \begin{proof}\phantom{lol}\\
 	\textbf{1. Master equation}\newline
@@ -495,7 +496,29 @@ Consider a population of size $N \in \mathbb{N}$, where $X_t \in \lbrace 0,\dots
 	\end{split}
 	\end{align}
 \end{model}
+
 \subsection{Bifurcation Analysis}
+%TODO: das ist MÜll. esp. a= 0 ist MÜll. bitte Müll entfernen (bzw. mit müller klären)
+This Subsection is dedicated to a thorough analysis of the proposed model in order to understand it better and to get a glimpse at what it is capable of. After trying several different approaches, we settled on the assumption to fix the ``anti-vaxx influence": $\Omega \coloneqq a\left(1-i\right)$. With this adjustment, the model indicates a tendency towards vaccination for increasing i and a tendency towards not getting vaccinated for decreasing i, which we pretend to be realistic. By additionally uncoupling $\dot{x}$ and $\dot{i}$, such that the number of infecteds has no more influence on the number of vaccinators, we even know about two bifurcations in the model now! This can be achieved by setting $a = 0$ and falling back to the model presented by M\"uller and Tellier in \textbf{cite M\"ullers paper}. As shown there, the following proposition may be formulated:
+
+\begin{prop}[Pitchfork bifurcation in the model by \textbf{cite M\"ullers paper}]%TODO later: Müller Zitat
+	Consider Model \ref{model:my_model}. For $n_X = n_Y = n, \theta_X = \theta_Y = \theta_P$ and $a = 0, x = \frac{1}{2}$ is always a stationary point and shows a pitchfork bifurcation at $\theta_P$ with
+	\begin{equation*}
+		\theta_P = \frac{1-2n}{1+2n}
+	\end{equation*}
+\end{prop}
+\begin{proof}
+	This can quickly be shown by computing the Taylor expansion of third degree at the point $x = \frac{1}{2}$ of \eqref{prop:det_limit_my_model}'s right-hand-side. When replacing $\theta_X$ and $\theta_Y$ with $\theta_P$, one will see that the linear term disappears, leaving only the term of third order and the rest term. Thus, the presence of a pitchfork bifurcation at that point has been shown. For the detailed proof see \textbf{cite M\"ullers paper}.
+\end{proof}
+
+\begin{figure}
+	\centering
+	\def\svgwidth{250pt}
+	\input{img/my_model.pdf_tex}
+	\caption{lel}
+\end{figure}
+
+As also shown by M\"uller and Tellier, the pitchfork bifurcation changes into a saddle-node bifurcation for slightly differing numbers of zealots $n_X$ and $n_Y$. 
 \section{Discussion}
 
 
