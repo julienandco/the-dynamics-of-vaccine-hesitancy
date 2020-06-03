@@ -19,8 +19,8 @@
 /latex_bachelorarbeit/ideas_latex_bachelorarbeit/stationary_points/*
 !/latex_bachelorarbeit/ideas_latex_bachelorarbeit/stationary_points/stationary_points_my_model.tex
 !/latex_bachelorarbeit/ideas_latex_bachelorarbeit/stationary_points/special_stationary_point_my_model.tex
-R_bachelorarbeit/*
-!R_bachelorarbeit/mueller*
+R_bachelorarbeit/.RData
+R_bachelorarbeit/.Rhistory
 payoff_test/*
 !payoff_test/main_payoff_test.tex
 !payoff_test/source_payoff_test.py 
