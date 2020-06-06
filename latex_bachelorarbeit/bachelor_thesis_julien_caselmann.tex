@@ -349,10 +349,10 @@ For $X_t \rightarrow X_t + 1$ we need a supporter of $Y$ to firstly, reconsider 
 Lots of different modelling approaches to capture the essence of opinion formation in a (still very simplified) population and spectrum of opinions have been presented in Section \ref{sec:opinion_model}. We looked at the transitions of some of them and concluded that Model \ref{model:zealot_reinforcement} fits our assumptions about the behaviour of vaccine hesitancy best. In this section, we will present a model for the dynamics of vaccine hesitancy, whose two fundamental parts, the equation structure and the opinion formation process, will be inspired by Bauch's behaviour-incidence model \eqref{model:bauch} and by the reinforced zealot model \eqref{model:zealot_reinforcement}. During model design, several approaches to render the opinion formation and influencing process in the model more realistic were considered. The notion of payoff functions taken from the field of financial mathematics seemed to suit our needs best and was strongly pursued for a few weeks. After encountering several complexity issues, the use of an entire payoff function has been put down and replaced by a payoff parameter, as will be described in the following. Firstly, we will derive the transition rates for the stochastic process $X_t$ as they are described by our model. Then, we will compute the deterministic limit to get rid of the stochastics and handle a system of \acp{ODE}, which we may then analyse thoroughly.
 
 \subsection{Derivation of the transition rates}
-To be able to derive the transition rates, we have to state the model behaviour we wish for. The transition rates of \eqref{def:transition_rates_zealot_reinforcement} are already quite nice, but do not fit our needs entirely. We want to integrate the aspect of mutual influence between the individuals in the population and the personal ``payoff" everybody computes in their heads before making a somewhat important decision. One could come up with a very sophisticated and realistic ``payoff function" for both pro and anti-immunization parties and integrate it into the model, thus tremendously raise the complexity. We figured that a simpler way of doing so would be to modify the two parts of the extended population that are already used $\left(X_t + N_X\textnormal{ and }N- X_t + N_Y\right)$ so that they become a ``pro-vaccination" and ``anti-vaccination" part. Yet again, to reduce complexity, the factor considered as most relevant for the personal payoff computation of an individual that is rather tending towards vaccinating, is the prevalence of the disease, described by $aI$ with $a \in \mathbb{N}$ and $I$ as in \eqref{table:bauch_model_variables}. Whereas for the anti-vaccination part, we introduce another scaling factor $\Omega \in \mathbb{N}$ that describes an anti-vaccination influence in the thought process (an anti-vaxx study, big newspaper writing an article against it etc.).
+To be able to derive the transition rates, we have to state the model behaviour we wish for. The transition rates of \eqref{def:transition_rates_zealot_reinforcement} are already quite nice, but do not fit our needs entirely. We want to integrate the aspect of mutual influence between the individuals in the population and the personal ``payoff" everybody computes in their heads before making a somewhat important decision. One could come up with a very sophisticated and realistic ``payoff function" for both pro and anti-immunization parties and integrate it into the model, thus tremendously raise the complexity. We figured that a simpler way of doing so would be to modify the two parts of the extended population that are already used $\left(X_t + N_X\textnormal{ and }N- X_t + N_Y\right)$ so that they become a ``pro-vaccination" and ``anti-vaccination" part. Yet again, to reduce complexity, the factor considered as most relevant for the personal payoff computation of an individual that is rather tending towards vaccinating, is the prevalence of the disease, described by $aI$ with $a \in \mathbb{N}$ and $I$ as in \eqref{table:bauch_model_variables}. Whereas for the anti-vaccination part, we introduce another factor $\Omega\left(I\right): \left[0,1\right]\rightarrow \mathbb{R^+}$ that describes an anti-vaccination influence in the thought process (an anti-vaxx study, big newspaper writing an article against it etc.), depending on the amount of infecteds $I$.
 Taking all of these thoughts into consideration, we propose the following transition rates:
 \begin{model}[\textbf{Stochastic process within alternate Model}]
-	Consider the same context as in Model \ref{model:zealot_reinforcement}. Additionally, let $n_X, n_Y, a \in \mathbb{N}$ be scaling factors and $\Omega\left(I\right): \left[0,1\right] \rightarrow \mathbb{R}$, and let them describe different influences on the vaccinational behaviour of the population and $I$ the number of infecteds as defined in \eqref{table:bauch_model_variables}. Then, the rates of the underlying stochastic process read as:
+	Consider the same context as in Model \ref{model:zealot_reinforcement}. Additionally, let $n_X, n_Y, a \in \mathbb{N}$ be scaling factors and $\Omega\left(I\right): \left[0,1\right] \rightarrow \mathbb{R^+}$, and let them describe different influences on the vaccinational behaviour of the population and $I$ the number of infecteds as defined in \eqref{table:bauch_model_variables}. Then, the rates of the underlying stochastic process read as:
 \begin{align}\label{def:transition_rates_my_model}
 \begin{split}
 X_t \rightarrow X_t + 1 & \textnormal{ at rate } \mu\left(N-X_t\right)\frac{\theta_X (X_t + N_X + aI)}{\theta_X (X_t + N_X + aI) + (N-X_t + N_Y + \Omega\left(I\right) N)} \\
@@ -365,9 +365,9 @@ X_t \rightarrow X_t - 1 & \textnormal{ at rate } \mu X_t\frac{\theta_Y(N-X_t+N_Y
 By following common $SIR$-modeling approaches with standard incidence, we can write down a first draft of our model:
 \begin{align}\label{def:sir_modeling_my_model}
 \begin{split}
-\dot{S} &= -\beta S\frac{I}{N} + bN\left(1-\frac{X_t}{N}\right) - \mu S\\
-\dot{I} &= \beta S\frac{I}{N}  - \alpha I - \mu I\\
-\dot{R} &= \alpha I + bN\frac{X_t}{N} - \mu R\\
+\dot{S} &= -\beta S\frac{I}{N} + bN\left(1-\frac{X_t}{N}\right) - \delta S\\
+\dot{I} &= \beta S\frac{I}{N}  - \alpha I - \delta I\\
+\dot{R} &= \alpha I + bN\frac{X_t}{N} - \delta R\\
 \end{split}
 \end{align}
 
@@ -377,7 +377,7 @@ This only takes into account the susceptibles, infecteds and recovereds, but we 
 	X_t \rightarrow X_t \pm 1\textnormal{ with rates as described in \eqref{def:transition_rates_my_model}}
 \end{equation*}
 
-In this context, $\beta$ is the rate of infection and $\alpha$ the recovery rate, $b$ stands for the birth and $\mu$ for the death rate of the population. As one can see, this is a stochastic process mixed up with a three-dimensional system of \acp{ODE}, leading to a fourth dimension as soon as $X_t$ will be included. But we want to work solely with a system of \acp{ODE}, that has less than four dimensions preferably. To do so, we will have to compute the deterministic limit of all of the components of the model $(S,I, R$ and $X_t)$. Additionally, we will use $\dot{N} = bN - \mu N$ (another SIR-model commonalty). We define:
+In this context, $\beta$ is the rate of infection and $\alpha$ the recovery rate, $b$ stands for the birth and $\delta$ for the death rate of the population. As one can see, this is a stochastic process mixed up with a three-dimensional system of \acp{ODE}, leading to a fourth dimension as soon as $X_t$ will be included. But we want to work solely with a system of \acp{ODE}, that has less than four dimensions preferably. To do so, we will have to compute the deterministic limit of all of the components of the model $(S,I, R$ and $X_t)$. Additionally, we will use $\dot{N} = bN - dN$ (another SIR-model commonalty). We define:
 \begin{equation}\label{def:scaled_variables_my_model}
 s\coloneqq \frac{S}{N}, i\coloneqq \frac{I}{N}, r\coloneqq \frac{R}{N}, x\coloneqq \frac{X_t}{N}
 \end{equation}
@@ -511,9 +511,9 @@ To get a better understanding of the dynamics that are hidden in those equations
 
 \subsection{Bifurcation Analysis}
 
-This Subsection is dedicated to the analysis of the proposed model in order to understand it better and to get a glimpse at what it is capable of. After trying several different approaches, we settled on the assumption to fix the ``anti-vaxx influence": $\omega\left(i\right) \coloneqq a\left(1-i\right)$. With this adjustment, the model indicates a tendency towards vaccination for increasing i and a tendency towards not getting vaccinated for decreasing i, which we pretend to be realistic. By additionally uncoupling $\dot{x}$ and $\dot{i}$, such that the number of infecteds has no more influence on the number of vaccinators, we even know about two bifurcations in the model now! This can be achieved by setting $a = 0$ and falling back to the model presented by M\"uller and Tellier in \textbf{cite M\"ullers paper}. As shown there, the following proposition may be formulated:
+This Subsection is dedicated to the analysis of the proposed model in order to understand it better and to get a glimpse at what it is capable of. After trying several different approaches, we settled on the assumption to fix the ``anti-vaxx influence": $\omega\left(i\right) \coloneqq a\left(1-i\right)$. With this adjustment, the model indicates a tendency towards vaccination for increasing i and a tendency towards not getting vaccinated for decreasing i, which we esteem to be realistic. By additionally uncoupling $\dot{x}$ and $\dot{i}$, such that the number of infecteds has no more influence on the number of vaccinators, we even know about two bifurcations in the model now! This can be achieved by setting $a = 0$ and falling back to the model presented by M\"uller and Tellier in \textbf{cite M\"ullers paper}. As shown there, the following proposition may be formulated:
 
-\begin{prop}[Pitchfork bifurcation in the model by \textbf{cite M\"ullers paper}]%TODO later: Müller Zitat
+\begin{prop}[Pitchfork bifurcation in the model by \textbf{cite M\"ullers paper}]\label{prop:mueller_stat_point}%TODO later: Müller Zitat
 	Consider Model \ref{model:my_model}. For $n_X = n_Y = n, \theta_X = \theta_Y = \theta_P$ and $a = 0, x = \frac{1}{2}$ is always a stationary point and shows a pitchfork bifurcation at $\theta_P$ with
 	\begin{equation*}
 		\theta_P = \frac{1-2n}{1+2n}
@@ -525,16 +525,16 @@ This Subsection is dedicated to the analysis of the proposed model in order to u
 
 As also shown by M\"uller and Tellier, the pitchfork bifurcation changes into a saddle-node bifurcation for slightly differing numbers of zealots $n_X$ and $n_Y$. %TODO: elaborate
 
-Furthermore, there are multiple indicators that imply the existence of a Hopf bifurcation in the system. Writing down a general stationary point analytically for our model turns out to be very unpractical, but we are able to ``construct" one at $x=0.5$:
+Writing down a general stationary point analytically for our model turns out to be very unpractical, but we are able to produce a similar result to the one presented in Proposition \ref{prop:mueller_stat_point}:
 \begin{prop}[Theoretical stationary point of the alternate Model]\label{prop:theor_stat_point_my_model}\phantom{lel}\newline
 	Presume $\left(s^*, i^*, x^*\right)$, $i^* \neq 0$ is a stationary point of Model \ref{model:my_model}. \newline
-	For $n_X = \max \lbrace a\left(1-2i^*\right), 0\rbrace$, $n_Y = a\left(2i^* - 1\right) + n_X$ and $\theta_X = \theta_Y = \frac{1-2n}{1+2n}$ with\newline $n \coloneqq ai^* + n_X$, $x^* = 0.5$ always is a stationary point.%TODO: undergoes bifus at... ? 
+	For $n_X = \max \lbrace a\left(1-2i^*\right), 0\rbrace$, $n_Y = a\left(2i^* - 1\right) + n_X$ and $\theta_X = \theta_Y = \frac{1-2n}{1+2n}$ with\newline $n \coloneqq ai^* + n_X$, there always is a stationary point at $x^* = \frac{1}{2}$.%TODO: undergoes bifus at... ? dafür bräuchte ich taylor... oder wissen wir, dass es denselben bums amselben theta macht? (wie müllers) 
 \end{prop} 
 \begin{proof}
-	We set $x^* = 0.5$. It is now very easy to write down $s^*$ and $i^*$:
+	We set $x^* = \frac{1}{2}$. It is now very easy to write down $s^*$ and $i^*$:
 	\begin{align}
 	\begin{split}\label{eq:s_in_theo_stat_point}
-		0 &\overset{!}{=} \dot{s^*} \overset{\eqref{model:my_model}}{=}-\beta s^*i^* + 0.5b - bs^*\\
+		0 &\overset{!}{=} \dot{s^*} \overset{\eqref{model:my_model}}{=}-\beta s^*i^* + \frac{b}{2} - bs^*\\
 		&\Leftrightarrow s^* = \frac{b}{2\beta i^*+ 2b}\\
 		&\end{split}\\
 		\begin{split}
@@ -543,17 +543,17 @@ Furthermore, there are multiple indicators that imply the existence of a Hopf bi
 		&\end{split}
 	\end{align}
 	
-	So we have a stationary point at $\left(\frac{\alpha + b}{\beta}, \frac{b}{2\left(\alpha + b\right)} - \frac{b}{\beta}, 0.5\right)$. Now we have to adjust the parameters occurring in \eqref{prop:det_limit_my_model} such that $\dot{x} = 0$ holds. To do so, we will compare the two parts of $\dot{x}$ and make sure they are the same, which will make them cancel each other out and yield the wanted result. We immediately see that $\mu x = \mu\left(1-x\right)$ for $x = 0.5$. We may now write down two equations that have to hold for equality of both sides:
+	So we have a stationary point at $\left(\frac{\alpha + b}{\beta}, \frac{b}{2\left(\alpha + b\right)} - \frac{b}{\beta}, \frac{1}{2}\right)$. Now we have to adjust the parameters occurring in \eqref{prop:det_limit_my_model} such that $\dot{x} = 0$ holds. To do so, we will compare the two parts of $\dot{x}$ and make sure they are the same, which will make them cancel each other out and yield the wanted result. We immediately see that $\mu x = \mu\left(1-x\right)$ for $x = \frac{1}{2}$. We may now write down two equations that have to hold for equality of both sides:
 	
 	\begin{align}
 		\begin{split}\label{eq:numerator_equality}
-		\theta_X\left(0.5+n_x+ai\right) &= \theta_Y\left(0.5+n_Y+a(1-i)\right)\\
+		\theta_X\left(\frac{1}{2}+n_x+ai\right) &= \theta_Y\left(\frac{1}{2}+n_Y+a(1-i)\right)\\
 		&\end{split}\\
 		\begin{split}\label{eq:denominator_equality}
-		\theta_X\left(0.5+n_X+ai\right) + 0.5+n_Y+a(1-i) &= 0.5+n_X+ai+\theta_Y\left(0.5+n_Y+a(1-i)\right)\end{split}
+		\theta_X\left(\frac{1}{2}+n_X+ai\right) + \frac{1}{2}+n_Y+a(1-i) &= \frac{1}{2}+n_X+ai+\theta_Y\left(\frac{1}{2}+n_Y+a(1-i)\right)\end{split}
 	\end{align}
 	
-	One quickly notices that both these equations hold true for $n_X = n_Y = n, \theta_X = \theta_Y = \theta$ and $i = 0.5$, but we do not want to fix $i$. So we have to look at another constellation of parameters, that ensures the equality of \eqref{eq:numerator_equality} and \eqref{eq:denominator_equality}. We find the following two possibilities:
+	One quickly notices that both these equations hold true for $n_X = n_Y = n, \theta_X = \theta_Y = \theta$ and $i = \frac{1}{2}$, but we do not want to fix $i$. So we have to look at another constellation of parameters, that ensures the equality of \eqref{eq:numerator_equality} and \eqref{eq:denominator_equality}. We find the following two possibilities:
 	
 	\begin{table}[h!]
 	\centering
@@ -585,7 +585,7 @@ Furthermore, there are multiple indicators that imply the existence of a Hopf bi
 	Thus, $\dot{x} = 0 \Leftrightarrow \eqref{eq:n_X_and_n_Y_def} \land \eqref{eq:theta_def}$, which is exactly what Proposition \ref{prop:theor_stat_point_my_model} claims.
 \end{proof}
 
-We may now use the insights about the theoretical stationary point $\left(s^*, i^*, 0.5\right)$ from \eqref{prop:theor_stat_point_my_model} and set the parameters of our model as follows: 
+Furthermore, there are multiple indicators that imply the existence of a Hopf bifurcation in the system. For further investigations in that directions, we will use the insights about the theoretical stationary point $\left(s^*, i^*, 0.5\right)$ from \eqref{prop:theor_stat_point_my_model} and set the parameters of our model as follows: \textbf{here has to be the table}%TODO at the end
 
 \begin{table}[h!]\label{table:alu_vs_x_params}
 	\centering
@@ -634,7 +634,7 @@ Furthermore, when we take a look at the system as whole and let the simulation b
 	\label{fig:s_vs_i_vs_x}
 \end{figure}
 
-Additionally, we have this diagram Muelle rwanted me to do with the Eigenvalues, which shows the existence of a Hopf point %TODO: diagramm zaubern 
+Additionally, we have this diagram Mueller wanted me to do with the Eigenvalues, which shows the existence of a Hopf point %TODO: diagramm zaubern 
 
 %TODO: alle oberen todos (aus bifi-anal) abarbeiten: dann fehlt nur noch saddle-node, danach ist bifi-analyse beednet
 
