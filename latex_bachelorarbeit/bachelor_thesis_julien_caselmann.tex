@@ -350,12 +350,12 @@ Lots of different modelling approaches to capture the essence of opinion formati
 To be able to derive the transition rates, we have to state the model behaviour we wish for. The transition rates of \eqref{def:transition_rates_zealot_reinforcement} are already quite nice, but do not fit our needs entirely. We want to integrate the aspect of mutual influence between the individuals in the population and the personal ``payoff" everybody computes in their heads before making a somewhat important decision. One could come up with a very sophisticated and realistic ``payoff function" for both pro and anti-immunization parties and integrate it into the model, thus tremendously raise the complexity. We figured that a simpler way of doing so would be to modify the two parts of the extended population that are already used $\left(X_t + N_X\textnormal{ and }N- X_t + N_Y\right)$ so that they become a ``pro-vaccination" and ``anti-vaccination" part. Yet again, to reduce complexity, the factor considered as most relevant for the personal payoff computation of an individual that is rather tending towards vaccinating, is the prevalence of the disease, described by $aI$ with $a \in \mathbb{N}$ and $I$ as in \eqref{table:bauch_model_variables}. Whereas for the anti-vaccination part, we introduce another scaling factor $\Omega \in \mathbb{N}$ that describes an anti-vaccination influence in the thought process (an anti-vaxx study, big newspaper writing an article against it etc.).
 Taking all of these thoughts into consideration, we propose the following transition rates:
 \begin{model}[\textbf{Stochastic process within alternate Model}]
-	Consider the same context as in Model \ref{model:zealot_reinforcement}. Additionally, let $n_X, n_Y, a$ and $\Omega \in \mathbb{N}$ be scaling factors that describe different influences on the vaccinational behaviour of the population and $I$ the number of infecteds as defined in \eqref{table:bauch_model_variables}. Then, the rates of the underlying stochastic process read as:
+	Consider the same context as in Model \ref{model:zealot_reinforcement}. Additionally, let $n_X, n_Y, a \in \mathbb{N}$ be scaling factors and $\Omega\left(I\right): \left[0,1\right] \rightarrow \mathbb{R}$, and let them describe different influences on the vaccinational behaviour of the population and $I$ the number of infecteds as defined in \eqref{table:bauch_model_variables}. Then, the rates of the underlying stochastic process read as:
 \begin{align}\label{def:transition_rates_my_model}
 \begin{split}
-X_t \rightarrow X_t + 1 & \textnormal{ at rate } \mu\left(N-X_t\right)\frac{\theta_X (X_t + N_X + aI)}{\theta_X (X_t + N_X + aI) + (N-X_t + N_Y + \Omega N)} \\
+X_t \rightarrow X_t + 1 & \textnormal{ at rate } \mu\left(N-X_t\right)\frac{\theta_X (X_t + N_X + aI)}{\theta_X (X_t + N_X + aI) + (N-X_t + N_Y + \Omega\left(I\right) N)} \\
 &\\
-X_t \rightarrow X_t - 1 & \textnormal{ at rate } \mu X_t\frac{\theta_Y(N-X_t+N_Y + \Omega N)}{(X_t + N_X+aI) + \theta_Y(N-X_t+N_Y + \Omega N)}
+X_t \rightarrow X_t - 1 & \textnormal{ at rate } \mu X_t\frac{\theta_Y(N-X_t+N_Y + \Omega\left(I\right) N)}{(X_t + N_X+aI) + \theta_Y(N-X_t+N_Y + \Omega\left(I\right) N)}
 \end{split}
 \end{align}
 \end{model}
@@ -397,11 +397,11 @@ Note that $\dot{r}$ is not needed in the model any more, since it occurs in none
 \subsection{Computation of the deterministic limit}\label{subsec:det_lim_comp}
 In addition to the context of Model \ref{def:transition_rates_my_model}, we will assume that the two zealot groups $N_X$ and $N_Y$ scale linearly with the total population size $N$:
 \begin{prop}
-	Let $i \coloneqq \frac{I}{N}, n_X \coloneqq \frac{N_X}{N}$ and $n_Y \coloneqq \frac{N_Y}{N}$. Then, the determinstic limit for $x\left(t\right) \coloneqq \frac{X_t}{N}$ reads
+	Let $i \coloneqq \frac{I}{N}, n_X \coloneqq \frac{N_X}{N}, n_Y \coloneqq \frac{N_Y}{N}$ and $\omega\left(i\right)\coloneqq \frac{\Omega\left(I\right)}{N}$. Then, the determinstic limit for $x\left(t\right) \coloneqq \frac{X_t}{N}$ reads
 	\begin{align}\label{prop:det_limit_my_model}
 	\begin{split}
-	\dot{x} = &-\mu x\frac{\theta_Y(1-x+n_Y+\Omega)}{(x+n_X+ai) + \theta_Y(1-x+n_Y+\Omega)}\\
-	\qquad&+ \mu \left(1-x\right)\frac{\theta_X (x+ n_X+ ai)}{\theta_X (x + n_X + ai) + (1-x + n_Y + \Omega)}
+	\dot{x} = &-\mu x\frac{\theta_Y(1-x+n_Y+\omega\left(i\right))}{(x+n_X+ai) + \theta_Y(1-x+n_Y+\omega\left(i\right))}\\
+	\qquad&+ \mu \left(1-x\right)\frac{\theta_X (x+ n_X+ ai)}{\theta_X (x + n_X + ai) + (1-x + n_Y + \omega\left(i\right))}
 	\end{split}
 	\end{align}
 \end{prop}
@@ -409,9 +409,9 @@ In addition to the context of Model \ref{def:transition_rates_my_model}, we will
 	\textbf{1. Master equation}\newline
 	For better readability and improved simplicity, we will refer to the transition rates of the model as:
 	\begin{align*}
-	F_+ \left(X_t\right) &\coloneqq\frac{\theta_X (X_t + N_X + aI)}{\theta_X (X_t + N_X + aI) + (N-X_t + N_Y + \Omega N)} \\
+	F_+ \left(X_t\right) &\coloneqq\frac{\theta_X (X_t + N_X + aI)}{\theta_X (X_t + N_X + aI) + (N-X_t + N_Y + \Omega\left(I\right) N)} \\
 	&\\
-	F_- \left(X_t\right) &\coloneqq\frac{\theta_Y(N-X_t + N_Y + \Omega N)}{(X_t + N_X + aI) + \theta_Y(N-X_t + N_Y + \Omega N)}
+	F_- \left(X_t\right) &\coloneqq\frac{\theta_Y(N-X_t + N_Y + \Omega\left(I\right) N)}{(X_t + N_X + aI) + \theta_Y(N-X_t + N_Y + \Omega\left(I\right) N)}
 	\end{align*}
 	
 	Having clarified the notation, the master equation now reads:
@@ -431,8 +431,8 @@ In addition to the context of Model \ref{def:transition_rates_my_model}, we will
 	Again, we define for simplicity by expanding $F_+(x)$ and $F_-(x)$ with $\frac{h}{h}$, respectively:
 	\begin{align}\label{def:abbreviation_scaled_transition_rates}
 	\begin{split}
-	f_+(x) &\coloneqq \frac{\theta_X (x+ n_X+ ai)}{\theta_X (x + n_X + ai) + (1-x + n_Y + \Omega)}\\
-	f_-(x) &\coloneqq \frac{\theta_Y(1-x+n_Y+\Omega)}{(x+n_X+ai) + \theta_Y(1-x+n_Y+\Omega)}
+	f_+(x) &\coloneqq \frac{\theta_X (x+ n_X+ ai)}{\theta_X (x + n_X + ai) + (1-x + n_Y + \omega\left(i\right))}\\
+	f_-(x) &\coloneqq \frac{\theta_Y(1-x+n_Y+\omega\left(i\right))}{(x+n_X+ai) + \theta_Y(1-x+n_Y+\omega\left(i\right))}
 	\end{split}
 	\end{align}
 	
@@ -475,8 +475,8 @@ In addition to the context of Model \ref{def:transition_rates_my_model}, we will
 	
 	By the definition in \eqref{def:abbreviation_scaled_transition_rates}, this means that the ODE due to the drift term in case $N \rightarrow \infty$ reads 
 	\begin{align*}
-	\dot{x} = &-\mu x\frac{\theta_Y(1-x+n_Y+\Omega)}{(x+n_X+ai) + \theta_Y(1-x+n_Y+\Omega)}\\
-	\qquad&+ \mu \left(1-x\right)\frac{\theta_X (x+ n_X+ ai)}{\theta_X (x + n_X + ai) + (1-x + n_Y + \Omega)}
+	\dot{x} = &-\mu x\frac{\theta_Y(1-x+n_Y+\omega\left(i\right))}{(x+n_X+ai) + \theta_Y(1-x+n_Y+\omega\left(i\right))}\\
+	\qquad&+ \mu \left(1-x\right)\frac{\theta_X (x+ n_X+ ai)}{\theta_X (x + n_X + ai) + (1-x + n_Y + \omega\left(i\right))}
 	\end{align*}
 	
 	Which is exactly the result stated in Proposition \ref{prop:det_limit_my_model}
@@ -486,20 +486,20 @@ In addition to the context of Model \ref{def:transition_rates_my_model}, we will
 
 Now that all the computations are done, we may regroup all of the results and formulate the system of \acp{ODE} that describes our model:
 \begin{model}[\textbf{Alternate Model}]\label{model:my_model}
-Consider a population of size $N \in \mathbb{N}$, where $X_t \in \lbrace 0,\dots,N\rbrace$ and $N-X_t$ describe the amount of vaccinators and anti-vaccinators at time $t$, respectively. Furthermore, let $N_X$ and $N_Y > 0$ be the number of zealots that support vaccination and refuse it, respectively. Let $\alpha,\beta \in \left[0,1\right]$ and $a,b, \Omega \in \mathbb{N}$, with the same meaning as in \eqref{def:sir_modeling_my_model}. An individual of the population (who is not a zealot) may reconsider his opinion with rate $\mu \in \mathbb{N}$ via the same process as described in Model \ref{model:zealot} and in addition of the contact rates $\theta_X, \theta_Y \in \left[0,1\right]$. Let $S \in \lbrace 0,\dots,N\rbrace$ and $I \in  \lbrace 0,\dots,N\rbrace$ describe the amount of susceptibles and infecteds, just as in \eqref{table:bauch_model_variables}. Now, rescale $S,I$ and $X_t$ as done in \eqref{def:scaled_variables_my_model} and assume $N_X$ and $N_Y$ to scale linearly with the population size $N$, as in Proposition \ref{prop:det_limit_my_model}. Then, the model reads as follows:
+Consider a population of size $N \in \mathbb{N}$, where $X_t \in \lbrace 0,\dots,N\rbrace$ and $N-X_t$ describe the amount of vaccinators and anti-vaccinators at time $t$, respectively. Furthermore, let $N_X$ and $N_Y > 0$ be the number of zealots that support vaccination and refuse it, respectively. Let $\alpha,\beta \in \left[0,1\right]$, $a,b \in \mathbb{N}$, with the same meaning as in \eqref{def:sir_modeling_my_model} and $\omega\left(i\right)$ just as in \eqref{prop:det_limit_my_model}. An individual of the population (who is not a zealot) may reconsider his opinion with rate $\mu \in \mathbb{N}$ via the same process as described in Model \ref{model:zealot} and in addition of the contact rates $\theta_X, \theta_Y \in \left[0,1\right]$. Let $S \in \lbrace 0,\dots,N\rbrace$ and $I \in  \lbrace 0,\dots,N\rbrace$ describe the amount of susceptibles and infecteds, just as in \eqref{table:bauch_model_variables}. Now, rescale $S,I$ and $X_t$ as done in \eqref{def:scaled_variables_my_model} and assume $N_X$ and $N_Y$ to scale linearly with the population size $N$, as in Proposition \ref{prop:det_limit_my_model}. Then, the model reads as follows:
 	\begin{align}
 	\begin{split}
 	\dot{s} &= -\beta si + b\left(1-x\right) - bs\\
 	\dot{i} &= \beta si - i\left(\alpha + b\right)\\
-	\dot{x} &= -\mu x\frac{\theta_Y(1-x+n_Y+\Omega)}{(x+n_X+ai) + \theta_Y(1-x+n_Y+\Omega)}\\
-	&\qquad+ \mu \left(1-x\right)\frac{\theta_X (x+ n_X+ ai)}{\theta_X (x + n_X + ai) + (1-x + n_Y + \Omega)}
+	\dot{x} &= -\mu x\frac{\theta_Y(1-x+n_Y+\omega\left(i\right))}{(x+n_X+ai) + \theta_Y(1-x+n_Y+\omega\left(i\right))}\\
+	&\qquad+ \mu \left(1-x\right)\frac{\theta_X (x+ n_X+ ai)}{\theta_X (x + n_X + ai) + (1-x + n_Y + \omega\left(i\right))}
 	\end{split}
 	\end{align}
 \end{model}
 
 \subsection{Bifurcation Analysis}
-%TODO: das ist MÜll. esp. a= 0 ist MÜll. bitte Müll entfernen (bzw. mit müller klären)
-This Subsection is dedicated to a thorough analysis of the proposed model in order to understand it better and to get a glimpse at what it is capable of. After trying several different approaches, we settled on the assumption to fix the ``anti-vaxx influence": $\Omega \coloneqq a\left(1-i\right)$. With this adjustment, the model indicates a tendency towards vaccination for increasing i and a tendency towards not getting vaccinated for decreasing i, which we pretend to be realistic. By additionally uncoupling $\dot{x}$ and $\dot{i}$, such that the number of infecteds has no more influence on the number of vaccinators, we even know about two bifurcations in the model now! This can be achieved by setting $a = 0$ and falling back to the model presented by M\"uller and Tellier in \textbf{cite M\"ullers paper}. As shown there, the following proposition may be formulated:
+
+This Subsection is dedicated to the analysis of the proposed model in order to understand it better and to get a glimpse at what it is capable of. After trying several different approaches, we settled on the assumption to fix the ``anti-vaxx influence": $\omega\left(i\right) \coloneqq a\left(1-i\right)$. With this adjustment, the model indicates a tendency towards vaccination for increasing i and a tendency towards not getting vaccinated for decreasing i, which we pretend to be realistic. By additionally uncoupling $\dot{x}$ and $\dot{i}$, such that the number of infecteds has no more influence on the number of vaccinators, we even know about two bifurcations in the model now! This can be achieved by setting $a = 0$ and falling back to the model presented by M\"uller and Tellier in \textbf{cite M\"ullers paper}. As shown there, the following proposition may be formulated:
 
 \begin{prop}[Pitchfork bifurcation in the model by \textbf{cite M\"ullers paper}]%TODO later: Müller Zitat
 	Consider Model \ref{model:my_model}. For $n_X = n_Y = n, \theta_X = \theta_Y = \theta_P$ and $a = 0, x = \frac{1}{2}$ is always a stationary point and shows a pitchfork bifurcation at $\theta_P$ with
@@ -518,7 +518,7 @@ This Subsection is dedicated to a thorough analysis of the proposed model in ord
 	\caption{lel}
 \end{figure}
 
-As also shown by M\"uller and Tellier, the pitchfork bifurcation changes into a saddle-node bifurcation for slightly differing numbers of zealots $n_X$ and $n_Y$. 
+As also shown by M\"uller and Tellier, the pitchfork bifurcation changes into a saddle-node bifurcation for slightly differing numbers of zealots $n_X$ and $n_Y$. %TODO: elaborate
 \section{Discussion}
 
 
