@@ -123,6 +123,3 @@ get.jacobian <- function(state){
   
   return(J);
 }
-
-J     = get.jacobian(theo.stat.point);
-ev    = eigen(J);
