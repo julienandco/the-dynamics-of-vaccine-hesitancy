@@ -29,8 +29,6 @@ uniquename=init]{biblatex}
 %TODO: structure of the model wie in müllers whom? paper!!! : wsl ist da das skalierte modell besser zu machen, nur da check ich nicht wofür die ganzen parameter stehen, weil das skalieren da echt wylde interpretationen hingelolt hat
 %TODO: R skripte, die plots generiert haben in einen anhang?
 
-%TODO: tum citation guide: figures und tables wo kommt caption hin?
-
 \newtheorem{definition}{Definition}[section]
 \newtheorem{thm}{Theorem}[section]
 \newtheorem{lem}{Lemma}[section]
@@ -254,12 +252,13 @@ The first modification of Model \ref{model:moran} we are going to present is the
 The transition rates of this model are very similar to those of Model \ref{model:moran}, with some refinements: the probabilities $p$ and $p_{\circ,\bullet}$ with $\circ,\bullet \in \lbrace X,Y\rbrace$. $p$ will be called here the random opinion adoption probability, since it depicts how likely it is that an observed individual will adopt the opinion of another individual that has been randomly chosen out of the population. Its counter probability $1-p$ stands for the other possibility that the currently observed individual will adopt one of the two possible opinions without having to be ``directly influenced" by another individual, no matter what the current situation in the population looks like (the opinion could not even be present in the population, but still be adopted after this step). The four different $p_{\circ ,\bullet}$ describe transition probabilities, namely the probability that a supporter of $X$ sticks to their opinion ($p_{X, X}$) or changes it ($p_{X, Y}$), analogously for supporters of $Y$. Now, the design of the transition rates may be explained in a pretty straight-forward manner: opinion $X$ gains another supporter if a $Y$-supporter ``gets influenced" by a $X$-supporter and adopts their opinion with probability $p$, or if a $Y$-supporter just randomly adopts one of the two opinions with probability $1-p$ and it turns out to be opinion $X$ with probability $p_{Y, X}$. The explanation for the loss of a $X$-supporter works exactly analogously.
 
 This adjustment of the Moran model \eqref{model:moran} seems very promising, as it eliminates the issue of an opinion dying out and presents more realistic rates to model changes in opinions. Furthermore, it adds the aspect of ``opinion hopping" which is very desirable, due to its prominence in reality. Schmitt presented the most common factors that influence the vaccination rate in Germany \cite{Schmitt2001}. According to german paediatricians, the most common reasons are missed appointments and illness at the planned date of  the shot, which both are very accidental causalities and do not imply a strong opposition to vaccination in general. As per the parents, the most relevant factors are the importance for the personal development of the child to actually experience the illness and the frequency of side-effects of the vaccine. Those facts correspond to our assumption that most of the individuals do not have an immutable opinion on vaccines and tend to follow trends and news development (such as a higher or lower risk of a certain vaccine) as well as differentiate between the illnesses, thus make a new decision every time, whether they're going to vaccinate or not. In contrast, there is a non-negligible part of the population which changes its opinion very seldom or even not at all, due to religious, ideological or esoteric reasons \cite{Novotny1988, Bednarz2020, Health2019}. Even though the group of anti-vaccinators may not be very representative for the population's opinion (in Germany for instance, radical immunization opponents are estimated to represent 3-5\% of the total population \cite{Meyer2004, HorstkotterNMullerUOmmenOPlatteAReckendreesBStanderVLangPThaissH2017, HorstkotterNMullerUOmmenOPlatteAReckendreesBStanderVLangPThaissH2018}), it should still be considered in our model for various reasons. Firstly, vaccination hesitancy has been classified as one of the top ten health threats in 2019 by the \ac{WHO} \cite{WHOAkbar2019}. Secondly, despite the net amount of absolute opponents to be non-representative, the results of the survey requested by the European Commission concerning Europeans' attitudes towards vaccinations \cite{KantarBelgium2019}, represented in Figure \ref{fig:vaccine_mistrust_eu} below, show a non-negligible mistrust in vaccines amongst european citizens. This is not considered in Model \ref{model:noisy_voter_model}, thus yet for us to improve.%TODO later: funfacts zu moran model oder passt Länge?
-\begin{figure}
+
+\begin{figure}%TODO: evtl in ein Appendix?
 	\centering %(or not)
 	\def\svgwidth{75pt}
-	\caption{Reasons for not having any vaccination in the EU \cite{KantarBelgium2019}}
+	\caption{Reasons for not having any vaccination in the EU
+	\label{fig:vaccine_mistrust_eu} \cite{KantarBelgium2019}}
 	\includegraphics[scale=0.5]{img/vaccine_hesitancy_EU_MULTIPLE_ANSWERS.png}
-	\label{fig:vaccine_mistrust_eu}
 \end{figure}
 
 \newpage
@@ -488,10 +487,10 @@ To get a better understanding of the dynamics that are hidden in those equations
 
 \begin{figure}[h!]
 	\centering
-	\def\svgwidth{450pt}
-	\input{img/my_model.pdf_tex}
 	\caption{Dynamics of the alternate Model}
 	\label{fig:my_model}
+	\def\svgwidth{450pt}
+	\input{img/my_model.pdf_tex}
 \end{figure}
 
 \subsection{Definition of the alternate Model}
@@ -585,11 +584,10 @@ Writing down a general stationary point analytically for our model turns out to 
 	Thus, $\dot{x} = 0 \Leftrightarrow \eqref{eq:n_X_and_n_Y_def} \land \eqref{eq:theta_def}$, which is exactly what Proposition \ref{prop:theor_stat_point_my_model} claims.
 \end{proof}
 
-Furthermore, there are multiple indicators that imply the existence of a Hopf bifurcation in the system. For further investigations in that directions, we will use the insights about the theoretical stationary point $\left(s^*, i^*, 0.5\right)$ from \eqref{prop:theor_stat_point_my_model} and set the parameters of our model as follows: \textbf{here has to be the table}%TODO at the end
+Furthermore, there are multiple indicators that imply the existence of a Hopf bifurcation in the system. For further investigations in that directions, we will use the insights about the theoretical stationary point $\left(s^*, i^*, 0.5\right)$ from \eqref{prop:theor_stat_point_my_model} and set the parameters of our model as specified in Table \ref{table:alu_vs_x_params}.
 
-\begin{table}[h!]\label{table:alu_vs_x_params}
+\begin{table}[h!]
 	\centering
-	\caption{Model context for strong negative correlation}
 	\begin{tabular}{c|c}
 		Parameter & Value \\
 		\hline
@@ -603,6 +601,8 @@ Furthermore, there are multiple indicators that imply the existence of a Hopf bi
 		$\theta_X$&$\frac{1-2\left(ai^* + n_X\right)}{1+2\left(ai^* + n_X\right)}$\\
 		$\theta_Y$& $\theta_X$\\
 	\end{tabular}
+	\caption{Model context for strong negative correlation}
+	\label{table:alu_vs_x_params}
 \end{table}
 
 Now, define the function $\mathrm{antivaxx}\left(x,i\right): \left[0,1\right]^2 \rightarrow \mathrm{R}$ so that it describes the anti-vaccination impact on $\dot{x}$ and plot it against $x$. To do so, we define $\mathrm{antivaxx}\left(x,i\right)$ to be the negative term of the right hand side in \eqref{prop:det_limit_my_model}, when leaving out $\mu$:
@@ -615,23 +615,23 @@ Now, define the function $\mathrm{antivaxx}\left(x,i\right): \left[0,1\right]^2 
 
 \begin{figure}[h!]
 	\centering
-	\def\svgwidth{350pt}
-	\input{img/alu_vs_x.pdf_tex}
 	\caption{Anti-vaccination impact vs. number of vaccinators}
 	\label{fig:alu_vs_x}
+	\def\svgwidth{350pt}
+	\input{img/alu_vs_x.pdf_tex}
 \end{figure}
 
 The black curve depicts the antivaxx impact when plugging in the $i$-value of the theoretical stationary point we described in \eqref{prop:theor_stat_point_my_model}. The two upper blue curves show the effect of plugging in $i^* + 0.01$ and $i^* + 0.1$, while the two lower red curves were given $i^* - 0.01$ and $i^* - 0.1$, respectively. As one can see, a small change $i^* \pm \epsilon$ with $\epsilon = 0.01$ already made the $x$-component slide to 0.4 and 0.6, respectively, whereas $\epsilon = 0.1$ caused a way more considerable translation towards
 0.76 and 0.24, respectively. This leads us to the conclusion that there is a strong negative correlation between $x$ and $i$, which is necessarily needed for a Hopf bifurcation.
 
-Furthermore, when we take a look at the system as whole and let the simulation begin at $s_0 = 0.8, i_0 = 0.2, x_0 = 0.2$ (in its entirety?), we see crystal clear oscillations of $s$ and $x$ around $0.5$ and of $i$ around $0.06$:
+Furthermore, when we take a look at the system as whole, as in Figure \ref{fig:time_behaviour_my_model}, and let the simulation begin at $s_0 = 0.8, i_0 = 0.2, x_0 = 0.2$ (in its entirety?), we see crystal clear oscillations of $s$ and $x$ around $0.5$ and of $i$ around $0.06$.
 
 \begin{figure}[h!]
 	\centering
+	\caption{Behaviour over time of the alternate Model}
+	\label{fig:time_behaviour_my_model}
 	\def\svgwidth{350pt}
 	\input{img/s_vs_i_vs_x.pdf_tex}
-	\caption{Behaviour over time of the alternate Model}
-	\label{fig:s_vs_i_vs_x}
 \end{figure}
 
 Additionally, we have this diagram Mueller wanted me to do with the Eigenvalues, which shows the existence of a Hopf point %TODO: diagramm zaubern 
