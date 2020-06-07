@@ -484,6 +484,16 @@ In addition to the context of Model \ref{def:transition_rates_my_model}, we will
 	Which is exactly the result stated in \eqref{prop:det_limit_my_model}
 \end{proof}
 
+To get a better understanding of the dynamics that are hidden in those equations, we propose to take a look at Figure \ref{fig:my_model}. The interactions should then be clear and especially the fact, that there is no interaction between neither $s$ and $r$, nor $i$ and $r$, which is the reason $r$ does not appear in the definition of Model \ref{model:my_model}. 
+
+\begin{figure}[h!]
+	\centering
+	\def\svgwidth{450pt}
+	\input{img/my_model.pdf_tex}
+	\caption{Dynamics of the alternate Model}
+	\label{fig:my_model}
+\end{figure}
+
 \subsection{Definition of the alternate Model}
 
 Now that all the computations are done, we may regroup all of the results and formulate the system of \acp{ODE} that describes our model:
@@ -498,16 +508,6 @@ Consider a population of size $N \in \mathbb{N}$, where $X_t \in \lbrace 0,\dots
 	\end{split}
 	\end{align}
 \end{model}
-
-To get a better understanding of the dynamics that are hidden in those equations, we propose to take a look at Figure \ref{fig:my_model}:
-
-\begin{figure}[h!]
-	\centering
-	\def\svgwidth{250pt}
-	\input{img/my_model.pdf_tex}
-	\caption{Dynamics of the alternate Model}
-	\label{fig:my_model}
-\end{figure}
 
 \subsection{Bifurcation Analysis}
 

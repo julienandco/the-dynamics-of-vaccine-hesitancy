@@ -38,7 +38,7 @@
   \newcommand*\fsize{\dimexpr\f@size pt\relax}%
   \newcommand*\lineheight[1]{\fontsize{\fsize}{#1\fsize}\selectfont}%
   \ifx\svgwidth\undefined%
-    \setlength{\unitlength}{498.31964553bp}%
+    \setlength{\unitlength}{1825.17365423bp}%
     \ifx\svgscale\undefined%
       \relax%
     \else%
@@ -50,17 +50,40 @@
   \global\let\svgwidth\undefined%
   \global\let\svgscale\undefined%
   \makeatother%
-  \begin{picture}(1,1.01636627)%
+  \begin{picture}(1,1.03497533)%
     \lineheight{1}%
     \setlength\tabcolsep{0pt}%
     \put(0,0){\includegraphics[width=\unitlength,page=1]{my_model.pdf}}%
-    \put(0.41017726,0.79730273){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Susceptibles \\\end{tabular}}}}%
-    \put(0.44284116,0.73419564){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$s$\end{tabular}}}}%
-    \put(0.12324888,0.20172279){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Infecteds\\\end{tabular}}}}%
-    \put(0.14262354,0.13861571){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$i$\end{tabular}}}}%
-    \put(0.71398656,0.2501025){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Vaccinators \\\end{tabular}}}}%
-    \put(0.7384084,0.1869954){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$x$\end{tabular}}}}%
+    \put(0.11511364,0.03405693){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}tatsächliche Menschlein\end{tabular}}}}%
+    \put(0.66635549,0.04900014){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Meinungen!\end{tabular}}}}%
     \put(0,0){\includegraphics[width=\unitlength,page=2]{my_model.pdf}}%
-    \put(0.24039476,0.43451075){\color[rgb]{0,0,0}\rotatebox{60.60000031}{\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}infection $\beta si$ \end{tabular}}}}}%
+    \put(0.25332819,0.79203093){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Susceptibles\end{tabular}}}}%
+    \put(0.29020651,0.76297452){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$s$\end{tabular}}}}%
+    \put(0.10057216,0.35319827){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Infecteds\end{tabular}}}}%
+    \put(0.12629068,0.31417963){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$i$\end{tabular}}}}%
+    \put(0.41980515,0.34752816){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Recovereds\end{tabular}}}}%
+    \put(0.45338487,0.30937137){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$r$\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=3]{my_model.pdf}}%
+    \put(0.22268651,0.33254466){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}recovery $\alpha i$\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=4]{my_model.pdf}}%
+    \put(0.17661402,0.51352828){\color[rgb]{0,0,0}\rotatebox{71.7}{\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}infection $\beta si$\end{tabular}}}}}%
+    \put(0.43108957,0.79218203){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}birth of non-vaxx $b(1-x)$\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=5]{my_model.pdf}}%
+    \put(0.31859952,0.88702226){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}death $bs$\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=6]{my_model.pdf}}%
+    \put(0.02939068,0.21872751){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}death $bi$\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=7]{my_model.pdf}}%
+    \put(0.36195022,0.21961381){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}death $br$\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=8]{my_model.pdf}}%
+    \put(0.54245155,0.33313171){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}birth of vaxx $bx$\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=9]{my_model.pdf}}%
+    \put(0.77384939,0.31612212){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$x$\end{tabular}}}}%
+    \put(0.7521397,0.35545301){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}pro-vaxx\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=10]{my_model.pdf}}%
+    \put(0.75044225,0.80042048){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}anti-vaxx\end{tabular}}}}%
+    \put(0.76506913,0.75756745){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$1-x$\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=11]{my_model.pdf}}%
+    \put(0.81730178,0.55349116){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$\mu (1-x) f_{+}(x)$\end{tabular}}}}%
+    \put(0.61771217,0.55361657){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$\mu x f_{-}(x)$\end{tabular}}}}%
   \end{picture}%
 \endgroup%
