@@ -26,7 +26,7 @@ giveninits,
 uniquename=init]{biblatex}
 \addbibresource{bachelor_thesis_julien_caselmann.bib}
 %TODO: many weird sources, fix them
-%TODO: structure of the model wie in müllers whom? paper!!! : wsl ist da das skalierte modell besser zu machen, nur da check ich nicht wofür die ganzen parameter stehen, weil das skalieren da echt wylde interpretationen hingelolt hat
+%TODO: structure of the model diagram gut geworden?
 %TODO: R skripte, die plots generiert haben in einen anhang?
 
 \newtheorem{definition}{Definition}[section]
@@ -306,7 +306,7 @@ The transition rates might not be obvious after considering the transition proba
 	\item there was one supporter more and one individual's opinion switched from $X$ to $Y$
 \end{enumerate}
 
-Since the reasoning for the two transition rates is the exact same, we will just derive the rate for $X_t \rightarrow X_t + 1$, thus only consider the mid probability of \eqref{eq:chinellato_dynamics}. It describes the transition $m -1 \rightarrow m$, which is exactly equivalent to what we want, given that we do not consider the number of supporters $m$ any more, but the stochastic process $X_t$. $P_t \left(m-1\right)$ may be omitted $(\dagger)$, as it is just relevant for the probabilistic approach, whether we fall into that case or not. Then, we modify the denominator to fit our approach with the ``self-influencing" $(\star)$. We know that the probability for an individual to overthink his opinion in the model of \cite{Aguiar2011, Chinellato2015} is $1-p$, so we may define $\mu \coloneqq 1-p$ $(\ddagger)$. After simply rearranging the leftover fractions and replacing the probability that $N - m + 1$ nodes are in state $0$ with terms of the stochastic process (as defined in Model \ref{model:zealot}: $N = X_t + Y_t$), we get the wanted transition rate $\rho$ from \eqref{def:transition_rates_zealot}. In formulas: %TODOS: not happy with this equiv notation (maybe not a proof but rather an explanation)
+Since the reasoning for the two transition rates is the exact same, we will just derive the rate for $X_t \rightarrow X_t + 1$, thus only consider the mid probability of \eqref{eq:chinellato_dynamics}. It describes the transition $m -1 \rightarrow m$, which is exactly equivalent to what we want, given that we do not consider the number of supporters $m$ any more, but the stochastic process $X_t$. $P_t \left(m-1\right)$ may be omitted $(\dagger)$, as it is just relevant for the probabilistic approach, whether we fall into that case or not. Then, we modify the denominator to fit our approach with the ``self-influencing" $(\star)$. We know that the probability for an individual to overthink his opinion in the model of \cite{Aguiar2011, Chinellato2015} is $1-p$, so we may define $\mu \coloneqq 1-p$ $(\ddagger)$. After simply rearranging the leftover fractions and replacing the probability that $N - m + 1$ nodes are in state $0$ with terms of the stochastic process (as defined in Model \ref{model:zealot}: $N = X_t + Y_t$), we get the wanted transition rate $\rho$ from \eqref{def:transition_rates_zealot}. In formulas: %TODO: not happy with this equiv notation (maybe not a proof but rather an explanation)
 \begin{align*}
 	\rho &\equiv P_t\left(m-1\right)\frac{1-p}{N\left(N+N_X+N_Y-1\right)}\left(m+N_X-1\right)\left(N-m+1\right)\\
 	&\overset{(\dagger)}{\equiv} \frac{1-p}{N\left(N+N_X+N_Y-1\right)}\left(m+N_X-1\right)\left(N-m+1\right)\\
@@ -645,11 +645,15 @@ Additionally, we have this diagram Mueller wanted me to do with the Eigenvalues,
 
 \subsection{Fitting of the model on actual data}
 
+%TODO: reformulate, since it is copy-paste from muellers paper
+On the one hand, the det.lim. allows to easily analyse and visualise the long term behaviour. On the other hand, pop genetics studies [three citations] show that the weak effect models are more realistic when it comes to the analysis of the data.
+%TODO: end of reformulate
+
 \section{Discussion}
 
 \begin{figure}%TODO: do i need to use it? and can i? (is BA private use?)
 	\centering
-	\caption{Immunization against meningococcus C - Implementation Analysis in 2013 of the \ac{STIKO} recommendations from 2009 to 2014 \cite{LamegoGreinerMGoffrierB2016}}
+	\caption{Immunization against meningococcus C in Germany - Implementation Analysis in 2013 of the \ac{STIKO} recommendations from 2009 to 2014 \cite{LamegoGreinerMGoffrierB2016}}
 	\label{fig:impfkarte_meningokokken}
 	\def\svgwidth{350pt}
 	\input{img/durchimpfungskarte_meningokokken.pdf_tex}
