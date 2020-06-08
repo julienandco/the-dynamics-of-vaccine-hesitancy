@@ -1,0 +1,17 @@
+#used rescaling:
+# ni = NI/N = NI*h
+# thetai = 1-(Thetai/N) = 1-Thetai*h
+
+
+f^+ (x) := mu*(1-x)*((1-(ThetaX*h))*(x+hNX+a*i))/((1-(ThetaX*h))*(x+hNX+a*i)+1-x+hNY+a*(1-i))
+
+f^- (x) := mu*x*((1-(ThetaY*h))*(1-x+hNY+a*(1-i)))/(x + hNX + a*i + (1-(ThetaY*h))*(1-x+hNY+a*(1-i)))
+
+f+ - f- :
+
+mu*(1-x)*((1-(ThetaX*h))*(x+hNX+a*i))/((1-(ThetaX*h))*(x+hNX+a*i)+1-x+hNY+a*(1-i)) - mu*x*((1-(ThetaY*h))*(1-x+hNY+a*(1-i)))/(x + hNX + a*i + (1-(ThetaY*h))*(1-x+hNY+a*(1-i)))
+
+
+#muellers model:
+
+mu*(1-x)*((1-(ThetaX*h))*(x+hNX))/((1-(ThetaX*h))*(x+hNX)+1-x+hNY) - mu*x*((1-(ThetaY*h))*(1-x+hNY))/(x + hNX+ (1-(ThetaY*h))*(1-x+hNY))
