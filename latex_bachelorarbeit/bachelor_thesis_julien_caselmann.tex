@@ -115,7 +115,7 @@ Daf\"ur ist hier Platz.
 %acronym
 
 \section*{Abbreviations}
-\begin{acronym}[KPMG]%write longest acronym here for nice formatting purposes
+\begin{acronym}[STIKO]%write longest acronym here for nice formatting purposes
 	%to use them write \ac{KPMG} or \acp{KPMG for plural in the text}
 	\acro{KPMG}{KPMGeneral}
 	\acro{SIR}{Susceptibles, Infecteds, Recovereds}
@@ -125,6 +125,7 @@ Daf\"ur ist hier Platz.
 	\acro{AfD}{Alternative für Deutschland}
 	\acro{GDR}{German Democratic Republic}
 	\acro{ODE}{Ordinary Differential Equation}
+	\acro{STIKO}{Ständige Impfkommission}
 	%if one acronym's plural form is more than just an "s" attached, you have to specify that:
 	\acro{SQ}{sexy query}
 	\acroplural{SQ}[SQs]{sexy queries}
@@ -646,7 +647,13 @@ Additionally, we have this diagram Mueller wanted me to do with the Eigenvalues,
 
 \section{Discussion}
 
-
+\begin{figure}%TODO: do i need to use it? and can i? (is BA private use?)
+	\centering
+	\caption{Immunization against meningococcus C - Implementation Analysis in 2013 of the \ac{STIKO} recommendations from 2009 to 2014 \cite{LamegoGreinerMGoffrierB2016}}
+	\label{fig:impfkarte_meningokokken}
+	\def\svgwidth{350pt}
+	\input{img/durchimpfungskarte_meningokokken.pdf_tex}
+\end{figure}
 \newpage
 \printbibliography
 \end{document}
