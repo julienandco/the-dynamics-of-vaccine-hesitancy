@@ -5,8 +5,16 @@
 #my rescaling: ni=NI/N^2 = NI*h^2, h = 1/N
 #theta_{X,Y} = 1-(Thetai/N) = 1-Thetai*h
 
+#best results yet:
 scaled_n_X: N_X * h * h;
 scaled_n_Y: N_Y * h * h;
+scaled_theta_X: 1- ThetaX * h;
+scaled_theta_Y: 1- ThetaY * h;
+
+
+#other tries:
+scaled_n_X: N_X * h;
+scaled_n_Y: N_Y * h;
 scaled_theta_X: 1- ThetaX * h;
 scaled_theta_Y: 1- ThetaY * h;
 
@@ -18,7 +26,8 @@ term: f-g;
 taylor_term: taylor(term,h,0,1);
 
 h_coeff : coeff(taylor_term,h,1);
-order_zero_term: (a*i - a*x)/(a+1);
+#order_zero_term: (a*i - a*x)/(a+1);
+order_zero_term : coeff(taylor_term,h,0);
 sol: h*h_coeff +  order_zero_term;
 
 #check if it is indeed solution for f - g:
