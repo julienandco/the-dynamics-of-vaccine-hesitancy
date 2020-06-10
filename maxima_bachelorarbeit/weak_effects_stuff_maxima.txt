@@ -5,14 +5,14 @@
 #my rescaling: ni=NI/N^2 = NI*h^2, h = 1/N
 #theta_{X,Y} = 1-(Thetai/N) = 1-Thetai*h
 
-#best results yet:
+#used for dirichlet_lim_v1.tex:
 scaled_n_X: N_X * h * h;
 scaled_n_Y: N_Y * h * h;
 scaled_theta_X: 1- ThetaX * h;
 scaled_theta_Y: 1- ThetaY * h;
 
 
-#other tries:
+#used for dirichlet_lim_v2.tex:
 scaled_n_X: N_X * h;
 scaled_n_Y: N_Y * h;
 scaled_theta_X: 1- ThetaX * h;
