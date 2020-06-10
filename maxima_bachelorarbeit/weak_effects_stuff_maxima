@@ -1,17 +1,33 @@
-#used rescaling:
-# ni = NI/N = NI*h
-# thetai = 1-(Thetai/N) = 1-Thetai*h
+
+#aim: computation of weak effect limit (dirichlet limit)
 
 
-f^+ (x) := mu*(1-x)*((1-(ThetaX*h))*(x+hNX+a*i))/((1-(ThetaX*h))*(x+hNX+a*i)+1-x+hNY+a*(1-i))
+#my rescaling: ni=NI/N^2 = NI*h^2, h = 1/N
+#theta_{X,Y} = 1-(Thetai/N) = 1-Thetai*h
 
-f^- (x) := mu*x*((1-(ThetaY*h))*(1-x+hNY+a*(1-i)))/(x + hNX + a*i + (1-(ThetaY*h))*(1-x+hNY+a*(1-i)))
+scaled_n_X: N_X * h * h;
+scaled_n_Y: N_Y * h * h;
+scaled_theta_X: 1- ThetaX * h;
+scaled_theta_Y: 1- ThetaY * h;
 
-f+ - f- :
+f:(1-x)*(scaled_theta_X *(x+scaled_n_X+a*i))/(scaled_theta_X *(x+scaled_n_X+a*i)+1-x+scaled_n_Y+a * (1-i));
+g: x*(scaled_theta_Y *(1-x+scaled_n_Y+a*(1-i)))/(x + scaled_n_X + a*i + scaled_theta_Y *(1-x+scaled_n_Y+a*(1-i)));
 
-mu*(1-x)*((1-(ThetaX*h))*(x+hNX+a*i))/((1-(ThetaX*h))*(x+hNX+a*i)+1-x+hNY+a*(1-i)) - mu*x*((1-(ThetaY*h))*(1-x+hNY+a*(1-i)))/(x + hNX + a*i + (1-(ThetaY*h))*(1-x+hNY+a*(1-i)))
+term: f-g;
 
+taylor_term: taylor(term,h,0,1);
 
-#muellers model:
+h_coeff : coeff(taylor_term,h,1);
+order_zero_term: (a*i - a*x)/(a+1);
+sol: h*h_coeff +  order_zero_term;
 
-mu*(1-x)*((1-(ThetaX*h))*(x+hNX))/((1-(ThetaX*h))*(x+hNX)+1-x+hNY) - mu*x*((1-(ThetaY*h))*(1-x+hNY))/(x + hNX+ (1-(ThetaY*h))*(1-x+hNY))
+#check if it is indeed solution for f - g:
+taylor(term-sol,h,0,1);
+
+#now f+g:
+term_plus : f+g;
+taylor_plus : taylor(term_plus,h,0,0);
+sol_plus: coeff(taylor_plus,h,0);
+
+#check if it is indeed solution for f + g:
+taylor(term_plus - sol_plus,h,0,0);

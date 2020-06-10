@@ -1,0 +1,73 @@
+#
+# Taylor f+-f- w.r.t. h (for the "dirichlet-limit"
+#
+
+#
+# homogeneous case, one population
+#
+
+term_mueller:(1-x)*((1-theta1*h)*(x+h*N1))/((1-h*theta1)*(x+h*N1)+(1-x+h*N2))-x*((1-h*theta2)*(1-x+h*N2))/((x+h*N1)+(1-h*theta2)*(1-x+h*N2));
+
+#t1:-(theta1+theta2)*x**3+(theta2+2*theta1)*x**2-(theta1+N1+N2)*x+N1;
+#taylor(term-t1*h,h,0,1);
+
+t1a:((theta1+theta2)*x-theta1)*x*(1-x)-(N1+N2)*x+N1;
+taylor(term_mueller-t1a*h,h,0,1);
+
+
+
+#
+# inhomogeneous case, spatially structured population
+#
+
+
+
+term_mueller:(1-x)*((1-theta1*h)*(((1-h*gamma)*x+h*gamma*check_x)+h*N1))/((1-h*theta1)*(((1-h*gamma)*x+h*gamma*check_x)+h*N1)+(1-((1-h*gamma)*x+h*gamma*check_x)+h*N2))-x*((1-h*theta2)*(1-((1-h*gamma)*x+h*gamma*check_x)+h*N2))/((((1-h*gamma)*x+h*gamma*check_x)+h*N1)+(1-h*theta2)*(1-((1-h*gamma)*x+h*gamma*check_x)+h*N2));
+
+tayterm0:taylor(term_mueller,h,0,0);
+
+tayterm1:taylor(term_mueller,h,0,1);
+
+t1: (  (check_x-x)*gamma
+     - (theta1+theta2)*x^3
+     + (2*theta1+theta2)*x^2
+     - theta1*x
+     - (N2+ N1)*x + N1);
+
+t1: (  (check_x-x)*gamma
+     - theta1*(x^2-2*x+1)*x
+     + theta2*x^2*(1-x)
+     - (N2+ N1)*x + N1);
+
+t1: (  (check_x-x)*gamma
+     + x*(1-x)*(theta2*x - theta1*(1-x))
+     - (N2+ N1)*x + N1);
+
+taylor(term_mueller-t1*h,h,0,1);
+
+
+
+
+
+term_mueller:(
+(1-x)*((1-theta1*h)*(((1-h*gamma)*x+h*gamma*check_x)+h*N1))
+    /((1-h*theta1)*(((1-h*gamma)*x+h*gamma*check_x)+h*N1)+(1-((1-h*gamma)*x+h*gamma*check_x)+h*N2))
++
+x*((1-h*theta2)*(1-((1-h*gamma)*x+h*gamma*check_x)+h*N2))
+    /((((1-h*gamma)*x+h*gamma*check_x)+h*N1)+(1-h*theta2)*(1-((1-h*gamma)*x+h*gamma*check_x)+h*N2))
+);
+
+
+tayterm1:taylor(term_mueller,h,0,0);
+
+taylor(term_mueller-2*x*(1-x), h,0,0);
+
+
+
+
+
+
+
+
+
+
