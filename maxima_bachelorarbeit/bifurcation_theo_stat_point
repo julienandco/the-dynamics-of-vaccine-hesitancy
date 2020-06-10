@@ -1,0 +1,24 @@
+#
+# Taylor rhs of ode at x=1/2 for n2=n2=n to (hopefully) reveal the pichfork bifu
+#
+
+#rhs: -mu*x*(theta*(1-x+n_Y+a(1-i))/((x+n_X +a*i)+theta*(1-x+n_Y + a(1-i))+mu*(1-x)*(theta*(x+n_X +ai))/(theta*(x+n_X+ai)+(1-x+n_Y+a(1-i));
+
+#n_X = max{a(1-2i_star),0}
+a:0;
+n_X:0;
+n_Y: a*(2*i_star -1) + n_X;
+i_star: b/(2*(alpha+b)) - b/beta;
+n: a*i_star + n_X;
+theta:(1-2*n)/(1+2*n);
+
+# suppress multiplic factor mu
+rhs: -x*(theta*(1-x+n_Y+a*(1-i_star)))/((x+n_X +a*i_star)+theta*(1-x+n_Y + a*(1-i_star)))+(1-x)*(theta*(x+n_X +a*i_star))/(theta*(x+n_X+a*i_star)+(1-x+n_Y+a*(1-i_star)));
+
+tay_term : taylor(rhs,x,1/2,3);
+term_order_0 : coeff(tay_term,x,0);
+term_order_1: coeff(tay_term,x,1);
+term_order_2: coeff(tay_term,x,2);
+term_order_3: coeff(tay_term,x,3);
+
+#problem: solve([term_order_0 = 0],[theta]) yields [theta = 0] only...
