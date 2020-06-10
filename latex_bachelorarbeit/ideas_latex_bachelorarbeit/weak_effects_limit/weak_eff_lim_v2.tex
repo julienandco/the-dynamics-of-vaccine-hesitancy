@@ -1,0 +1,73 @@
+By rewriting drift and noise term with $n_i = N_i/N, \theta_i = 1- \frac{\Theta_i}{N}$, $h = 1/N$ and neglecting terms of $\mathcal{O}(N^{-2})$ we find (using maxima):
+
+\begin{align*}
+	\dagger &\coloneqq -\Big[\frac{(\Theta_X + \Theta_Y)x^3 + ((2\Theta_X + 2\Theta_Y)ai -(\Theta_X + \Theta_Y)a - \Theta_Y - 2\ThetaX)x^2}{(a+1)^2}\Big.\\
+	&\qquad + \Big.\frac{((\Theta_X + \Theta_Y)a^2 i^2 + (- (\Theta_X + \Theta_Y)a^2 -(3\Theta_X + \Theta_Y)a)i + \Theta_X a + \Theta_X + N_X + N_Y)x}{(a+1)^2}\Big.\\
+	&\qquad - \Big.\frac{\Theta_X a^2 i^2 + (\Theta_X a^2 + (\Theta_X + N_X + N_Y) a)i - (N_X a + N_X)}{(a+1)^2}\Big],\\
+\end{align*}
+
+and further: 
+\begin{align*}
+& \mu(1-x)f_+(x) - \mu xf_-(x)\\
+= & \mu(1-x) \frac{(1-h\Theta_X) (x+ hN_X+ ai)}{(1-h\Theta_X) (x + hN_X + ai) + (1-x + hN_Y + a(1-i))}\\
+&\qquad - \mu x \frac{(1-h\Theta_Y)(1-x+hN_Y+a(1-i))}{(x+h_NX+ai) + (1-h\Theta_Y)(1-x+hN_Y+a(1-i))}\\
+=& \frac{a(i-x)}{a+1} + \mu h \dagger + \mathcal{O}(h^2),\\
+\end{align*}
+
+while 
+
+\begin{equation*}
+h\left[\mu(1-x)f_+(x) + \mu xf_-(x)\right] = \mu h \frac{ai - 2x^2 - (2ai - a -2)x}{a+1}.
+\end{equation*}
+
+Note that:
+\begin{align*}
+\ddagger &\coloneqq \Big(x+\frac{\sqrt{4a^2i^2-4a^2i+a^2+4a+4}+2ai-a-2}{4}\Big) \times\\
+&\qquad \Big(x-\frac{\sqrt{4a^2i^2-4a^2i+a^2+4a+4}-2ai+a+2}{4}\Big)\\
+&=\frac{ai - 2x^2 - (2ai - a -2)x}{a+1}
+\end{align*}
+
+
+After rescaling time: $T = \mu h t$, the Fokker-Planck equation becomes
+
+\begin{align*}
+\partial_T \left(u\left(x, T\right)\right) = -\partial_x\big(u(x,T)\left(\frac{a(i-x)}{\mu h(a+1)} + \dagger \right)\big) + \frac{1}{2} \partial^2_x\left(u(x,T)\frac{ai - 2x^2 - (2ai - a -2)x}{a+1}\right)
+\end{align*}
+
+\textcolor{red}{Hier entsteht mein Problem, dass $\mu h$ in den Nenner des Order-0-Terms kommt...}\newline
+For the invariant distribution $\phi(x)$, the flux of the rescaled Fokker-Planck equation is zero, that is:
+
+\begin{equation*}
+-\Big(\frac{a(i-x)}{\mu h(a+1)} + \dagger\Big)\phi(x) + \frac{1}{2} \frac{d}{dx}\Big(\phi(x)\frac{ai - 2x^2 - (2ai - a -2)x}{a+1}\Big)= 0
+\end{equation*}
+
+With $v(x) = \phi(x)\frac{ai - 2x^2 - (2ai - a -2)x}{a+1}$, we have:
+
+\begin{equation*}
+v'(x) = -2\Big(\frac{a(i-x)}{\mu h(a+1)} + \dagger\Big)v(x)
+\end{equation*}
+
+and hence
+
+\begin{equation*}
+v(x) = todo
+\end{equation*}
+
+Respectively,
+
+\begin{equation*}
+\phi(x) = todo
+\end{equation*}
+
+
+and hence
+
+\begin{equation*}
+	v(x) = todo
+\end{equation*}
+
+Respectively,
+
+\begin{equation*}
+	\phi(x) = todo
+\end{equation*}
