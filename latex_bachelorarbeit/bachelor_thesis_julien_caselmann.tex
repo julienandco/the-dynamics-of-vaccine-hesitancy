@@ -283,8 +283,7 @@ They also showed that this model already may simulate various different situatio
 	\end{split}
 \end{align}
 
-%TODO: proof of transition rates? find better wording
-The mid part of these dynamics will be clarified in the proof of the transition rates \eqref{def:transition_rates_zealot}, an exhaustive discussion may be found in \cite{Aguiar2011, Chinellato2015}. 
+The mid part of these dynamics will be clarified in the explanation of the transition rates \eqref{def:transition_rates_zealot}, an exhaustive discussion may be found in \cite{Aguiar2011, Chinellato2015}. 
 
 We may now present a definition of the zealot model as defined by the transition probabilities \eqref{eq:chinellato_dynamics}, but with the simple difference that we allow self-connection in the graph. In the population dynamics setting this would mean some kind of asexual reproduction, which might not be needed, but in our context it means ``self-influencing" which is totally possible. The model reads as follows:
 \begin{model}[\textbf{Zealot model for two parties by \cite{Aguiar2011, Chinellato2015, Braha2017}}]\label{model:zealot}
@@ -297,8 +296,6 @@ Consider a population of size $N \in \mathbb{N}$, with $X_t, Y_t \in \lbrace 0,\
 \end{align}
 \end{model}
 
-%TODO: yet again, proof is not the correct term
-\begin{proof}
 The transition rates might not be obvious after considering the transition probabilities \eqref{eq:chinellato_dynamics}, so a derivation will be done here. First, we will reinterpret all the terms for transparency's sake. We do not consider nodes any more, but individuals in a population and they are not in state $0$ or $1$, but have the opinion $X$ or $Y$. $P_{t+1}\left(m\right)$ consists of three parts: 
 \begin{enumerate}
 	\item there were already $X_t$ supporters of $X$ and their final opinion didn't change
@@ -306,19 +303,20 @@ The transition rates might not be obvious after considering the transition proba
 	\item there was one supporter more and one individual's opinion switched from $X$ to $Y$
 \end{enumerate}
 
-Since the reasoning for the two transition rates is the exact same, we will just derive the rate for $X_t \rightarrow X_t + 1$, thus only consider the mid probability of \eqref{eq:chinellato_dynamics}. It describes the transition $m -1 \rightarrow m$, which is exactly equivalent to what we want, given that we do not consider the number of supporters $m$ any more, but the stochastic process $X_t$. $P_t \left(m-1\right)$ may be omitted $(\dagger)$, as it is just relevant for the probabilistic approach, whether we fall into that case or not. Then, we modify the denominator to fit our approach with the ``self-influencing" $(\star)$. We know that the probability for an individual to overthink his opinion in the model of \cite{Aguiar2011, Chinellato2015} is $1-p$, so we may define $\mu \coloneqq 1-p$ $(\ddagger)$. After simply rearranging the leftover fractions and replacing the probability that $N - m + 1$ nodes are in state $0$ with terms of the stochastic process (as defined in Model \ref{model:zealot}: $N = X_t + Y_t$), we get the wanted transition rate $\rho$ from \eqref{def:transition_rates_zealot}. In formulas: %TODO: not happy with this equiv notation (maybe not a proof but rather an explanation)
+Since the reasoning for the two transition rates is the exact same, we will just derive the rate for $X_t \rightarrow X_t + 1$, thus only consider the mid probability of \eqref{eq:chinellato_dynamics}. It describes the transition $m -1 \rightarrow m$, which is exactly equivalent to what we want, given that we do not consider the number of supporters $m$ any more, but the stochastic process $X_t$. $P_t \left(m-1\right)$ may be omitted $(\dagger)$, as it is just relevant for the probabilistic approach, whether we fall into that case or not. Then, we modify the denominator to fit our approach with the ``self-influencing" $(\star)$. We know that the probability for an individual to overthink his opinion in the model of \cite{Aguiar2011, Chinellato2015} is $1-p$, so we may define $\mu \coloneqq 1-p$ $(\ddagger)$. After simply rearranging the leftover fractions and replacing the probability that $N - m + 1$ nodes are in state $0$ with terms of the stochastic process (as defined in Model \ref{model:zealot}: $N = X_t + Y_t$), we get the wanted transition rate $\rho$ from \eqref{def:transition_rates_zealot}. In formulas:
+
 \begin{align*}
-	\rho &\equiv P_t\left(m-1\right)\frac{1-p}{N\left(N+N_X+N_Y-1\right)}\left(m+N_X-1\right)\left(N-m+1\right)\\
-	&\overset{(\dagger)}{\equiv} \frac{1-p}{N\left(N+N_X+N_Y-1\right)}\left(m+N_X-1\right)\left(N-m+1\right)\\
-	&\overset{(\star)}{\equiv} \frac{1-p}{N(N+N_X+N_Y)}\left(m+N_X-1\right)\left(N-m+1\right)\\
-	&\overset{(\ddagger)}{\equiv} \frac{\mu}{N(N+N_X+N_Y)}\left(m+N_X-1\right)\left(N-m+1\right)\\
-	&\equiv \mu \left(1-\frac{m-1}{N}\right)\frac{\left(m-1\right) + N_X}{N + N_X + N_Y}\\
-	&\equiv \mu\left(N-X_t\right)\frac{X_t + N_X}{N + N_X + N_Y}
+	\rho &= P_t\left(m-1\right)\frac{1-p}{N\left(N+N_X+N_Y-1\right)}\left(m+N_X-1\right)\left(N-m+1\right)\\
+	&\overset{(\dagger)}{\hookrightarrow} \frac{1-p}{N\left(N+N_X+N_Y-1\right)}\left(m+N_X-1\right)\left(N-m+1\right)\\
+	&\overset{(\star)}{\hookrightarrow} \frac{1-p}{N(N+N_X+N_Y)}\left(m+N_X-1\right)\left(N-m+1\right)\\
+	&\overset{(\ddagger)}{\hookrightarrow} \frac{\mu}{N(N+N_X+N_Y)}\left(m+N_X-1\right)\left(N-m+1\right)\\
+	&\hookrightarrow \mu \left(1-\frac{m-1}{N}\right)\frac{\left(m-1\right) + N_X}{N + N_X + N_Y}\\
+	&\hookrightarrow \mu\left(N-X_t\right)\frac{X_t + N_X}{N + N_X + N_Y}
 \end{align*}
-\end{proof}
 
 This model looks very promising and almost suits our needs, but still lacks one aspect: reinforcement. This means that individuals, whose life is predominantly taking place in a filter bubble, are less likely to interact with a group of individuals who is representative for the population. Their social contacts will rather all be inside the filter bubble, thus all be like-minded and lead to the opinion to never change or even to enhance.
 
+%TODO: reread this paragraph, make sure it is right lel
 Research has shown that most of the populist parties and candidates in Europe, as well as in the USA can be determined quite easily, since their parameter of reinforcement turns out to be pretty high \textbf{taken from MÜllers reinforcement paper}. In Germany for instance, the extreme right-wing party \ac{AfD} and the extreme left-wing party ``Die Linke" both show high reinforcement parameters. Additionally, the reinforcement of the \ac{AfD} seems to be linked with the ``new" german federal states, that used to be part of the \ac{GDR}, whilst there seem to be no geographical connections to the reinforcement of ``Die Linke". During the US presidential election 2016, the republican's reinforcement factor tripled, most likely due to Trump's populist arguments.%TODO later:mit Müller wg Zitat sprechen
 Reinforcement seems to play a major role in those election processes, since it ``boosted" an opinion, which did not depict the preponderant opinion in the population, to still get a good election result. We want this factor to be included in our model, thus will present two models in Subsection \ref{subsec:sano_zealot_reinforcement} that take reinforcement into account.
 
@@ -400,7 +398,7 @@ Note that $\dot{r}$ is not needed in the model any more, since it occurs in none
 
 \subsection{Computation of the deterministic limit}\label{subsec:det_lim_comp}
 In addition to the context of Model \ref{def:transition_rates_my_model}, we will assume that the two zealot groups $N_X$ and $N_Y$ scale linearly with the total population size $N$:
-\begin{prop}
+\begin{prop}\label{prop:det_limit_my_model_main}
 	Let $i \coloneqq \frac{I}{N}, n_X \coloneqq \frac{N_X}{N}, n_Y \coloneqq \frac{N_Y}{N}$ and $\omega\left(i\right)\coloneqq \frac{\Omega\left(I\right)}{N}$. Then, the determinstic limit for $x\left(t\right) \coloneqq \frac{X_t}{N}$ reads
 	\begin{align}\label{prop:det_limit_my_model}
 	\begin{split}
@@ -409,8 +407,8 @@ In addition to the context of Model \ref{def:transition_rates_my_model}, we will
 	\end{split}
 	\end{align}
 \end{prop}
-\begin{proof}\phantom{lol}\\%TODO: die zwei fetten 1. und 2. gliederungen müssen nicht sein
-	\textbf{1. Master equation}\newline
+
+\begin{proof}
 	For better readability and improved simplicity, we will refer to the transition rates of the model as:
 	\begin{align*}
 	F_+ \left(X_t\right) &\coloneqq\frac{\theta_X (X_t + N_X + aI)}{\theta_X (X_t + N_X + aI) + (N-X_t + N_Y + \Omega\left(I\right) N)} \\
@@ -426,8 +424,8 @@ In addition to the context of Model \ref{def:transition_rates_my_model}, we will
 	\end{split}
 	\end{align}
 	
-	\textbf{2. Kramer-Moyal expansion}\newline
-	Now, we assume
+	In the next step, we will compute the Fokker-Planck equation of \eqref{eq:master_eq_my_model} via the Kramer-Moyal expansion. To do so, we assume
+	
 	\begin{equation}\label{eq:kramer_moyal_assumptions}
 	p_k(t) \approx hu\left(\frac{k}{N}, t\right), h=\frac{1}{N}\textnormal{ and }x = hk.
 	\end{equation} 
@@ -465,7 +463,7 @@ In addition to the context of Model \ref{def:transition_rates_my_model}, we will
 	\end{split}
 	\end{align}
 	
-	We may now resume the computations \eqref{comp:kramer_moyal_expansion} from above and add those new results:
+	We may now resume the computations \eqref{comp:kramer_moyal_expansion} from above, add those new results and compute the Fokker-Planck equation:
 	\begin{align*}
 	\partial_t \left(u\left(\frac{k}{n}, t\right)\right) &= \dots \\
 	&\overset{(\ref{eq:kramer_moyal_assumptions}, \ref{comp:taylor_series})}{=} -\partial_x\big(\mu u(x,t)\left((1-x)f_+(x) - xf_-(x)\right)\big)\\
@@ -500,8 +498,7 @@ To get a better understanding of the dynamics that are hidden in those equations
 
 Now that all the computations are done, we may regroup all of the results and formulate the system of \acp{ODE} that describes our model:
 \begin{model}[\textbf{Alternate Model}]\label{model:my_model}
-Consider a population of size $N \in \mathbb{N}$, where $X_t \in \lbrace 0,\dots,N\rbrace$ and $N-X_t$ describe the amount of vaccinators and anti-vaccinators at time $t$, respectively. Furthermore, let $N_X$ and $N_Y > 0$ be the number of zealots that support vaccination and refuse it, respectively. Let $\alpha,\beta \in \left[0,1\right]$, $a,b \in \mathbb{N}$, with the same meaning as in \eqref{def:sir_modeling_my_model} and $\omega\left(i\right)$ just as in \eqref{prop:det_limit_my_model}. An individual of the population (who is not a zealot) may reconsider his opinion with rate $\mu \in \mathbb{N}$ via the same process as described in Model \ref{model:zealot} and in addition of the contact rates $\theta_X, \theta_Y \in \left[0,1\right]$. Let $S \in \lbrace 0,\dots,N\rbrace$ and $I \in  \lbrace 0,\dots,N\rbrace$ describe the amount of susceptibles and infecteds, just as in \eqref{table:bauch_model_variables}. Now, rescale $S,I$ and $X_t$ as done in \eqref{def:scaled_variables_my_model} and assume $N_X$ and $N_Y$ to scale linearly with the population size $N$, as in %TODO: reference stimmt hier nicht
-Proposition \ref{prop:det_limit_my_model}. Then, the model reads as follows:
+Consider a population of size $N \in \mathbb{N}$, where $X_t \in \lbrace 0,\dots,N\rbrace$ and $N-X_t$ describe the amount of vaccinators and anti-vaccinators at time $t$, respectively. Furthermore, let $N_X$ and $N_Y > 0$ be the number of zealots that support vaccination and refuse it, respectively. Let $\alpha,\beta \in \left[0,1\right]$, $a,b \in \mathbb{N}$, with the same meaning as in \eqref{def:sir_modeling_my_model} and $\omega\left(i\right)$ just as in \eqref{prop:det_limit_my_model}. An individual of the population (who is not a zealot) may reconsider his opinion with rate $\mu \in \mathbb{N}$ via the same process as described in Model \ref{model:zealot} and in addition of the contact rates $\theta_X, \theta_Y \in \left[0,1\right]$. Let $S \in \lbrace 0,\dots,N\rbrace$ and $I \in  \lbrace 0,\dots,N\rbrace$ describe the amount of susceptibles and infecteds, just as in \eqref{table:bauch_model_variables}. Now, rescale $S,I$ and $X_t$ as done in \eqref{def:scaled_variables_my_model} and assume $N_X$ and $N_Y$ to scale linearly with the population size $N$, as in Proposition \ref{prop:det_limit_my_model_main}. Then, the model reads as follows:
 	\begin{align}
 	\begin{split}
 	\dot{s} &= -\beta si + b\left(1-x\right) - bs\\
@@ -526,12 +523,12 @@ This Subsection is dedicated to the analysis of the proposed model in order to u
 	This can quickly be shown by computing the Taylor expansion of third degree at the point $x = \frac{1}{2}$ of \eqref{prop:det_limit_my_model}'s right-hand-side. When replacing $\theta_X$ and $\theta_Y$ with $\theta_P$, one will see that the linear term disappears, leaving only the term of third order and the rest term. Thus, the presence of a pitchfork bifurcation at that point has been shown. For the detailed proof see \textbf{cite M\"ullers paper}.
 \end{proof}
 
-As also shown by M\"uller and Tellier, the pitchfork bifurcation changes into a saddle-node bifurcation for slightly differing numbers of zealots $n_X$ and $n_Y$. %TODO: elaborate
+As also shown by M\"uller and Tellier, the pitchfork bifurcation changes into a saddle-node bifurcation for slightly differing numbers of zealots $n_X$ and $n_Y$. %TODO: elaborate, mueller notizen aus ipad fragen, meiner meinung nach geht bei x=0,5 nichts... vllt woanders
 
 Writing down a general stationary point analytically for our model turns out to be very unpractical, but we are able to produce a similar result to the one presented in Proposition \ref{prop:mueller_stat_point}:
 \begin{prop}[Theoretical stationary point of the alternate Model]\label{prop:theor_stat_point_my_model}\phantom{lel}\newline
 	Presume $\left(s^*, i^*, x^*\right)$, $i^* \neq 0$ is a stationary point of Model \ref{model:my_model}. \newline
-	For $n_X = \max \lbrace a\left(1-2i^*\right), 0\rbrace$, $n_Y = a\left(2i^* - 1\right) + n_X$ and $\theta_X = \theta_Y = \frac{1-2n}{1+2n}$ with\newline $n \coloneqq ai^* + n_X$, there always is a stationary point at $x^* = \frac{1}{2}$.%TODO: undergoes bifus at... ? dafür bräuchte ich taylor... oder wissen wir, dass es denselben bums amselben theta macht? (wie müllers) 
+	For $n_X = \max \lbrace a\left(1-2i^*\right), 0\rbrace$, $n_Y = a\left(2i^* - 1\right) + n_X$ and $\theta_X = \theta_Y = \frac{1-2n}{1+2n}$ with\newline $n \coloneqq ai^* + n_X$, there always is a stationary point at $x^* = \frac{1}{2}$.%TODO: undergoes bifus at... ? dafür bräuchte ich taylor... oder wissen wir, dass es denselben bums amselben theta macht? (wie müllers) s. ein todo drüber, meiner meinung nach undergoed der gar nichts 
 \end{prop} 
 \begin{proof}
 	We set $x^* = \frac{1}{2}$. It is now very easy to write down $s^*$ and $i^*$:
@@ -546,17 +543,18 @@ Writing down a general stationary point analytically for our model turns out to 
 		&\end{split}
 	\end{align}
 	
-	So we have a stationary point at $\left(\frac{\alpha + b}{\beta}, \frac{b}{2\left(\alpha + b\right)} - \frac{b}{\beta}, \frac{1}{2}\right)$. Now we have to adjust the parameters occurring in \eqref{prop:det_limit_my_model} such that $\dot{x} = 0$ holds. To do so, we will compare the two parts of $\dot{x}$ and make sure they are the same, which will make them cancel each other out and yield the wanted result. We immediately see that $\mu x = \mu\left(1-x\right)$ for $x = \frac{1}{2}$. We may now write down two equations that have to hold for equality of both sides:%TODO: weird phrasing
+	So we have a stationary point at $\left(\frac{\alpha + b}{\beta}, \frac{b}{2\left(\alpha + b\right)} - \frac{b}{\beta}, \frac{1}{2}\right)$. Now we have to adjust the parameters occurring in \eqref{prop:det_limit_my_model} such that $\dot{x} = 0$ holds. To do so, we will compare the two parts of $\dot{x}$ and make sure they are the same, which will make them cancel each other out and yield the wanted result. We immediately see that $\mu x = \mu\left(1-x\right)$ for $x = x^* = \frac{1}{2}$. We may now write down two equations that have to hold to ensure a stationary state at $x^*$:
 	
 	\begin{align}
 		\begin{split}\label{eq:numerator_equality}
-		\theta_X\left(\frac{1}{2}+n_x+ai\right) &= \theta_Y\left(\frac{1}{2}+n_Y+a(1-i)\right)\\
+		\theta_X\left(\frac{1}{2}+n_x+ai^*\right) &= \theta_Y\left(\frac{1}{2}+n_Y+a(1-i^*)\right)\\
 		&\end{split}\\
 		\begin{split}\label{eq:denominator_equality}
-		\theta_X\left(\frac{1}{2}+n_X+ai\right) + \frac{1}{2}+n_Y+a(1-i) &= \frac{1}{2}+n_X+ai+\theta_Y\left(\frac{1}{2}+n_Y+a(1-i)\right)\end{split}
+		\theta_X\left(\frac{1}{2}+n_X+ai^*\right) + \frac{1}{2}+n_Y+a(1-i^*) &= \frac{1}{2}+n_X+ai^*\\
+		&\qquad +\theta_Y\left(\frac{1}{2}+n_Y+a(1-i^*)\right)\end{split}
 	\end{align}
 	
-	One quickly notices that both these equations hold true for $n_X = n_Y = n, \theta_X = \theta_Y = \theta$ and $i = \frac{1}{2}$, but we do not want to fix $i$. So we have to look at another constellation of parameters, that ensures the equality of \eqref{eq:numerator_equality} and \eqref{eq:denominator_equality}. We find the following two possibilities:
+	One quickly notices that both these equations hold true for $n_X = n_Y = n, \theta_X = \theta_Y = \theta$ and $i^* = \frac{1}{2}$, but we do not want to fix $i^*$. So we have to look at another constellation of parameters, that ensures \eqref{eq:numerator_equality} and \eqref{eq:denominator_equality} both hold. We find the following two possibilities:
 	
 	\begin{table}[h!]
 	\centering
@@ -628,8 +626,7 @@ Now, define the function $\mathrm{antivaxx}\left(x,i\right): \left[0,1\right]^2 
 The black curve depicts the antivaxx impact when plugging in the $i$-value of the theoretical stationary point we described in Proposition \ref{prop:theor_stat_point_my_model}. The two upper blue curves show the effect of plugging in $i^* + 0.01$ and $i^* + 0.1$, while the two lower red curves were given $i^* - 0.01$ and $i^* - 0.1$, respectively. As one can see, a small change $i^* \pm \epsilon$ with $\epsilon = 0.01$ already made the $x$-component slide to 0.4 and 0.6, respectively, whereas $\epsilon = 0.1$ caused a way more considerable translation towards
 0.76 and 0.24, respectively. This leads us to the conclusion that there is a strong negative correlation between $x$ and $i$, which is necessarily needed for a Hopf bifurcation.
 
-Furthermore, when we take a look at the system as whole, as in Figure \ref{fig:time_behaviour_my_model}, and let the simulation begin at $s_0 = 0.8, i_0 = 0.2, x_0 = 0.2$ (in its entirety?)%TODO
-, we see crystal clear oscillations of $s$ and $x$ around $0.5$ and of $i$ around $0.06$.
+Furthermore, when we take a look at the system in all its entirety, as in Figure \ref{fig:time_behaviour_my_model}, and let the simulation begin at $s_0 = 0.8, i_0 = 0.2, x_0 = 0.2$, oscillations of $s, x$ and $i$ appear around $0.5$ and $0.06$, respectively.
 
 \begin{figure}[h!]
 	\centering
