@@ -1,6 +1,8 @@
 Initial s=1 v=0.5 x=0.9
 Parameter a=0.5 b=0.9 k=1 L=0.24 m=0.7 Y=0.6 N=0.4 p=0.3 z=0.1 w=1
 
+#b = 0.9 gave us the hopf
+
 s'= -b*s*v+ k*(1-x)-k*s
 v'= b*s*v-v*(L+k)
 x'= -m*x*Y*(1-x+N+p)/((x+z+a*v)+Y*(1-x+N+p))+m*w*(1-x)*(x+z+a*v)/(w*(x+z+a*v)+(1-x+N+P))
@@ -30,3 +32,11 @@ done
 #p = Omega
 #z = nx 
 #w = thetaX
+
+#how to get hopf point:
+#i g
+#s g import
+#f a 
+#einfach laufen lassen mit a, b (run:steady)
+#danach nochmal laufen lassen mit b,b
+
