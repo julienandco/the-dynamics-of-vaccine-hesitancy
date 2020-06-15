@@ -1,3 +1,5 @@
+##readme für die Datei eigenvalue_diagram_generation.R:
+
 Wahl von my_fav_param:
 
 #alpha gibt nur reelle EV
@@ -12,5 +14,44 @@ Wahl von my_fav_param:
 
 
 Wählen also B, da schönes Blatt. Wenn wir aber andere Parameter zu Beginn ändern und danach mit B iterieren:
-#großes start a gibt doppelblatt
-#großes nx staucht, großes ny streckt blatt
+
+#default parameter:
+
+bbeta = 5
+alpha = 0.45
+B = 2
+a = 0.1
+c = 0.3
+
+theta1 = 1
+theta2 = theta1
+n1 = 10
+n2 = 10
+
+
+###mit zufällig gewählten Parametern:
+
+#großes a gibt doppelblatt (kleineres Blatt im größeren integriert)
+#großes a und großes c gibt einen Pfeil
+#grßes a, c und nx gibt nur reelle EW
+#großes n1 gibt nur reelle EW
+#kleines n1 streckt Blatt
+#großes n2 streckt Blatt
+#kleines n2 gibt nur relle EW
+#großes bbeta streckt blatt
+#kleines bbeta staucht blatt
+# 0 <= alpha <= 0.1 gibt winziges blatt auf reeller Achse
+# 0.15 <= alpha <= 0.45 gibt ganz verschiedene Objekte, die sich mehr und mehr dem Blatt nähern: 0.15 = zwei Ovale auf reeller Achse, 0.2 = Raumschiff, ab 0.25 bis 0.45 nähern wir uns dem Blatt
+# 0.45 < alpha <= 1 gibt aufgeblähtes Blatt
+# 1 < alpha: Blatt schrumpft langsam, bis es nur noch reelle EW gibt
+
+
+
+
+###mit kalibrierten Parametern (sodass x=1/2 stat. Pkt.):
+
+#großes a konvergiert nicht...
+#großes a und großes c konvergiert nicht...
+#alpha zeigt ähnliches Verhalten wie oben: 0.1= zwei Blätter auf reeller Achse , 0.15 = Birne, 0.2 = Birne uvm.
+
+

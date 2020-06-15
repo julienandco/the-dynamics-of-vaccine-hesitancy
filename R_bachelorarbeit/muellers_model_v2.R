@@ -4,8 +4,8 @@
 # Aim:
 # find a Hopf bifurcation
 #
-setwd("C:/Users/ge69fup/Documents/Uni/TUM/Mathe_B_Sc/SS_20/Bachelorarbeit/bachelorarbeit-repo/R_bachelorarbeit/Brexit")
-#setwd("D:/Dokumente/Uni/TUM/Mathe_B_Sc/SS_20/Bachelorarbeit/bachelorarbeit-repo/R_bachelorarbeit");
+#setwd("C:/Users/ge69fup/Documents/Uni/TUM/Mathe_B_Sc/SS_20/Bachelorarbeit/bachelorarbeit-repo/R_bachelorarbeit/Brexit")
+setwd("D:/Dokumente/Uni/TUM/Mathe_B_Sc/SS_20/Bachelorarbeit/bachelorarbeit-repo/R_bachelorarbeit");
 
 
 
@@ -71,37 +71,8 @@ alu <- function(x, i){
   );
 }
 
-curve(alu(x,i.star), from=0, to=1, ylab="antivaxx(x,i)");
-curve(alu(x,i.star+0.01), from=0, to=1, add=TRUE, col="blue");
-curve(alu(x,i.star+0.1), from=0, to=1, add=TRUE, col="blue");
-curve(alu(x,i.star-0.01), from=0, to=1, add=TRUE, col="red");
-curve(alu(x,i.star-0.1), from=0, to=1, add=TRUE, col="red");
-abline(h=0);
-input <- scan();
-
-
-simul.plot<-function(horizont){
-  # simulate
-  res <<- numeric();
-  
-  h = 0.001; tt = 0; h = 0.01;
-  while (tt<horizont){
-    state <<- state+h*rhs(state);
-    tt    = tt + h;
-    res   <<- rbind(res, c(tt, state));
-    #cat(tt, " ");
-  }
-  
-  plot(res[,1], res[,2], t="l", xlab = "tt", ylab="I", ylim=c(0,1))
-  lines(res[,1], res[,3], t="l", col="blue")
-  lines(res[,1], res[,4], t="l", col="orange")
-  legend(80,1,legend=c("s","i","x"),col=c("black","blue","orange"), lty=1:2, cex=0.6)
-}
-
-simul.plot(input)
-
 get.jacobian <- function(state){
-  # compute jacobian of the vector fieeld at point "state"
+  # compute jacobian of the vector field at point "state"
   #     ( (f_1)_x, (f_2)_y, (f_3)_z )
   # J = ( (f_2)_x, (f_2)_y, (f_3)_z )
   #     ( (f_3)_x, (f_2)_y, (f_3)_z )
@@ -123,3 +94,35 @@ get.jacobian <- function(state){
   
   return(J);
 }
+
+simul.plot<-function(horizont){
+  # simulate
+  res <<- numeric();
+  
+  h = 0.001; tt = 0; h = 0.01;
+  while (tt<horizont){
+    state <<- state+h*rhs(state);
+    tt    = tt + h;
+    res   <<- rbind(res, c(tt, state));
+    #cat(tt, " ");
+  }
+  
+  plot(res[,1], res[,2], t="l", xlab = "tt", ylab="I", ylim=c(0,1))
+  lines(res[,1], res[,3], t="l", col="blue")
+  lines(res[,1], res[,4], t="l", col="orange")
+  legend(0,1,legend=c("s","i","x"),col=c("black","blue","orange"), lty=1:2, cex=0.6)
+}
+
+
+################################################################################
+
+curve(alu(x,i.star), from=0, to=1, ylab="antivaxx(x,i)");
+curve(alu(x,i.star+0.01), from=0, to=1, add=TRUE, col="blue");
+curve(alu(x,i.star+0.1), from=0, to=1, add=TRUE, col="blue");
+curve(alu(x,i.star-0.01), from=0, to=1, add=TRUE, col="red");
+curve(alu(x,i.star-0.1), from=0, to=1, add=TRUE, col="red");
+abline(h=0);
+
+input <- scan();
+simul.plot(input)
+
