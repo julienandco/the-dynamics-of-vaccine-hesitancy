@@ -306,12 +306,12 @@ The transition rates might not be obvious after considering the transition proba
 Since the reasoning for the two transition rates is the exact same, we will just derive the rate for $X_t \rightarrow X_t + 1$, thus only consider the mid probability of \eqref{eq:chinellato_dynamics}. It describes the transition $m -1 \rightarrow m$, which is exactly equivalent to what we want, given that we do not consider the number of supporters $m$ any more, but the stochastic process $X_t$. $P_t \left(m-1\right)$ may be omitted $(\dagger)$, as it is just relevant for the probabilistic approach, whether we fall into that case or not. Then, we modify the denominator to fit our approach with the ``self-influencing" $(\star)$. We know that the probability for an individual to overthink his opinion in the model of \cite{Aguiar2011, Chinellato2015} is $1-p$, so we may define $\mu \coloneqq 1-p$ $(\ddagger)$. After simply rearranging the leftover fractions and replacing the probability that $N - m + 1$ nodes are in state $0$ with terms of the stochastic process (as defined in Model \ref{model:zealot}: $N = X_t + Y_t$), we get the wanted transition rate $\rho$ from \eqref{def:transition_rates_zealot}. In formulas:
 
 \begin{align*}
-	\rho &= P_t\left(m-1\right)\frac{1-p}{N\left(N+N_X+N_Y-1\right)}\left(m+N_X-1\right)\left(N-m+1\right)\\
+	&P_t\left(m-1\right)\frac{1-p}{N\left(N+N_X+N_Y-1\right)}\left(m+N_X-1\right)\left(N-m+1\right)\\
 	&\overset{(\dagger)}{\hookrightarrow} \frac{1-p}{N\left(N+N_X+N_Y-1\right)}\left(m+N_X-1\right)\left(N-m+1\right)\\
 	&\overset{(\star)}{\hookrightarrow} \frac{1-p}{N(N+N_X+N_Y)}\left(m+N_X-1\right)\left(N-m+1\right)\\
 	&\overset{(\ddagger)}{\hookrightarrow} \frac{\mu}{N(N+N_X+N_Y)}\left(m+N_X-1\right)\left(N-m+1\right)\\
 	&\hookrightarrow \mu \left(1-\frac{m-1}{N}\right)\frac{\left(m-1\right) + N_X}{N + N_X + N_Y}\\
-	&\hookrightarrow \mu\left(N-X_t\right)\frac{X_t + N_X}{N + N_X + N_Y}
+	&\hookrightarrow \mu\left(N-X_t\right)\frac{X_t + N_X}{N + N_X + N_Y} \eqqcolon \rho
 \end{align*}
 
 This model looks very promising and almost suits our needs, but still lacks one aspect: reinforcement. This means that individuals, whose life is predominantly taking place in a filter bubble, are less likely to interact with a group of individuals who is representative for the population. Their social contacts will rather all be inside the filter bubble, thus all be like-minded and lead to the opinion to never change or even to enhance.
@@ -503,7 +503,7 @@ Consider a population of size $N \in \mathbb{N}$, where $X_t \in \lbrace 0,\dots
 	\begin{align}
 	\begin{split}
 	\dot{s} &= -\beta si + b\left(1-x\right) - bs\\
-	\dot{i} &= \beta si - i\left(\alpha + b\right)\\
+	\dot{i} &= \phantom{+}\beta si - i\left(\alpha + b\right)\\
 	\dot{x} &= -\mu x\frac{\theta_Y(1-x+n_Y+\omega\left(i\right))}{(x+n_X+ai) + \theta_Y(1-x+n_Y+\omega\left(i\right))}\\
 	&\qquad+ \mu \left(1-x\right)\frac{\theta_X (x+ n_X+ ai)}{\theta_X (x + n_X + ai) + (1-x + n_Y + \omega\left(i\right))}
 	\end{split}
@@ -569,7 +569,7 @@ Writing down a general stationary point analytically for our model turns out to 
 		\end{tabular}
 	\end{table}
 	
-	As the right $n_X$ and the left $n_Y$ could be less than zero for some parameters, we formulate a general definition for $n_X$ and $n_Y$, which is equivalent to the results above:
+	As $n_X$ of Constellation 2 and $n_Y$ of Constellation 1 could be less than zero for some parameters, we formulate a general definition for $n_X$ and $n_Y$, which is equivalent to the results above:
 	
 	\begin{align}\label{eq:n_X_and_n_Y_def}
 	\begin{split}
