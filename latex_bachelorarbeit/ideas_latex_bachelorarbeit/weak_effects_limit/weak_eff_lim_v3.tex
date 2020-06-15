@@ -1,0 +1,52 @@
+By rewriting drift and noise term with $n_i = N_i/N, \theta_i = 1- \frac{\Theta_i}{N}$, $h = 1/N, i= I/N$ and neglecting terms of $\mathcal{O}(N^{-2})$ we find (using maxima):
+
+\begin{align*}
+\dagger &\coloneqq -\Big[\frac{(\Theta_X + \Theta_Y)x^3 - ((\Theta_X + \Theta_Y)a + 2\Theta_X + \Theta_Y)x^2}{a+1}\Big.\\
+&\qquad + \Big.\frac{(\Theta_X a + \Theta_X + N_X + N_Y)x}{a+1}\Big.\\
+&\qquad - \Big.\frac{-Ia(a+1) - (N_X a + N_X)}{a+1}\Big],\\
+\end{align*}
+
+and further: 
+\begin{align*}
+& \mu(1-x)f_+(x) - \mu xf_-(x)\\
+= & \mu(1-x) \frac{(1-h\Theta_X) (x+ hN_X+ ahI)}{(1-h\Theta_X) (x + hN_X + ahI) + (1-x + hN_Y + a(1-hI))}\\
+&\qquad - \mu x \frac{(1-h\Theta_Y)(1-x+hN_Y+a(1-hI))}{(x+h_NX+ahI) + (1-h\Theta_Y)(1-x+hN_Y+a(1-hI))}\\
+=& -\frac{ax}{a+1} + \frac{1}{a+1}\mu h \dagger + \mathcal{O}(h^2),\\
+\end{align*}
+
+while 
+
+\begin{equation*}
+h\left[\mu(1-x)f_+(x) + \mu xf_-(x)\right] = \mu h \frac{2}{a+1} x(x-\frac{a+2}{2}).
+\end{equation*}
+
+After rescaling time: $T = \mu h t$, the Fokker-Planck equation becomes
+
+\begin{align*}
+\partial_T \left(u\left(x, T\right)\right) = -\frac{1}{a+1}\partial_x\big(u(x,T)\left(\dagger - \frac{ax}{\mu h} \right)\big) + \frac{1}{a+1} \partial^2_x\left(u(x,T)x(x-\frac{a+2}{2})\right)
+\end{align*}
+
+\textcolor{red}{Hier besteht weiterhin mein Problem, dass $\mu h$ in den Nenner des Order-0-Terms kommt...}\newline
+For the invariant distribution $\phi(x)$, the flux of the rescaled Fokker-Planck equation is zero, that is:
+
+\begin{equation*}
+-\frac{1}{a+1}\Big(\dagger - \frac{ax}{\mu h}\Big)\phi(x) + \frac{1}{a+1} \frac{d}{dx}\Big(\phi(x)x(x-\frac{a+2}{2})\Big)= 0
+\end{equation*}
+
+With $v(x) = \phi(x)x(x-\frac{a+2}{2})$, we have:
+
+\begin{equation*}
+v'(x) = \Big(\dagger - \frac{ax}{\mu h}\Big)v(x)
+\end{equation*}
+
+and hence
+
+\begin{equation*}
+v(x) = todo
+\end{equation*}
+
+Respectively,
+
+\begin{equation*}
+\phi(x) = todo
+\end{equation*}
