@@ -54,7 +54,7 @@
     \lineheight{1}%
     \setlength\tabcolsep{0pt}%
     \put(0,0){\includegraphics[width=\unitlength,page=1]{durchimpfungskarte_meningokokken.pdf}}%
-    \put(0.77427563,0.60546388){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}differing immunization \\recommendations\end{tabular}}}}%
+    \put(0.77427563,0.60546388){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}differing immunisation \\recommendations\end{tabular}}}}%
     \put(0,0){\includegraphics[width=\unitlength,page=2]{durchimpfungskarte_meningokokken.pdf}}%
     \put(0.77392882,0.51306642){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$31,62 - 44,24$\end{tabular}}}}%
     \put(0,0){\includegraphics[width=\unitlength,page=3]{durchimpfungskarte_meningokokken.pdf}}%
@@ -65,6 +65,6 @@
     \put(0.77392882,0.26056425){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$69,51 - 82,13$\end{tabular}}}}%
     \put(0,0){\includegraphics[width=\unitlength,page=6]{durchimpfungskarte_meningokokken.pdf}}%
     \put(0.77392887,0.17639675){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$82,14 - 94,75$\end{tabular}}}}%
-    \put(0.68783399,0.66403078){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}\underline{Immunization rates (in \%):}\end{tabular}}}}%
+    \put(0.68783399,0.66403078){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}\underline{Immunisation rates (in \%):}\end{tabular}}}}%
   \end{picture}%
 \endgroup%
