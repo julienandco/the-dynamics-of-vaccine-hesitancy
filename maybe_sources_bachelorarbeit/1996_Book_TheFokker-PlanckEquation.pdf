@@ -1,0 +1,127 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "DTD/xhtml1-transitional.dtd">
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta content="text/html;charset=UTF-8" http-equiv="content-type">
+		<link rel="stylesheet" href="/public/style.css">
+		<link rel="stylesheet" href="/public/eaccess.css">
+        <link rel="shortcut icon" href="/public/favicon.ico">
+        <title>eAccess</title>
+        <script type="text/javascript" src="https://ff.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=i2j_Avntec095XKAl3y4eONkaP-GOpM-IfISYMvx47eaO03FDlRkZnTgLuPxdKO__7Cj-4xSSV3tdrAb57IX_K7fgeLcIA_GFntRl9KpYykQSisq_P-xAREq-MlWdJcgca_vBC9NT3jMfBsZyQb9dUcSrK30Ng9YTi1BOSOVFczXH_rYm3goFwP5zcf0BXm7" charset="UTF-8"></script><link rel="stylesheet" crossorigin="anonymous" href="https://ff.kis.v2.scr.kaspersky-labs.com/E3E8934C-235A-4B0E-825A-35A08381A191/abn/main.css?attr=aHR0cHM6Ly9sb2dpbi5lYWNjZXNzLnViLnR1bS5kZS9sb2dpbj9xdXJsPWh0dHBzOi8vbGluay5zcHJpbmdlci5jb20lMmZjb250ZW50JTJmcGRmJTJmMTAuMTAwNyUyNTJGOTc4LTMtNjQyLTYxNTQ0LTMucGRm"/></head>
+    <body>
+	<div class="logo-bar">
+    <header class="container">
+    <div class="row">
+    	<div class="twelve columns">
+    		<div class="header__inst">
+    					<ul>
+							<li>
+								<a  title="eAccess" href="\">eAccess</a>
+							</li>
+							<li>
+								<a target="_blank" title="Website der UB der TUM" href="https://www.ub.tum.de">Universitätsbibliothek</a>
+							</li>
+							<li>
+								<a  target="_blank" title="Website der TUM" href="https://www.tum.de/">Technische Universität München</a>
+							</li>
+						</ul>
+    				
+    				<a href="https://www.tum.de" title="Startseite" target="_self" class="tum-logo">
+    					<img src="/public/tum-logo.png" width="73" height="38" alt="TUM – ">
+    				</a>
+    				<span class="main-nav-toggle js-main-nav-toggle">Menü</span>
+    			</div>
+    		</div>
+    </div>
+    	</header>
+    </div>
+	
+	    <div class="container">
+      <div class="row">
+         <div class="nine columns">
+          <h1>eAccess &ndash; E-Medienzugang der Universitätsbibliothek</h1>
+			<div class="row">
+				<div class="six columns">
+					<h2> Login </h2>
+						<form action="/login" method="post">
+						<input type="hidden" name="ezproxycsrftoken" value="x0cAOxl9LEeKOvwBZhorfOJ">
+						  <fieldset class="csc-mailform">
+							<input type="hidden" name="url" value="https://link.springer.com/content/pdf/10.1007%2F978-3-642-61544-3.pdf"/>
+							<div class="csc-mailform-field">
+								  <label for="user"><a href="https://www.it.tum.de/faq/it-dienste/account/" class="link--external" target="_blank">TUM-Account</a></label>
+								  <input type="text" name="user" id="user" size="40" maxlength="80"  placeholder="ga21bab oder xyz@tum.de" value="" autofocus />
+							</div>
+							<div class="csc-mailform-field">
+									<label for="password">Passwort</label>
+							  <input type="password" name="pass" id="pass" size="40" maxlength="80" value="" />
+							</div>
+							<div class="csc-mailform-field">
+							  <input type="submit" value="Login" class="csc-mailform-submit" />
+							</div>
+							</fieldset>
+						</form>
+					</div>
+				<div class="six columns">
+					<div class="content-box content-box--text content-box--attention">
+      <div class="content-box__head">
+        <h1 class="content-box__head-content">
+          Achtung: Phishing
+        </h1>
+      <p>
+        Achten Sie auf die korrekte URL <b>https://login.eaccess.ub.tum.de/login</b> oder <b>https://eaccess.ub.tum.de/login</b> im Browser! <br><a a href="https://www.it.tum.de/faq/it-dienste/sicherheit/allgemein/wie-erkenne-ich-eine-betruegerische-e-mail-phishing-mail-und-wie-soll-ich-mich-im-zweifelsfall-verhalten/" class="link--external" target="_blank">Hinweise zu Phishing</a>
+      </p>
+     </div>
+	 </div>
+				
+				</div>
+			</div>
+        <h2> Hinweise zur Nutzung</h2>
+                <p>eAccess bietet Studierenden und Mitarbeiter/-innen der TUM den Zugriff auf lizenzierte Elektronische Ressourcen der Universit&auml;tsbibliothek. Der Service erm&ouml;glicht den Zugriff auch von au&szlig;erhalb des Hochschulnetzes.
+                 </p><p>
+                 <a href="https://www.ub.tum.de/bibliotheksausweis">Angemeldete Bibliotheksnutzer</a>, die keine Angeh&ouml;rigen der TUM sind, k&ouml;nnen in eine unserer Teilbibliotheken kommen, um Zugang zu E-Medien zu erhalten. Unser E-Medien-Angebot steht Ihnen auf allen <a href="https://www.ub.tum.de/computer">Lesesaal-PCs</a> zur Verf&uuml;gung. Die Nutzung von eAccess ist für Sie nicht m&ouml;glich.
+				 </p> <p>
+				 <a target="_blank" title="eAccess-Informationsseite der UB" href="https://www.ub.tum.de/eaccess" class="external-link-new-window">Weitere Informationen zu eAccess</a>
+				</p> 
+				<div class="content-box content-box--text content-box--attention">
+                 Ein systematischer Download von Daten ist aus lizenzrechtlichen Gr&uuml;nden nicht gestattet. 
+				 </div>
+	</div>
+		
+     
+    
+	<div class="three columns">
+	    <div class="content-box content-box--heavy content-box--green">
+		<div class="csc-header csc-header-n1">
+			<h4 class="csc-firstHeader">Fragen zu eAccess</h4>
+		</div>
+		<p class="bodytext">
+				<a target="_blank" title="eAccess-Informationsseite der UB" href="https://www.ub.tum.de/eaccess" class="external-link-new-window">Universitätsbibliothek</a><br/><a href="mailto:eaccess@ub.tum.de">eaccess@ub.tum.de</a>
+		</p>
+		<div class="csc-header csc-header-n1">
+			<h4 class="csc-firstHeader">Fragen zum TUM-Account</h4>
+		</div>
+		<p class="bodytext">
+				<a target="_blank" class="external-link-new-window"  title="FAQ zum TUM-Account" href="https://www.it.tum.de/faq/it-dienste/account/">IT-Support der TUM</a><br/>
+				<a href="mailto:it-support@tum.de">it-support@tum.de</a>
+		</p>
+</div>
+	</div>
+	 </div>
+	 </div>
+	 
+	     <div class="meta-bar">
+      <div class="row">
+        <nav class="meta-nav">
+    <ul class="meta-nav__list">
+      <li class="meta-nav__item">
+        <a href="https://www.ub.tum.de/impressum" class="meta-nav__link">Impressum</a>
+      </li>
+      <li class="meta-nav__item">
+        <a href="https://www.ub.tum.de/datenschutz" class="meta-nav__link">Datenschutz</a>
+      </li>
+     </ul>
+  </nav>
+      </div>
+    </div>
+	    </body>
+</html>
