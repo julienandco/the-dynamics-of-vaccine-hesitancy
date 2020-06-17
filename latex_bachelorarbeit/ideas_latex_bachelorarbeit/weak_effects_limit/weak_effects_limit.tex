@@ -15,7 +15,7 @@
 \usepackage{transparent}
 \newtheorem{prop}{Proposition}[section]
 \begin{document}
-	We take a look back at the Fokker-Planck equation which we computed via the Kramers-Moyal expansion before. %TODO: reference
+	We take a look back at the Fokker-Planck equation for which we computed the Kramers-Moyal expansion before. %TODO: reference
 	There, the scaling was $n_i = N_i/N$ and $\theta_i$ constant in N. Afterwards, we will use a slightly different scaling which we will prefer for the Dirichlet limit. We recall the transition rates:
 	\begin{align}\label{def:abbreviation_scaled_transition_rates}
 	\begin{split}
@@ -25,9 +25,12 @@
 	\end{align}
 	
 	Thus, the limiting Fokker-Planck equation reads:
-	\begin{equation}
-	\partial_t \left(u\left(x, t\right)\right) = -\partial_x\big(\mu u(x,t)\left((1-x)f_+(x) - xf_-(x)\right)\big) + \frac{1}{2N} \partial^2_x\left(\mu u(x,t)\left((1-x)f_+(x) + xf_-(x)\right)\right)
-	\end{equation}
+	\begin{align}
+	\begin{split}
+		\partial_t \left(u\left(x, t\right)\right) &= -\partial_x\big(\mu u(x,t)\left((1-x)f_+(x) - xf_-(x)\right)\big) \\
+		&\qquad + \frac{1}{2N} \partial^2_x\left(\mu u(x,t)\left((1-x)f_+(x) + xf_-(x)\right)\right)
+	\end{split}
+	\end{align}
 	
-	\input{weak_eff_lim_v3.tex}
+	\input{weak_eff_lim_v4.tex}
 \end{document}
