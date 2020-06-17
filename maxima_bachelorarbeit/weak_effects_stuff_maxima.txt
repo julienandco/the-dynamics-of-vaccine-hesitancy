@@ -11,6 +11,7 @@ scaled_n_Y: N_Y * h * h;
 scaled_theta_X: 1- ThetaX * h;
 scaled_theta_Y: 1- ThetaY * h;
 scaled_i: i;
+scaled_a: a;
 
 
 #used for dirichlet_lim_v2.tex:
@@ -19,6 +20,7 @@ scaled_n_Y: N_Y * h;
 scaled_theta_X: 1- ThetaX * h;
 scaled_theta_Y: 1- ThetaY * h;
 scaled_i: i;
+scaled_a: a;
 
 #used for dirichlet_lim_v3.tex:
 scaled_n_X: N_X * h;
@@ -26,9 +28,18 @@ scaled_n_Y: N_Y * h;
 scaled_theta_X: 1- ThetaX * h;
 scaled_theta_Y: 1- ThetaY * h;
 scaled_i : I*h;
+scaled_a: a;
 
-f:(1-x)*(scaled_theta_X *(x+scaled_n_X+a*scaled_i))/(scaled_theta_X *(x+scaled_n_X+a*scaled_i)+1-x+scaled_n_Y+a * (1-scaled_i));
-g: x*(scaled_theta_Y *(1-x+scaled_n_Y+a*(1-scaled_i)))/(x + scaled_n_X + a*scaled_i + scaled_theta_Y *(1-x+scaled_n_Y+a*(1-scaled_i)));
+#used for dirichlet_lim_v4.tex:
+scaled_n_X: N_X * h;
+scaled_n_Y: N_Y * h;
+scaled_theta_X: 1- ThetaX * h;
+scaled_theta_Y: 1- ThetaY * h;
+scaled_i : I*h;
+scaled_a: A*h;
+
+f:(1-x)*(scaled_theta_X *(x+scaled_n_X+scaled_a*scaled_i))/(scaled_theta_X *(x+scaled_n_X+scaled_a*scaled_i)+1-x+scaled_n_Y+scaled_a * (1-scaled_i));
+g: x*(scaled_theta_Y *(1-x+scaled_n_Y+scaled_a*(1-scaled_i)))/(x + scaled_n_X + scaled_a*scaled_i + scaled_theta_Y *(1-x+scaled_n_Y+scaled_a*(1-scaled_i)));
 
 term: f-g;
 
