@@ -1,0 +1,223 @@
+#
+# SIRS model with reinforcement
+#
+# Aim:
+# find a Hopf bifurcation
+#
+
+setwd("C:/Users/ge69fup/Documents/Uni/TUM/Mathe_B_Sc/SS_20/Bachelorarbeit/bachelorarbeit-repo/R_bachelorarbeit/Brexit")
+#setwd("D:/Dokumente/Uni/TUM/Mathe_B_Sc/SS_20/Bachelorarbeit/bachelorarbeit-repo/R_bachelorarbeit");
+
+
+
+# parameter
+bbeta = 5    # contact rate
+alpha = 0.45  # recovery rate
+B     = 2    # birthrate - deterimes thetime scale -- fixed.
+
+# we calibrate the system s.t. x=1/2 is a stat states
+s.star = (B+alpha)/bbeta;
+i.star = (1-0.5)*B/(alpha+B)-B/bbeta;
+cat("i.star = ", i.star, "\n");
+
+
+theta1 = 1; # reinforcement parameter of vacc pro (x)
+theta2 = theta1; # reinforcement parameter of vacc con (1-x)
+n1     = 10;    # zelots pro vacc
+n2     = 10;    # zealots contra vacc
+a      = 0.1;    # influence I
+Omega  = 0.0;    # influence vaccination oponent
+c      = 200# 1;   # time scale reinforce
+
+# adapt n1, n2 s.t. a*i+n1 = a*(1-i)+n2
+# choose n1 minial, s.t. we have a non-negative n2 (=0)
+n1 = max(c(a*(1-2*i.star), 0));
+n2 = a*(2*i.star-1)+n1;
+n.star = a*i.star+n1
+theta1 = (1-2*n.star)/(1+2*n.star);
+theta2 = theta1;
+cat("a = ", a, " n1 = ", n1, "n2 = ", n2, " n.star = ", n.star, 
+    " theta.pich = ", (1-2*n.star)/(1+2*n.star), "\n"); 
+
+#
+#
+theo.stat.point = c(s.star, i.star, 0.5);
+
+
+
+#init
+s = 0.8;
+i = 0.2;
+r = 0;
+x = 0.20;
+#x = 0.50;
+
+state = c(s,i,x);   # no r-component
+# rhs of ODE
+rhs <- function(state){
+  s = state[1]; i = state[2]; 
+  x = state[3];
+  s1 = -bbeta*s*i+(1-x)*B-B*s;
+  i1 = bbeta*s*i - alpha*i-B*i;
+  x1 = -c*x*theta2*(1-x+n2+a*(1-i))/((x+n1+a*i)+theta2*(1-x+n2+a*(1-i)));
+  x1 = x1+c*(1-x)*theta1*(x+n1+a*i)/(theta1*(x+n1+a*i)+(1-x+n2+a*(1-i)));
+  return(c(s1,i1,x1));
+}
+
+alu <- function(x, i){
+  return(
+    -x*theta2*(1-x+n2+a*(1-i))/((x+n1+a*i)+theta2*(1-x+n2+a*(1-i)))
+    +(1-x)*theta1*(x+n1+a*i)/(theta1*(x+n1+a*i)+(1-x+n2+a*(1-i)))
+  );
+}
+
+curve(alu(x,i.star), from=0, to=1);
+curve(alu(x,i.star+0.01), from=0, to=1, add=TRUE, col="blue");
+curve(alu(x,i.star+0.1), from=0, to=1, add=TRUE, col="blue");
+curve(alu(x,i.star-0.01), from=0, to=1, add=TRUE, col="red");
+curve(alu(x,i.star-0.1), from=0, to=1, add=TRUE, col="red");
+abline(h=0);
+# scan();
+
+
+simul.plot<-function(horizont){
+  # simulate
+  res <<- numeric();
+  aver.stat = c(0,0,0);  no.aver = 0;
+  h = 0.001; tt = 0; h = 0.01;
+  while (tt<horizont){
+    state <<- state+h*rhs(state);
+    tt    = tt + h;
+    res   <<- rbind(res, c(tt, state));
+    if (tt>horizont/2){
+      aver.stat = aver.stat + state;
+      no.aver = no.aver + 1;
+    }
+    #cat(tt, " ");
+  }
+  
+  plot(res[,1], res[,2], t="l", ylab="S(black) 10*I(blue) x(orange)", ylim=c(0,1), main = paste("c", as.character(c)) );
+  lines(res[,1], 10*res[,3], t="l", col="blue")
+  lines(res[,1], res[,4], t="l", col="orange")
+  
+  state <<- state;
+  aver.state <<- aver.stat/no.aver;
+}
+
+
+my.tol = 1e-6;
+max.iter = 500000;
+
+
+# simulate to find a stat state
+get.stat.state <- function(init.state){
+  # forward simulation until max iter, 
+  # or ||rhs|| <- my.tol
+  
+  my.tol2 = my.tol**2;
+  my.state = init.state;
+  h        = 0.01;
+  
+  for (i in 1:max.iter){
+    loc.rhs = rhs(my.state);
+    if (sum(loc.rhs**2)<my.tol2){
+      return(my.state);
+    }
+    my.state = my.state+h*loc.rhs;
+  }
+  cat("# get.stat.state DID NOT CONVERGE!!!\n");
+  cat("# ",loc.rhs, "\n");
+  cat("# get.stat.state DID NOT CONVERGE!!!\n");
+  
+  return(my.state);
+}
+
+
+get.jacobian <- function(state){
+  # compute jacobian of the vector fieeld at point "state"
+  #     ( (f_1)_x, (f_2)_y, (f_3)_z )
+  # J = ( (f_2)_x, (f_2)_y, (f_3)_z )
+  #     ( (f_3)_x, (f_2)_y, (f_3)_z )
+  J = matrix(NA, 3, 3);
+  hh = 1e-3;
+  
+  rhsp  = rhs(state+c(hh,0,0));
+  rhsm  = rhs(state+c(-hh,0,0));
+  grad  = (rhsp-rhsm)/(2*hh);
+  J[1,] = grad;
+  rhsp  = rhs(state+c(0,hh,0));
+  rhsm  = rhs(state+c(0,-hh,0));
+  grad  = (rhsp-rhsm)/(2*hh);
+  J[2,] = grad;
+  rhsp  = rhs(state+c(0,0,hh));
+  rhsm  = rhs(state+c(0,0,-hh));
+  grad  = (rhsp-rhsm)/(2*hh);
+  J[3,] = grad;
+  
+  return(J);
+}
+
+
+
+
+
+if (1==1){   # change to (1==1) to enable
+  # simulate 
+  
+  sink("res.csv");
+  cat(" c \t s \t i \t x \t rhs.s \t rhs.i \t rhs.x \t ev1 \t ev2 \t ev3\n");
+  nnn = 20;
+  c.list = 1+49*(0:nnn)/nnn;
+  c     = c.list[1];
+  all.res = c();
+  for(i in 1:(nnn+1)){
+    c = c.list[i];
+    #   cat ("c0", c, "\n");
+    state = state+c(0.0 ,0.01, 0.0)
+    simul.plot(300); 
+    
+    #   cat("statP = ", aver.state, "\n");
+    #   cat("r.h.s. = ", rhs(aver.state), "\n");
+    J     = get.jacobian(aver.state);
+    ev    = eigen(J);
+    #   cat("Eigenvals = ", ev$values, "\n");
+    cat(c, "\t", 
+        aver.state[1], "\t",  aver.state[2], "\t",  aver.state[3], "\t",  
+        rhs(aver.state)[1], "\t",  rhs(aver.state)[2], "\t",  rhs(aver.state)[3], "\t",  
+        as.character(ev$values[1]), "\t", as.character(ev$values[2]), "\t", as.character(ev$values[3]),
+        "\n");
+    all.res = rbind(all.res, c(
+      c,aver.state, rhs(aver.state), ev$values
+    ));
+  }
+  
+  sink();
+  
+  save(file = "res.rSavel", all.res);
+  
+}
+
+
+
+if (1==1){
+  # do plot
+  
+  l1.x = c(); l1.y = c();
+  l2.x = c(); l2.y = c();
+  l3.x = c(); l3.y = c();
+  for (i in 1:(nnn+1)){
+    l1.x = c(l1.x, Re(all.res[i,8]));  l1.y = c(l1.y, Im(all.res[i,8]));
+    l2.x = c(l2.x, Re(all.res[i,9]));  l2.y = c(l2.y, Im(all.res[i,9]));
+    l3.x = c(l3.x, Re(all.res[i,10])); l3.y = c(l3.y, Im(all.res[i,10]));
+  }
+  l.x = c(l1.x, l2.x, l3.x);
+  l.y = c(l1.y, l2.y, l3.y);
+  
+  postscript(file="hopfPoint.eps", pointsize=18, paper="special", width=6, height = 6.84); 
+  #   plot(l1.x,l1.y, xlim=c(min(l.x), max(l.x)), ylim=c(min(l.y), max(l.y)), xlab="Re(lambda)", ylab="Im(lambda)" );
+  plot(l1.x,l1.y, xlim=c(-0.05, 0.05), ylim=c(min(l.y), max(l.y)), xlab="Re(lambda)", ylab="Im(lambda)" );
+  points(l2.x, l2.y, col="blue");
+  points(l3.x, l3.y, col="green");
+  abline(h=0, lty=3); abline(v=0, lty=3);
+  dev.off();
+}
