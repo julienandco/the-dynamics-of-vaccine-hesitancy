@@ -45,14 +45,13 @@ maxbibnames=99,
 giveninits,
 uniquename=init]{biblatex}
 \addbibresource{bachelor_thesis_julien_caselmann.bib}
-%TODO last: many weird sources, fix them
+%TODO last: many weird sources, fix them. all last names and titles pls NOT capslock. all titles in same font (italic or normal, but not mixed). get maxima citation from maxima FAQ page. adjust KBV overfull link
 %TODO last: R skripte, die plots generiert haben in einen anhang
 %TODO last: sort sources numerically in every multi-cite bracket
+%TODO: welche Autoren bei MÜllers paper?
 
 %TODO: disclaimer am anfang: anti-vax, anti-vaxxer,anti-immu,anti-vaccination will be used austauschingly as per general convention
 
-
-%TODO heute: takens-bogdanov rallen
 
 \newtheorem{definition}{Definition}[section]
 \newtheorem{thm}{Theorem}[section]
@@ -133,11 +132,10 @@ Munich, \today \newline
 \newpage
 %%%% Summary in german
 \section*{Zusammenfassung}
-Trotz nachweislichen/nachgewiesenen? Zusammenhängen zwischen niedriger Impfrate und dem Wiederauftauchen bereits ausgerotteter Krankheiten, sind die durchschnittlichen Impfzahlen in Deutschland bei Weitem nicht hoch genug, um Herdenimmunität zu gewährleisten. Das Ziel der Bachelorarbeit ist es, dieses paradoxale Impfverhalten und die zugrundeliegenden Dynamiken durch Kombinierung zweier bekannter Modelle und Einbeziehung von Prozessen der Meinungsbildung zu verstehen und zu analysieren. Zunächst werden bekannte Ansätze zur Modellierung von Impfskepsis, sowie Meinungsbildung mit und ohne Rücksicht auf Filterblasen präsentiert. Anschließend wird ein kombiniertes Modell, bestehend aus den Ansätzen von Bauch \cite{Bauch2012}, Müller und Tellier \textbf{cite} und dem Konzept von Pay-off Funktionen aus der Wirtschaftsmathematik, aufgestellt und eine Bifurkationsanalyse durchgeführt. Es treten Pitchfork-, sowie Sattel-Knoten-Bifurkationen für einen Spezialfall und eine allgemeine Hopf-Bifurkation auf. Eine Takens-Bogdanov-Bifurkation wird vermutet, in dieser Arbeit aber nicht nachgewiesen. Im letzten Abschnitt wird das Modell auf Impfdaten des \acfp{RKI}, die die bundesweite Impfabdeckung gegen C-Meningokokken auf Kreisebene darstellen, gefittet. Das Modell fittet gut/schlecht, mal schauen.
+Trotz nachweislichen/nachgewiesenen? Zusammenhängen zwischen niedriger Impfrate und dem Wiederauftauchen bereits ausgerotteter Krankheiten, sind die durchschnittlichen Impfzahlen in Deutschland bei Weitem nicht hoch genug, um Herdenimmunität zu gewährleisten. Das Ziel der Bachelorarbeit ist es, dieses paradoxale Impfverhalten und die zugrundeliegenden Dynamiken durch Kombinierung zweier bekannter Modelle und Einbeziehung von Prozessen der Meinungsbildung zu verstehen und zu analysieren. Zunächst werden bekannte Ansätze zur Modellierung von Impfskepsis, sowie Meinungsbildung mit und ohne Rücksicht auf Filterblasen präsentiert. Anschließend wird ein kombiniertes Modell, bestehend aus den Ansätzen von Bauch \cite{Bauch2012}, Müller und Tellier \cite{JohannesMuller2020} und dem Konzept von Pay-off Funktionen aus der Wirtschaftsmathematik, aufgestellt und eine Bifurkationsanalyse durchgeführt. Es treten Pitchfork-, sowie Sattel-Knoten-Bifurkationen für einen Spezialfall und eine allgemeine Hopf-Bifurkation auf. Eine Takens-Bogdanov-Bifurkation wird vermutet, in dieser Arbeit aber nicht nachgewiesen. Im letzten Abschnitt wird das Modell auf Impfdaten des \acfp{RKI}, die die bundesweite Impfabdeckung gegen C-Meningokokken auf Kreisebene darstellen, gefittet. Das Modell fittet gut/schlecht, mal schauen.%TODO: ergebniss rein da lol
 
 \section*{Abstract}
-%TODO: muss dat?
-Have todo?
+%TODO last: just translate upper one
 \newpage
 \tableofcontents
 \newpage
@@ -351,9 +349,7 @@ Since the reasoning for the two transition rates is the exact same, we will just
 
 This model looks very promising and almost suits our needs, but still lacks one aspect: reinforcement. This means that individuals, whose life is predominantly taking place in a filter bubble, are less likely to interact with a group of individuals who is representative for the population. Their social contacts will rather all be inside the filter bubble, thus all be like-minded and lead to the opinion to never change or even to enhance.\newline
 
-Research has shown that most of the populist parties and candidates in Europe, as well as in the USA can be determined quite easily, since their parameter of reinforcement turns out to be pretty high \textbf{cite Müller}%TODO later: müller zitat
-. In Germany for instance, the extreme right-wing party \ac{AfD} and the extreme left-wing party ``Die Linke" both show high reinforcement parameters. Additionally, the reinforcement of the \ac{AfD} seems to be linked with the German federal states that used to be part of the \ac{GDR}, whilst there seem to be no geographical connections to the reinforcement of ``Die Linke". During the US presidential election 2016, the republican's reinforcement factor tripled, most likely due to Trump's populist arguments \textbf{cite Müller}%TODO later:mit Müller wg Zitat sprechen
-. Reinforcement seems to play a major role in those election processes, since it ``boosted" an opinion, which did not depict the preponderant opinion in the population, to still get a favourable election result. We want this factor to be included in our approach, thus two models will be presented in Subsection \ref{subsec:sano_zealot_reinforcement} that take reinforcement into account.\newline
+Research has shown that most of the populist parties and candidates in Europe, as well as in the USA can be determined quite easily, since their parameter of reinforcement turns out to be pretty high \cite{JohannesMuller2020}. In Germany for instance, the extreme right-wing party \ac{AfD} and the extreme left-wing party ``Die Linke" both show high reinforcement parameters. Additionally, the reinforcement of the \ac{AfD} seems to be linked with the German federal states that used to be part of the \ac{GDR}, whilst there seem to be no geographical connections to the reinforcement of ``Die Linke". During the US presidential election 2016, the republican's reinforcement factor tripled, most likely due to Trump's populist arguments \cite{JohannesMuller2020}. Reinforcement seems to play a major role in those election processes, since it ``boosted" an opinion, which did not depict the preponderant opinion in the population, to still get a favourable election result. We want this factor to be included in our approach, thus two models will be presented in Subsection \ref{subsec:sano_zealot_reinforcement} that take reinforcement into account.\newline
 
 \subsection{Mean field voter model/Zealot model with reinforcement}\label{subsec:sano_zealot_reinforcement}
 We will start this subsection off by presenting the mean field voter model that has been introduced by Sano et al. \cite{Sano07122017}. It is yet again a model built to describe election dynamics, but we have clarified the parallel between elections and vaccine opinion multiple times. The aspect of reinforcement mentioned above is not implemented in this model, but another interesting approach to simulate realistic dynamics between zealots and ``normal", free individuals. In Model \ref{model:zealot} as well as in Model \ref{model:zealot_reinforcement}, the zealots are considered as ``outside" of the population, categorised into the groups $N_X$, and $N_Y$. Sano's approach is to include the zealots into the population, s.t. $N = X_t + Y_t + N_X + N_Y$ (for a two-party setting, as we have been following in this work). So, the population consists of two groups: the free voters, whose opinion may fluctuate and change, and the zealots, whose opinion is immutable. The decisive aspect are those two assumptions:
@@ -366,7 +362,7 @@ We will start this subsection off by presenting the mean field voter model that 
 The transitions between opinions for a free voter are the same as described in Model \ref{model:zealot}. With a given rate $\mu$, a voter rethinks his opinion, randomly picks another voter out of the population and copies their opinion. Additionally, this process may now be influenced by the zealots with rate $\phi_X$ and $\phi_Y$, respectively, so that the change of opinion is favourable for the opinion they root for.\newline
 
 Sano assumes that only a part $\phi_X, \phi_Y$, respectively, of the zealots would influence the opinion of free nodes. An assumption we do not totally agree with. In our perception, the pro-vaccination zealots mainly consist of the government, health bodies and their presence in the media (public health programs, mandatory vaccines), thus they will very actively propagate their opinion. Therefore we consider every pro-vaccine zealot as active in our setting. On the other side, we assume that the anti-vax zealots behave quite the same and propagate their arguments and ideas very actively \cite{Davies2002, Meyer2004}. Hence, we do not think that an ``active influence rate", as it has been introduced by Sano will be needed in our model. Still, his work had to be presented here, because it addresses the issue in a very interesting innovative way. In the following, we will introduce the reinforced zealot model, which perfectly fits our needs. All of the new terms and notation will be explained in the subsequent paragraph. The model reads as follows:
-\begin{model}[\textbf{Zealot model for two parties with reinforcement}]\label{model:zealot_reinforcement}%TODO later: mit Müller wg Zitat sprechen
+\begin{model}[\textbf{Zealot model for two parties with reinforcement by \cite{JohannesMuller2020}}]\label{model:zealot_reinforcement}
 	Consider a population of size $N \in \mathbb{N}$, where $X_t, Y_t \in \lbrace 0,\dots, N\rbrace$ describe the amount of supporters of opinion $X$ and $Y$ at time $t$, respectively. Let $N = X_t + Y_t$. Furthermore, let $N_X$ and $N_Y > 0$ be the number of zealots that support opinion $X$ and $Y$, respectively. An individual of the population (not a zealot) may reconsider his opinion with rate $\mu$ via the same process as described in Model \ref{model:zealot} and in addition of the contact rates $\theta_X, \theta_Y$. Then, the transition rates of the stochastic process are:
 	\begin{align}\label{def:transition_rates_zealot_reinforcement}
 	\begin{split}
@@ -571,7 +567,7 @@ Consider a population of size $N \in \mathbb{N}$, where $X_t \in \lbrace 0,\dots
 %TODO: bifurcations erklären? also normalform z.B.
 This Subsection is dedicated to the analysis of the proposed model in order to understand it better and to get a glimpse at what it is capable of. After trying several different approaches, we settled on the assumption to fix the ``anti-vax influence": $\omega\left(i\right) \coloneqq a\left(1-i\right)$. With this adjustment, the model indicates a tendency towards vaccination for increasing i and a tendency towards not getting vaccinated for decreasing i, which we esteem to be realistic. By additionally uncoupling $\dot{x}$ and $\dot{i}$, such that the number of infected individuals has no more influence on the number of pro-vaxxers, we even know about two bifurcations in the model now! This can be achieved by setting $a = 0$ and falling back to the model presented by M\"uller and Tellier in \textbf{cite M\"ullers paper}. As shown there, the following proposition may be formulated:
 
-\begin{prop}[Pitchfork bifurcation in the model by \textbf{cite M\"ullers paper}]\label{prop:mueller_stat_point}%TODO later: Müller Zitat
+\begin{prop}[Pitchfork bifurcation in the model by \cite{JohannesMuller2020}]\label{prop:mueller_stat_point}
 	Consider Model \ref{model:my_model}. For $n_X = n_Y = n, \theta_X = \theta_Y = \theta_P$ and $a = 0, x = \frac{1}{2}$ is always a stationary point and shows a pitchfork bifurcation at $\theta_P$ with
 	\begin{equation*}
 		\theta_P = \frac{1-2n}{1+2n}
@@ -696,8 +692,15 @@ Furthermore, when we take a look at the system in all its entirety, as in Figure
 	\input{img/s_vs_i_vs_x.pdf_tex}
 \end{figure}
 
-%TODO: eigenvalue diagram
-%Additionally, we have this diagram Mueller wanted me to do with the Eigenvalues, which shows the existence of a Hopf point
+%TODO: elaborate how this shows that hopf point has to exist lel
+\begin{figure}[h!]
+	\centering
+	\caption{Spectrum of Jacobian of the model with respect to $\mu$}
+	\label{fig:eigenvalue_diagram_hopf}
+	\def\svgwidth{350pt}
+	\input{img/eigenvalue_diagram_hopf.pdf_tex}
+\end{figure}
+
 
 \newpage
 
@@ -733,8 +736,7 @@ Furthermore, when we take a look at the system in all its entirety, as in Figure
 	\end{split}
 	\end{align}
 	
-	By rewriting drift and noise term with $n_i = N_i/N, \theta_i = 1- \frac{\Theta_i}{N}$, $h = 1/N, a = A/N$ and neglecting terms of $\mathcal{O}(N^{-2})$ we find (using maxima %TODO: cite
-	):
+	By rewriting drift and noise term with $n_i = N_i/N, \theta_i = 1- \frac{\Theta_i}{N}$, $h = 1/N, a = A/N$ and neglecting terms of $\mathcal{O}(N^{-2})$ we find (using maxima \cite{Maxima2014}):
 	
 	\begin{align*}
 	& \mu(1-x)f_+(x) - \mu xf_-(x)\\
@@ -799,12 +801,8 @@ Despite the vast amount of studies and publications that show how diseases can b
 	\input{img/durchimpfungskarte_meningokokken.pdf_tex}
 \end{figure}
 
-To understand the dynamics of this paradoxical behaviour, this work has taken into consideration the work done by Bauch and Bhattacharyya in \cite{Bauch2012} as well as by M\"uller and Tellier in \textbf{cite}%TODO later: mit müller wg Zitat sprechen
-. The aim was to join the behaviour-incidence approach and the zealot model with reinforcement to render the compartmental model of Bauch more realistic when depicting the behaviour of individuals regarding vaccination. The aspect of opinion formation and influence through fellow individuals, social media and filter bubbles, following the Ansatz of pay-off functions, was added to the underlying stochastic process before computing the model dynamics with the deterministic limit. By doing so, we found that the dynamics are completely disjoint from the number of recovered individuals. Furthermore, we found several bifurcations which appear in the model. For $a=0$ the model falls back to the results presented in \textbf{cite Müller}%TODO later: mit müller wg zitat
-and undergoes a pitchfork bifurcation, as well as a saddle-node bifurcation. The presence of a Hopf Bifurcation in our system has been shown in Figures \ref{fig:time_behaviour_my_model} and \textbf{eigenvalue diagram TODO}%TODO: eigenval diagram
- . It can be stated explicitly with the help of the powerful tool xppaut (for further information see Appendix \textbf{todo}%TODO: appendix
- ). This insight shows evidence of oscillations in the system, as can be seen in Figure \eqref{fig:time_behaviour_my_model}. Additionally, we suppose the existence of a Takens-Bogdanov bifurcation in the system, because of \textbf{Argumente finden/verstehen}%TODO: takens-bogdanov argumente
- . The proof of existence is left for further research. \newline
+To understand the dynamics of this paradoxical behaviour, this work has taken into consideration the work done by Bauch and Bhattacharyya in \cite{Bauch2012} as well as by M\"uller and Tellier in \cite{JohannesMuller2020}. The aim was to join the behaviour-incidence approach and the zealot model with reinforcement to render the compartmental model of Bauch more realistic when depicting the behaviour of individuals regarding vaccination. The aspect of opinion formation and influence through fellow individuals, social media and filter bubbles, following the Ansatz of pay-off functions, was added to the underlying stochastic process before computing the model dynamics with the deterministic limit. By doing so, we found that the dynamics are completely disjoint from the number of recovered individuals. Furthermore, we found several bifurcations which appear in the model. For $a=0$ the model falls back to the results presented in \cite{JohannesMuller2020} and undergoes a pitchfork bifurcation, as well as a saddle-node bifurcation. The presence of a Hopf Bifurcation in our system has been indicated by Figures \ref{fig:time_behaviour_my_model} and \ref{fig:eigenvalue_diagram_hopf}. It can be stated explicitly with the help of the powerful tool xppaut (for further information see Appendix \textbf{todo}%TODO: appendix
+ ). This insight shows evidence of oscillations in the system, as can be seen in Figure \eqref{fig:time_behaviour_my_model}. It would be very interesting for future work to investigate the existence of a Takens-Bogdanov bifurcation in the presented system.\newline
  
  We found a stationary point for a fixed $x = \frac{1}{2}$ in our system, as well as a strong correlation between $x$ and $i$ shown in Figure \ref{fig:alu_vs_x}. The oscillations of $x$ and $i$ express the varying immunisation behaviour within the population: when the amount of infected individuals is low, the disease is not strongly perceived by the population, thus the immunisation rate drops. The small number of immune subjects will then over time generate a high rate of infected subjects, which leads to increased disease awareness within the population and higher immunisation rates. The cycle we can observe here can be interpreted in a certain manner as the biological equivalent to the ``pork cycle" or ``cattle cycle" known from economics \cite{Rosen1994}. \textbf{beschissenes ende}\newline\newline
  Soll ich am Anfang etwas schreiben wie: anti-vax, anti-immunization, anti-vaccination will be used interchangeably oder war es nicht verwirrend?
