@@ -5,8 +5,8 @@
 # find a Hopf bifurcation
 #
 
-#setwd("C:/Users/ge69fup/Documents/Uni/TUM/Mathe_B_Sc/SS_20/Bachelorarbeit/bachelorarbeit-repo/R_bachelorarbeit/eigenvalue_generatioin")
-setwd("D:/Dokumente/Uni/TUM/Mathe_B_Sc/SS_20/Bachelorarbeit/bachelorarbeit-repo/R_bachelorarbeit/eigenvalue_generation");
+#setwd("C:/Users/ge69fup/Documents/Uni/TUM/Mathe_B_Sc/SS_20/Bachelorarbeit/bachelorarbeit-repo/R_bachelorarbeit/Brexit")
+setwd("D:/Dokumente/Uni/TUM/Mathe_B_Sc/SS_20/Bachelorarbeit/bachelorarbeit-repo/R_bachelorarbeit");
 
 
 
@@ -213,11 +213,11 @@ if (1==1){
   l.x = c(l1.x, l2.x, l3.x);
   l.y = c(l1.y, l2.y, l3.y);
   
-  #postscript(file="hopfPoint.eps", pointsize=18, paper="special", width=6, height = 6.84); 
+  postscript(file="hopfPoint.eps", pointsize=18, paper="special", width=6, height = 6.84); 
   #   plot(l1.x,l1.y, xlim=c(min(l.x), max(l.x)), ylim=c(min(l.y), max(l.y)), xlab="Re(lambda)", ylab="Im(lambda)" );
   plot(l1.x,l1.y, xlim=c(-0.05, 0.05), ylim=c(min(l.y), max(l.y)), xlab="Re(lambda)", ylab="Im(lambda)" );
   points(l2.x, l2.y, col="blue");
   points(l3.x, l3.y, col="green");
   abline(h=0, lty=3); abline(v=0, lty=3);
-  #dev.off();
+  dev.off();
 }
