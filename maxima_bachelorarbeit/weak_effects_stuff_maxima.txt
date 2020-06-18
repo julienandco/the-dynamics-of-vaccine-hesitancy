@@ -38,6 +38,14 @@ scaled_theta_Y: 1- ThetaY * h;
 scaled_i : I*h;
 scaled_a: A*h;
 
+#used for dirichlet_lim_v5.tex:
+scaled_n_X: N_X * h;
+scaled_n_Y: N_Y * h;
+scaled_theta_X: 1- ThetaX * h;
+scaled_theta_Y: 1- ThetaY * h;
+scaled_i : i;
+scaled_a: A*h;
+
 f:(1-x)*(scaled_theta_X *(x+scaled_n_X+scaled_a*scaled_i))/(scaled_theta_X *(x+scaled_n_X+scaled_a*scaled_i)+1-x+scaled_n_Y+scaled_a * (1-scaled_i));
 g: x*(scaled_theta_Y *(1-x+scaled_n_Y+scaled_a*(1-scaled_i)))/(x + scaled_n_X + scaled_a*scaled_i + scaled_theta_Y *(1-x+scaled_n_Y+scaled_a*(1-scaled_i)));
 
@@ -59,3 +67,8 @@ sol_plus: coeff(taylor_plus,h,0);
 
 #check if it is indeed solution for f + g:
 taylor(term_plus - sol_plus,h,0,0);
+
+
+
+#solve for v:
+ode2('diff(v,x) = (((ThetaX + ThetaY)*x - ThetaX) + NX/x - (NY+A)/(1-x))*v,v,x);
