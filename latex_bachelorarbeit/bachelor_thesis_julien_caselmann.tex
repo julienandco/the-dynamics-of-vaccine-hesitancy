@@ -704,11 +704,13 @@ Furthermore, when we take a look at the system in all its entirety, as in Figure
 \subsection{Fitting of the model on real data}
 %TODO: intro + explanation
 
+%TODO: diesen zusatz aus fokkerplanck buch noch reinhauen, der erklärt warum unsere k-m-expansion endlich ist und nicht sum infty 
+
 %TODO: theorem is copy and paste from him, so reformulate it
 \begin{thm}\label{theorem:weak_eff_lim}
 	Let $N_i, i \in \lbrace X,Y\rbrace$ denote the numbers of zealots of opinion $X$ and $Y$, respectively, $N$ the population size and $\theta_i = 1-\frac{\Theta_i}{N}$ the parameter describing reinforcement. In the limit $N \rightarrow \infty$, the density of the invariant measure for the random variable $z_t = \frac{X_t}{N}$ is given by
 	\begin{equation}
-		\phi(x) = Ce^{\frac{1}{2}\left(\Theta_X + \Theta_Y\right)x^2 - \Theta_X x}x^{N_X - 1}\left(1-x\right)^{N_Y+A - 1}
+	\phi(x) = Ce^{\frac{1}{2}\left(\Theta_X + \Theta_Y\right)x^2 - \Theta_X x}x^{N_X + Ai - 1}\left(1-x\right)^{N_Y+A - Ai - 1}
 	\end{equation}
 	where $C$ is determined by the condition $\int_{0}^{1}\phi(x) dx = 1$.
 \end{thm}
@@ -731,16 +733,14 @@ Furthermore, when we take a look at the system in all its entirety, as in Figure
 	\end{split}
 	\end{align}
 	
-	By rewriting drift and noise term with $n_i = \frac{N_i}{N}, \theta_i = 1- \frac{\Theta_i}{N}$, $h = \frac{1}{N}, i= \frac{I}{N}, a = \frac{A}{N}$ and neglecting terms of $\mathcal{O}(h^2)$ we find (using maxima %TODO: cite maxima
+	By rewriting drift and noise term with $n_i = N_i/N, \theta_i = 1- \frac{\Theta_i}{N}$, $h = 1/N, a = A/N$ and neglecting terms of $\mathcal{O}(N^{-2})$ we find (using maxima %TODO: cite
 	):
 	
 	\begin{align*}
 	& \mu(1-x)f_+(x) - \mu xf_-(x)\\
-	= & \mu(1-x) \frac{(1-h\Theta_X) (x+ hN_X+ h^2AI)}{(1-h\Theta_X) (x + hN_X + h^2AI) + (1-x + hN_Y + hA(1-hI))}\\
-	&\\
-	&\qquad - \mu x \frac{(1-h\Theta_Y)(1-x+hN_Y+hA(1-hI))}{(x+h_NX+h^2AI) + (1-h\Theta_Y)(1-x+hN_Y+hA(1-hI))}\\
-		&\\
-	=& \mu\Big(\left[\left(\Theta_X + \Theta_Y\right)x - \Theta_X\right]x\left(1-x\right)-\left(N_X + N_Y + A\right)x + N_X\Big)h+ \mathcal{O}(h^2),\\
+	= & \mu(1-x) \frac{(1-h\Theta_X) (x+ hN_X+ hAi)}{(1-h\Theta_X) (x + hN_X + hAi) + (1-x + hN_Y + hA(1-i))}\\
+	&\qquad - \mu x \frac{(1-h\Theta_Y)(1-x+hN_Y+hA(1-i))}{(x+h_NX+hAi) + (1-h\Theta_Y)(1-x+hN_Y+hA(1-i))}\\
+	=& \mu\Big(\left[\left(\Theta_X + \Theta_Y\right)x - \Theta_X\right]x\left(1-x\right)-\left(N_X + N_Y + A\right)x + Ai + N_X\Big)h+ \mathcal{O}(h^2),\\
 	\end{align*}
 	
 	while 
@@ -752,34 +752,36 @@ Furthermore, when we take a look at the system in all its entirety, as in Figure
 	After rescaling time: $T = \mu h t$, the Fokker-Planck equation \eqref{eq:limiting_fokker-planck} becomes
 	
 	\begin{align*}
-	\partial_T \big(u\left(x, T\right)\big) &= -\partial_x\Bigg(u(x,T)\Big(\left[\left(\Theta_X + \Theta_Y\right)x - \Theta_X\right]x\left(1-x\right)-\left(N_X + N_Y + A\right)x + N_X\Big)\Bigg)\\
-	&\qquad + \partial^2_x\Big(u(x,T)x(1-x)\Big)
+	&\partial_T \big(u\left(x, T\right)\big)\\
+	=& -\partial_x\Bigg(u(x,T)\Big(\left[\left(\Theta_X + \Theta_Y\right)x - \Theta_X\right]x\left(1-x\right)-\left(N_X + N_Y + A\right)x+ Ai + N_X\Big)\Bigg)\\
+		&+ \partial^2_x\big(u(x,T)x(1-x)\big)
 	\end{align*}
 	
 	For the invariant distribution $\phi(x)$, the flux of the rescaled Fokker-Planck equation is zero, that is:
 	
 	\begin{equation*}
-	-\Big(\left[\left(\Theta_X + \Theta_Y\right)x - \Theta_X\right]x\left(1-x\right)-\left(N_X + N_Y + A\right)x + N_X\Big)\phi(x) + \frac{d}{dx}\left(\phi(x)x\left(1-x\right)\right)= 0
+	-\Big(\left[\left(\Theta_X + \Theta_Y\right)x - \Theta_X\right]x\left(1-x\right)-\left(N_X + N_Y + A\right)x + Ai + N_X\Big)\phi(x) + \frac{d}{dx}\left(\phi(x)x\left(1-x\right)\right)= 0
 	\end{equation*}
 	
 	With $v(x) = \phi(x)x\left(1-x\right)$, we have:
 	
 	\begin{equation*}
-	v'(x) = \left(\left[\left(\Theta_X + \Theta_Y\right)x - \Theta_X\right] + \frac{N_X}{x} - \frac{N_Y + A}{1-x}\right)v(x)
+	v'(x) = \left(\left[\left(\Theta_X + \Theta_Y\right)x - \Theta_X\right] + \frac{N_X}{x} - \frac{N_Y}{1-x} + \frac{A(i-x)}{x(1-x)}\right)v(x)
 	\end{equation*}
 	
 	and hence
 	
 	\begin{equation*}
-	v(x) = Ce^{\frac{1}{2}\left(\Theta_X + \Theta_Y\right)x^2 - \Theta_X x}x^{N_X}\left(1-x\right)^{N_Y+A}
+	v(x) = Ce^{\frac{1}{2}\left(\Theta_X + \Theta_Y\right)x^2 - \Theta_X x}x^{N_X + Ai}\left(1-x\right)^{N_Y+A - Ai}
 	\end{equation*}
 	
 	Respectively,
 	
 	\begin{equation*}
-	\phi(x) = Ce^{\frac{1}{2}\left(\Theta_X + \Theta_Y\right)x^2 - \Theta_X x}x^{N_X - 1}\left(1-x\right)^{N_Y+A - 1}
+	\phi(x) = Ce^{\frac{1}{2}\left(\Theta_X + \Theta_Y\right)x^2 - \Theta_X x}x^{N_X + Ai - 1}\left(1-x\right)^{N_Y+A - Ai - 1}
 	\end{equation*}
 \end{proof}
+
 TODO
 %TODO: reformulate, since it is copy-paste from muellers paper
 On the one hand, the det.lim. allows to easily analyse and visualise the long term behaviour. On the other hand, pop genetics studies [three citations] show that the weak effect models are more realistic when it comes to the analysis of the data.
