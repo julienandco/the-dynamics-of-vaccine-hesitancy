@@ -1,0 +1,46 @@
+By rewriting drift and noise term with $n_i = N_i/N, \theta_i = 1- \frac{\Theta_i}{N}$, $h = 1/N, i= I/N, a = A/N$ and neglecting terms of $\mathcal{O}(N^{-2})$ we find (using maxima %TODO: cite
+):
+
+\begin{align*}
+& \mu(1-x)f_+(x) - \mu xf_-(x)\\
+= & \mu(1-x) \frac{(1-h\Theta_X) (x+ hN_X+ h^2AI)}{(1-h\Theta_X) (x + hN_X + h^2AI) + (1-x + hN_Y + hA(1-hI))}\\
+&\qquad - \mu x \frac{(1-h\Theta_Y)(1-x+hN_Y+hA(1-hI))}{(x+h_NX+h^2AI) + (1-h\Theta_Y)(1-x+hN_Y+hA(1-hI))}\\
+=& \mu\Big(\left[\left(\Theta_X + \Theta_Y\right)x - \Theta_X\right]x\left(1-x\right)-\left(N_X + N_Y + A\right)x + N_X\Big)h+ \mathcal{O}(h^2),\\
+\end{align*}
+
+while 
+
+\begin{equation*}
+h\left[\mu(1-x)f_+(x) + \mu xf_-(x)\right] = \mu h 2x(1-x) + \mathcal{O}(h^2).
+\end{equation*}
+
+After rescaling time: $T = \mu h t$, the Fokker-Planck equation becomes
+
+\begin{align*}
+\partial_T \big(u\left(x, T\right)\big) &= -\partial_x\Bigg(u(x,T)\Big(\left[\left(\Theta_X + \Theta_Y\right)x - \Theta_X\right]x\left(1-x\right)-\left(N_X + N_Y + A\right)x + N_X\Big)\Bigg)\\
+&\qquad + \partial^2_x\big(u(x,T)x(1-x)\big)
+\end{align*}
+
+For the invariant distribution $\phi(x)$, the flux of the rescaled Fokker-Planck equation is zero, that is:
+
+\begin{equation*}
+-\Big(\left[\left(\Theta_X + \Theta_Y\right)x - \Theta_X\right]x\left(1-x\right)-\left(N_X + N_Y + A\right)x + N_X\Big)\phi(x) + \frac{d}{dx}\left(\phi(x)x\left(1-x\right)\right)= 0
+\end{equation*}
+
+With $v(x) = \phi(x)x\left(1-x\right)$, we have:
+
+\begin{equation*}
+v'(x) = \left(\left[\left(\Theta_X + \Theta_Y\right)x - \Theta_X\right] + \frac{N_X}{x} - \frac{N_Y + A}{1-x}\right)v(x)
+\end{equation*}
+
+and hence
+
+\begin{equation*}
+v(x) = Ce^{\frac{1}{2}\left(\Theta_X + \Theta_Y\right)x^2 - \Theta_X x}x^{N_X}\left(1-x\right)^{N_Y+A}
+\end{equation*}
+
+Respectively,
+
+\begin{equation*}
+\phi(x) = Ce^{\frac{1}{2}\left(\Theta_X + \Theta_Y\right)x^2 - \Theta_X x}x^{N_X - 1}\left(1-x\right)^{N_Y+A - 1}
+\end{equation*}
