@@ -446,7 +446,7 @@ The proof of the claim above will be quite lengthy, but mainly computational. Fi
 		\partial_t\big(B\left(v,t\right)\big) = \left[-\partial_x\big(D^{(1)}(x)\big) + \partial_x^2\big(D^{(2)}(x)\big)\right] B\left(v,t\right).
 	\end{equation*}
 \end{definition}
-
+%TODO: diesen zusatz aus fokkerplanck buch noch reinhauen, der erklärt warum unsere k-m-expansion endlich ist und nicht sum infty 
 \begin{definition}[\textbf{Kramers-Moyal Expansion by \cite{Risken1989}}]
 	The general expansion of a Fokker-Planck equation that does not stop after the second derivative and also contains higher ones with respect to $x$, has infinite number of terms and is called the Kramers-Moyal expansion. It reads:
 	\begin{equation*}
@@ -561,7 +561,7 @@ Consider a population of size $N \in \mathbb{N}$, where $X_t \in \lbrace 0,\dots
 \end{model}
 
 \subsection{Bifurcation Analysis}
-%TODO: bifurcations erklären? also normalform z.B.
+%TODO: bifurcations erklären! evtl auch noch normalform z.B.
 This Subsection is dedicated to the analysis of the proposed model in order to understand it better and to get a glimpse at what it is capable of. After trying several different approaches, we settled on the assumption to fix the ``anti-vax influence": $\omega\left(i\right) \coloneqq a\left(1-i\right)$. With this adjustment, the model indicates a tendency towards vaccination for increasing i and a tendency towards not getting vaccinated for decreasing i, which we esteem to be realistic. By additionally uncoupling $\dot{x}$ and $\dot{i}$, such that the number of infected individuals has no more influence on the number of pro-vaxxers, we even know about two bifurcations in the model now! This can be achieved by setting $a = 0$ and falling back to the model presented by M\"uller and Tellier in \textbf{cite M\"ullers paper}. As shown there, the following proposition may be formulated:
 
 \begin{prop}[Pitchfork bifurcation in the model by \cite{JohannesMuller2020}]\label{prop:mueller_stat_point}
@@ -689,7 +689,10 @@ Furthermore, when we take a look at the system in all its entirety, as in Figure
 	\input{img/s_vs_i_vs_x.pdf_tex}
 \end{figure}
 
-%TODO: elaborate how this shows that hopf point has to exist lel
+As we know from \cite{Hale1991}, two purely imaginary eigenvalues crossing the imaginary axis imply the existence of a Hopf. This fact can be seen in Figure \ref{fig:eigenvalue_diagram_hopf}, which depicts the spectrum of the linearisation $J$ for variations of $\mu$.
+%TODO: nächsten satz schöner schreiben
+(remember: linearisation is 2-d, so can only have 2 eigenvalues and as we know: p(z) = 0 => p(z-conj) = 0, so every pair of complex numbers represents the two eigenvalues for one value of $\mu$).
+
 \begin{figure}[h!]
 	\centering
 	\caption{Spectrum of Jacobian of the model with respect to $\mu$}
@@ -703,8 +706,6 @@ Furthermore, when we take a look at the system in all its entirety, as in Figure
 
 \subsection{Fitting of the Model on Real Data}
 %TODO: intro + explanation
-
-%TODO: diesen zusatz aus fokkerplanck buch noch reinhauen, der erklärt warum unsere k-m-expansion endlich ist und nicht sum infty 
 
 %TODO: theorem is copy and paste from him, so reformulate it
 \begin{thm}\label{theorem:weak_eff_lim}
@@ -811,6 +812,7 @@ To understand the dynamics of this paradoxical behaviour, this work has taken in
 
 \printbibliography
 
+%TODO: append this only for pdf abgabe. Do not print!
 %\input{appendix_bachelor_thesis_julien_caselmann.tex}
 \end{document}
 
