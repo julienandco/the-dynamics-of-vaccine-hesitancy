@@ -1,6 +1,6 @@
 #
 #
-# Estimate the parameters for the Brexit.
+# Estimate the parameters for the my model.
 #
 #  (a) For each election, estimate
 #     - Zealot model (beta-distrib)
@@ -13,8 +13,8 @@
 
 #
 # in case: define work directory
-#setwd("C:/Users/ge69fup/Documents/Uni/TUM/Mathe_B_Sc/SS_20/Bachelorarbeit/bachelorarbeit-repo/R_bachelorarbeit/Brexit")
-setwd("D:/Dokumente/Uni/TUM/Mathe_B_Sc/SS_20/Bachelorarbeit/bachelorarbeit-repo/R_bachelorarbeit/Brexit");
+#setwd("C:/Users/ge69fup/Documents/Uni/TUM/Mathe_B_Sc/SS_20/Bachelorarbeit/bachelorarbeit-repo/R_bachelorarbeit/data_fitting")
+setwd("D:/Dokumente/Uni/TUM/Mathe_B_Sc/SS_20/Bachelorarbeit/bachelorarbeit-repo/R_bachelorarbeit/data_fitting");
 
 post <- function(nme){
   # remove blanks
@@ -29,14 +29,15 @@ post <- function(nme){
 # read data
 #
 #################
-load("electBrexitV4.rSave");
+#vaccination_data = read.csv2('C:/Users/ge69fup/Documents/Uni/TUM/Mathe_B_Sc/SS_20/Bachelorarbeit/bachelorarbeit-repo/R_bachelorarbeit/data_fitting/merged_impfdaten.csv', header=TRUE)
+vaccination_data = read.csv2('D:/Dokumente/Uni/TUM/Mathe_B_Sc/SS_20/Bachelorarbeit/bachelorarbeit-repo/R_bachelorarbeit/data_fitting/merged_impfdaten.csv',header=TRUE);
 
 
 ###############
 # read tools
 #
 #################
-source("estiReinforceV0.txt");
+source("my_parameter_estimation_reinforcement.R");
 
 ######################################
 #
@@ -44,64 +45,66 @@ source("estiReinforceV0.txt");
 
 if (1==1){
   # check optima
-  skal.max=2500;
+  s_hut.max=2500;
   
   res.tab = c();
   
   
   {
-    e =    electGBbrexit[[1]];
     myDataEsti = c();
-    ep = e$PartyVotes;
-    myDataEsti = ep[,1]/(ep[,1]+ep[,2]);     
+    impfer = vaccination_data$Wert;
+    myDataEsti = impfer/100;       
     
     mmean = mean(myDataEsti);
     
     
     hist(myDataEsti, freq = FALSE, nclass=30, 
-         main=as.character(e$year),
+         main="first run",
          xlim=c(0,1));
     ###################################################################
     # first run: estimate the full reinforcement model
     ###################################################################
-    
-    para.ref = c(mean(myDataEsti), 0.5, 0.5,100);   # define init para
+    cat("first run", "\n");
+    ##para.ref sind diese Hut parameter in der reihenfolge: nu_hut,theta_hut,psi_hut,ksi_hut,i.param,s_hut
+    para.ref = c(mean(myDataEsti), 0.5, 0.5,0.5,0.2,100);   # define init para
     lll.last = lll(para.ref);
-    cat(lll.last, "\n");
+    cat("lll.last: ", lll.last, "\n");
     curve(g(x), add=TRUE, col="blue", lwd=2);
     
-    unrestricted.model = TRUE;      # we aim at the full model
-    unrestrict.theta   = TRUE;
-    opti.cylcic(para.ref);
+    unrestricted.model     = TRUE;      # we aim at the full model
+    unrestrict.theta_hut   = TRUE;
+    opti.cyclic(para.ref);
     cat(lll.last, "\n");
     para.unrest = para.last;        # store the result
     lll.unrest  = lll.last;
-    theta.res   = theta*skal;
+    theta.res   = theta_hut*s_hut;
     
     # Kolmogorov-Smirnov test
     res.ks = ks.test(myDataEsti, function(x){pReinforce(x)}); 
     
     # produce a figure with histogram and estimated distribution
-    party.x = "remain";
+    party.x = "pro-vaxx";
+    
     
     ###################################################################
     # second run: reinforcement model, force equal reinforcement parameters 
     ###################################################################
-    para.ref = c(mean(myDataEsti), 0.5, 0.5,100);   # define init para
+    cat("second run","\n");
+    para.ref = c(mean(myDataEsti), 0.5, 0.5,0.5,0.2,100);   # define init para
     lll.last = lll(para.ref);
     cat(lll.last, "\n");
     hist(myDataEsti, freq = FALSE, nclass=30, 
-         main=as.character(e$year),
+         main="second run",
          xlim=c(0,1));
-    curve(g(x), add=TRUE, col="green", lwd=2);
+    curve(g(x), add=TRUE, col="blue", lwd=2);
     
-    unrestricted.model = TRUE;      # we aim at the full model
-    unrestrict.theta   = FALSE;     # we want to keep equal parameters for reinforcement
-    opti.cylcic(para.ref);
+    unrestricted.model     = TRUE;      # we aim at the full model
+    unrestrict.theta_hut   = FALSE;     # we want to keep equal parameters for reinforcement
+    opti.cyclic(para.ref);
     cat(lll.last, "\n");
     para.halfRestrict = para.last;        # store the result
     lll.halfRestrict  = lll.last;
-    theta.res   = theta*skal;
+    theta.res   = theta_hut*s_hut;
     
     # Kolmogorov-Smirnov test
     res.halfRestrict.ks = ks.test(myDataEsti, function(x){pReinforce(x)}); 
@@ -110,24 +113,25 @@ if (1==1){
     ###################################################################
     # third run: estimate the zealot model (beta-distrib)
     ###################################################################
-    
-    unrestricted.model = FALSE;           # we fix all reinfrcement-paras
-    unrestrict.theta   = FALSE;
-    para.ref = c(mean(myDataEsti), 0.0, 0.5,100);
+    cat("third run", "\n");
+    unrestricted.model     = FALSE;           # we fix all reinforcement-paras
+    unrestrict.theta_hut   = FALSE;
+    para.ref = c(mean(myDataEsti), 0.0,0.5, 0.5,0.2,100);
     hist(myDataEsti, freq = FALSE, nclass=30, 
-         main=as.character(e$year),
+         main="third run",
          xlim=c(0,1));
-    curve(g(x), add=TRUE, col="red", lwd=2);
+    curve(g(x), add=TRUE, col="blue", lwd=2);
     
-    opti.cylcic(para.ref);
-    cat(lll.last, "\n");
+    opti.cyclic(para.ref);
+    cat("lll.last: ", lll.last, "\n");
     para.restrict = para.last;            # store result
     lll.restrict  = lll.last;
     
     # komogorov-smirnov-test
     res.restric.ks = ks.test(myDataEsti, function(x){pReinforce(x)});
-    
-    line = c(e$year, party.x, 
+  
+    #in line muss noch das ergebnis für A und ksi_hut rein...
+    line = c('run', party.x, 
              theta.res,
              para.unrest,
              lll.unrest,
@@ -146,21 +150,21 @@ if (1==1){
     
     res.tab = rbind(res.tab, line);
   }
-  # names orient themseves ar the supplement II of the paper
+  # names orient themselves ar the supplement II of the paper
   col.names = c(
-    "year", "party", 
+    "run", "opinion", 
     "Theta1PlusTheta2.unr",  
-    "nu.unr", "theta.hat.unr", "psi.unr", "s.unr",
+    "nu.unr", "theta.hat.unr", "psi.unr", "ksi.unr", "i.unr","s.unr",
     "lll.unr",
-    "nu.halfr", "theta.hat.halfr", "psi.halfr", "s.halfr",
+    "nu.halfr", "theta.hat.halfr", "psi.halfr", "ksi.halfr", "i.halfr","s.halfr",
     "lll.halfr",
-    "nu.restr", "theta.hat.restr", "psi.restr", "s.restr",
+    "nu.restr", "theta.hat.restr", "psi.restr", "ksi.restr","i.restr","s.restr",
     "lll.restr",
     "lll.unr.rest", "lll.unr.halfr",
     "ks.unres", "ks.halfRestr", "ks.restr");
   dimnames(res.tab)[[2]] =col.names;
   
-  save(file="datAnaBrexit_V1.rSave", res.tab);
+  save(file="datAnaMyModel_V1.rSave", res.tab);
   
 }
 
@@ -169,26 +173,26 @@ if (1==1){
 
 if (1==1){
   # produce a table
-  load(file="datAnaBrexit_V1.rSave");
-  sink(file="datBrexit.tex");
+  load(file="datAnaMyModel_V1.rSave");
+  sink(file="datMyModel.tex");
   cat(dimnames(res.tab)[[2]][c(1,2,4,5,6,7)]); cat(" theta1 ");cat(" theta2 "); cat(dimnames(res.tab)[[2]][c(19,21,23)]);
   cat("\n");
   nn = dim(res.tab)[1];
-  for (i in 1:nn){
-    cat(res.tab[i,1], " & ", res.tab[i,2], " & ");
-    cat(res.tab[i,4], " & ", res.tab[i,5], " & ");
-    cat(res.tab[i,6], " & ", res.tab[i,7], " & ");
+  for (j in 1:nn){
+    cat(res.tab[j,1], " & ", res.tab[j,2], " & ");
+    cat(res.tab[j,4], " & ", res.tab[j,5], " & ");
+    cat(res.tab[j,6], " & ", res.tab[j,7], " & ");
     # theta_2 = h.s*h.theta*(1-h.psi)
-    cat(as.double(res.tab[i,5])*as.double(res.tab[i,7])*as.double(res.tab[i,6]), " & ");
-    cat(as.double(res.tab[i,5])*as.double(res.tab[i,7])*(1-as.double(res.tab[i,6])), " & ");
-    cat(as.double(res.tab[i,19]), " & ", 
-        as.double(res.tab[i,21]), " & ", 
-        as.double(res.tab[i,23]), 
+    cat(as.double(res.tab[j,5])*as.double(res.tab[j,7])*as.double(res.tab[j,6]), " & ");
+    cat(as.double(res.tab[j,5])*as.double(res.tab[j,7])*(1-as.double(res.tab[j,6])), " & ");
+    cat(as.double(res.tab[j,19]), " & ", 
+        as.double(res.tab[j,21]), " & ", 
+        as.double(res.tab[j,23]), 
         "\\\\\n");
   }
   
   cat("Test hat.psi=0.5 versus free model (where is the reinforcement?)\n");
-  cat(as.double(res.tab[i,20]), " \n");
+  cat(as.double(res.tab[j,20]), " \n");
   
   sink();
   
@@ -198,49 +202,48 @@ if (1==1){
 
 if (1==1){
   # produce figures
-  e =    electGBbrexit[[1]];
-  ep = e$PartyVotes;
-  myDataEsti = ep[,1]/(ep[,1]+ep[,2]);     
+  impfer = vaccination_data$Wert;
+  myDataEsti = impfer/100;       
   mmean <<- mean(myDataEsti);
   
   
-  post(paste("GBbrexit",as.character(i),".eps",sep=""));
+  post(paste("My_model",as.character(j),".eps",sep=""));
   hist(myDataEsti, freq = FALSE, 
-       main=paste("Brexit"),
-       xlim=c(0,1), xlab="vote share ``remain''", nclass=30);
+       main=paste("Vaccinational behaviour"),
+       xlim=c(0,1), xlab="amount of pro-vaxxers x", nclass=30);
   
-  para.last = as.double(res.tab[i, 4:7]);
+  para.last = as.double(res.tab[j, 4:7]);
   
   lll.last = lll(para.last);
   cat(lll.last, "\n");  mmean <<- mean(myDataEsti);
   
   curve(g(x), add=TRUE,  lwd=2);
   
-  para.last = as.double(res.tab[i, 14:17]);
+  para.last = as.double(res.tab[j, 14:17]);
   lll.last = lll(para.last);
   cat(lll.last, "\n");
   curve(g(x), add=TRUE,  lwd=2, lty=2);
   dev.off();
   
   
-  post(paste("GBbrexit2",as.character(i),".eps",sep=""));
+  post(paste("My_model_2",as.character(j),".eps",sep=""));
   hist(myDataEsti, freq = FALSE, 
-       main=paste("Brexit"),
-       xlim=c(0,1), xlab="vote share ``remain''", nclass=30);
+       main=paste("Vaccinational behaviour"),
+       xlim=c(0,1), xlab="amount of pro-vaxxers x", nclass=30);
   
-  para.last = as.double(res.tab[i, 4:7]);
+  para.last = as.double(res.tab[j, 4:7]);
   
   lll.last = lll(para.last);
   cat(lll.last, "\n");  mmean <<- mean(myDataEsti);
   
   curve(g(x), add=TRUE,  lwd=2);
   
-  para.last = as.double(res.tab[i, 9:12]);
+  para.last = as.double(res.tab[j, 9:12]);
   lll.last = lll(para.last);
   cat(lll.last, "\n");
   curve(g(x), add=TRUE,  lwd=2, col = "green");
   
-  para.last = as.double(res.tab[i, 14:17]);
+  para.last = as.double(res.tab[j, 14:17]);
   lll.last = lll(para.last);
   cat(lll.last, "\n");
   curve(g(x), add=TRUE,  lwd=2, lty=2);

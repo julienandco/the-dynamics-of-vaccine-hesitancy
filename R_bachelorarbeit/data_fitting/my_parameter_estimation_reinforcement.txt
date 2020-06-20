@@ -7,15 +7,15 @@
 #####################################################################
 
 #
-# myDataEsti: vector with values in (0,1); the data ti use for the esimtation
+# myDataEsti: vector with values in (0,1); the data it uses for the estimation
 #
 
-##�berall wo verteilung aufgerufen wird, muss mein param rein
+##überall wo verteilung aufgerufen wird, muss mein param rein
 #
 # in case: define work directory
 
-#setwd("C:/Users/ge69fup/Documents/Uni/TUM/Mathe_B_Sc/SS_20/Bachelorarbeit/bachelorarbeit-repo/R_bachelorarbeit/Brexit")
-setwd("D:/Dokumente/Uni/TUM/Mathe_B_Sc/SS_20/Bachelorarbeit/bachelorarbeit-repo/R_bachelorarbeit/Brexit");
+#setwd("C:/Users/ge69fup/Documents/Uni/TUM/Mathe_B_Sc/SS_20/Bachelorarbeit/bachelorarbeit-repo/R_bachelorarbeit/data_fitting")
+setwd("D:/Dokumente/Uni/TUM/Mathe_B_Sc/SS_20/Bachelorarbeit/bachelorarbeit-repo/R_bachelorarbeit/data_fitting");
 
 post <- function(nme){
   # remove blanks
@@ -32,32 +32,32 @@ post <- function(nme){
 #
 ##################
 
-skal.max = 2000;
+s_hut.max = 2000;
 
 f.norm <- function(){
   # an additive constant to avoid large numbers
   # in the exponent; this number is chosen in dependence
   # on the mean value of the data at hand.
   x = mmean;
-  return(-1*(skal*theta*(0.5*x**2-theta1*x)
-             +log(x)*(1-theta)*n1*skal
-             +log(1-x)*(1-theta)*(1-n1)*skal)
+  return(-1*(s_hut*theta_hut*(0.5*x**2-phi_hut*x)
+             +log(x)*((1-theta_hut)*nu_hut*(1-ksi_hut)+nu_hut*ksi_hut*i.param)*s_hut
+             +log(1-x)*((1-theta_hut)*(1-nu_hut)*(1-ksi_hut)+nu_hut*ksi_hut*(1-i.param))*s_hut)
   );
 }
 
 f <- function(x){
-  # N1 = (1-theta)*n1+1, N2 = (1-theta)*(1-n1)*scal +1
-  # theta \in (0,1), n1 \in (0,1), scal >0
+  # N1 = (1-theta_hut)*(1-ksi_hut)*nu_hut*scal+1, N2 = (1-theta_hut)*(1-nu_hut)*(1-ksi_hut)*scal +1
+  # theta_hut \in (0,1), nu_hut \in (0,1), ksi_hut \in (0,1) scal >0
   return(
-    exp(  skal*theta*(0.5*x**2-theta1*x)
-          +log(x)*(1-theta)*n1*skal
-          +log(1-x)*(1-theta)*(1-n1)*skal +f.norm()
+    exp(  s_hut*theta_hut*(0.5*x**2-phi_hut*x)
+          +log(x)*((1-theta_hut)*nu_hut*(1-ksi_hut)+nu_hut*ksi_hut*i.param)*s_hut
+          +log(1-x)*((1-theta_hut)*(1-nu_hut)*(1-ksi_hut)+nu_hut*ksi_hut*(1-i.param))*s_hut +f.norm()
     )
   );
 }
 
 get.cc <- function(){
-  # get the normalizazion constant
+  # get the normalisation constant
   CC=(integrate(f, lower=10**-6,upper=1-10**-6)$value)**(-1);
   return(CC);
 }
@@ -68,22 +68,22 @@ g<-function(x){
   # That constant cancels at the end of the day.
   return(
     CC*
-      exp(skal*theta*(0.5*x**2-theta1*x)
-          +log(x)*(1-theta)*n1*skal
-          +log(1-x)*(1-theta)*(1-n1)*skal+f.norm()
+      exp(s_hut*theta_hut*(0.5*x**2-phi_hut*x)
+          +log(x)*((1-theta_hut)*nu_hut*(1-ksi_hut)+nu_hut*ksi_hut*i.param)*s_hut
+          +log(1-x)*((1-theta_hut)*(1-nu_hut)*(1-ksi_hut)+nu_hut*ksi_hut*(1-i.param))*s_hut +f.norm()
       )
   );
 }
 
-lll.dat <- function(x,n1,theta,theta1,skal, CC){
+lll.dat <- function(x,nu_hut,theta_hut,phi_hut,ksi_hut,i.param,s_hut, CC){
   # log likeli for one single data point x,
   # given the data parameter, and the normalization constant CC
-  # N1 = (1-theta)*n1+1, N2 = (1-theta)*(1-n1)*scal +1
-  # theta \in (0,1), n1 \in (0,1), scal >0
-  return(##wie bekomme ich mein A da rein? evtl noch einen param zw 0,1 zw n1,n2,und A
-    skal*theta*(0.5*x**2-theta1*x)
-    +log(x)*(1-theta)*n1*skal
-    +log(1-x)*(1-theta)*(1-n1)*skal
+  # N1 = (1-theta_hut)*(1-ksi_hut)*nu_hut*scal+1, N2 = (1-theta_hut)*(1-nu_hut)*(1-ksi_hut)*scal +1
+  # theta_hut \in (0,1), nu_hut \in (0,1), ksi_hut \in (0,1) scal >0
+  return(
+    s_hut*theta_hut*(0.5*x**2-phi_hut*x)
+    +log(x)*((1-theta_hut)*nu_hut*(1-ksi_hut)+nu_hut*ksi_hut*i.param)*s_hut
+    +log(1-x)*((1-theta_hut)*(1-nu_hut)*(1-ksi_hut)+nu_hut*ksi_hut*(1-i.param))*s_hut
     +log(CC)+f.norm()
   );
 }
@@ -101,10 +101,10 @@ pReinforce <- function(x){
 
 #######################
 # estimate paras:
-# N1, N2, theta1, theta2
+# nu_hut, N2, phi_hut, theta_hut2, A
 ########################
-theta.max = 1800;
-theta.max = 1900;
+theta_hut.max = 1800;
+theta_hut.max = 1900;
 tryCatch.W.E <- function(expr){
   W <- NULL
   w.handler <- function(w){ # warning handler
@@ -119,14 +119,15 @@ tryCatch.W.E <- function(expr){
 ##einstiegsfunktion
 # compute log likeli
 lll <- function(para){
-  # N1 = (1-theta)*n1+1, N2 = (1-theta)*(1-n1)*scal +1
-  # theta \in (0,1), n1 \in (0,1), scal >0
-  ##hie rmuss A als weiterer param rein
-  ppara  <<- para;
-  n1     <<- para[1];
-  theta  <<- para[2];
-  theta1 <<- para[3];
-  skal   <<- min(skal.max,abs(para[4]));
+  # nu_hut = (1-theta_hut)*nu_hut+1, N2 = (1-theta_hut)*(1-nu_hut)*scal +1
+  # theta_hut \in (0,1), nu_hut \in (0,1), scal >0
+  ppara     <<- para;
+  nu_hut    <<- para[1];
+  theta_hut <<- para[2];
+  phi_hut   <<- para[3];
+  ksi_hut   <<- para[4];
+  i.param         <<- para[5];
+  s_hut     <<- min(s_hut.max,abs(para[6]));
   OK = TRUE;
   #get cc ist integral berechnung um C zu bekommen
   aa = tryCatch.W.E(get.cc());
@@ -135,7 +136,7 @@ lll <- function(para){
   CC<<- aa$value;
   # cat(integrate(g, lower=0, upper=1)$value, "\n");
   ##my dateesti ist vektor mit daten
-  return(sum(lll.dat(myDataEsti, n1,theta,theta1,skal,CC)));    
+  return(sum(lll.dat(myDataEsti, nu_hut,theta_hut,phi_hut,ksi_hut,i.param,s_hut,CC)));    
 }
 
 
@@ -158,8 +159,18 @@ search.p3 <- function(px){
   return( lll(pxx) );
 }
 search.p4 <- function(px){
-  # para.last gives the framework; we modify parameter 3 only
+  # para.last gives the framework; we modify parameter 4 only
   pxx = para.last; pxx[4] = px;
+  return( lll(pxx) );
+}
+search.p5 <- function(px){
+  # para.last gives the framework; we modify parameter 5 only
+  pxx = para.last; pxx[5] = px;
+  return( lll(pxx) );
+}
+search.p6 <- function(px){
+  # para.last gives the framework; we modify parameter 6 only
+  pxx = para.last; pxx[6] = px;
   return( lll(pxx) );
 }
 
@@ -169,21 +180,22 @@ search.p4 <- function(px){
 #
 ############################################
 
-opti.cylcic <- function(para.init){
-  # optimize cylcically the parameters.
+##hier muss ich sicher noch was ändern, nur was?
+opti.cyclic <- function(para.init){
+  # optimize cyclically the parameters.
   #
   # we have different modes 
-  # unrestricted.model == FALSE: fix all paras expect of skal, and n1 => we can take
-  #                              the reinfrocement to zero and fit a beta dstribution.
-  # unrestrict.theta   == TRUE:  allow theta to vary.
-  #                              (if FALSE: we can fix theta=0.5, and in this
-  #                               try to find out where the reinforceent takes place)
+  # unrestricted.model == FALSE: fix all paras expect of s_hut, and nu_hut => we can take
+  #                              the reinforcement to zero and fit a beta distribution.
+  # unrestrict.theta_hut   == TRUE:  allow theta_hut to vary.
+  #                              (if FALSE: we can fix theta_hut=0.5, and in this
+  #                               try to find out where the reinforcement takes place)
   
   mmean <<- mean(myDataEsti);
   
   para.last <- para.init; 
   lll.last  <- lll(para.ref);
-  last.skal = -1; no.skal.const = 0;last.lll=-1e10;
+  last.s_hut = -1; no.s_hut.const = 0;last.lll=-1e10;
   fertig = FALSE;
   
   i = 0;
@@ -210,7 +222,7 @@ opti.cylcic <- function(para.init){
         lll.last  <- lll.lok;
       }
       
-      if (unrestrict.theta) {
+      if (unrestrict.theta_hut) {
         para.last <<- para.last;
         res3 = optimize(search.p3, interval=c(0,1), maximum=TRUE);
         para.loc3 = para.last; para.loc3[3]=res3$maximum;
@@ -245,17 +257,17 @@ opti.cylcic <- function(para.init){
         last.lll   <- lll.1
       }
     }
-    if (last.skal!=para.last[3]){
-      last.skal = para.last[3];
-      no.skal.const = 0;
+    if (last.s_hut!=para.last[3]){
+      last.s_hut = para.last[3];
+      no.s_hut.const = 0;
       lll.x =last.lll;
     } else {
-      no.skal.const = no.skal.const+1;
+      no.s_hut.const = no.s_hut.const+1;
       loc.lll = lll(para.last);
       if (last.lll>lll.x+1e-6) {
-        no.skal.const = 0;
+        no.s_hut.const = 0;
       }
-      if(no.skal.const>100) fertig=TRUE;
+      if(no.s_hut.const>100) fertig=TRUE;
     }
     
     para.last <<- para.last;

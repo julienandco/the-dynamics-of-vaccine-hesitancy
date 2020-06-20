@@ -1,7 +1,4 @@
 ﻿Region;Regions-ID;KV;Kreistyp;Wert;Bundeswert;;Inzidenz;;Anzahl
-;;;;;;;;;
-;;;;;;;;;
-;;;;;;;;;
 Peine, Kreis;3157;NI;Verdichtetes Umland;94,75;80,18;;0,75;;1
 Dessau-Roßlau, Kreisfreie Stadt;15001;ST;Ländlicher Raum;92,92;80,18;;0;;0
 Zweibrücken, Kreisfreie Stadt;7320;RP;Verdichtetes Umland;91,96;80,18;;2,89;;1
@@ -415,5 +412,3 @@ Sächsische Schweiz-Osterzgebirge;14628;SN;Verdichtetes Umland;0;0;;0;;0
 Leipzig;14713;SN;Kernstädte;0;0;;0;;0
 Lk.Leipzig;14729;SN;Verdichtetes Umland;0;0;;0;;0
 Nordsachsen;14730;SN;Ländliches Umland;0;0;;0;;0
-;;;;;;;;;
-Sachsen wegen abweichender Impfempfehlung nicht in die Auswertung eingeschlossen;;;;;;;;;

@@ -15,8 +15,10 @@ correlation.spearmn = cor(impfrate,inzidenz,method='spearman');
 
 #plot(impfrate,inzidenz);
 
-res1 <- cor.test(impfrate,inzidenz,method='pearson');
+#res1 <- cor.test(impfrate,inzidenz,method='pearson');
 
-res2 <- cor.test(impfrate,inzidenz,method='kendall');
+#res2 <- cor.test(impfrate,inzidenz,method='kendall');
 
-res3 <- cor.test(impfrate,inzidenz,method='spearman');
+#res3 <- cor.test(impfrate,inzidenz,method='spearman');
+
+save(vaccination_data, file='impfdaten_merged.rSave');
