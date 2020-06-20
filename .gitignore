@@ -33,6 +33,10 @@
 !/latex_bachelorarbeit/ideas_latex_bachelorarbeit/weak_effects_limit/weak_eff_lim_v4.tex
 !/latex_bachelorarbeit/ideas_latex_bachelorarbeit/weak_effects_limit/weak_eff_lim_v5.tex
 
+/latex_bachelorarbeit/ideas_latex_bachelorarbeit/data_analysis/*
+!/latex_bachelorarbeit/ideas_latex_bachelorarbeit/weak_effects_limit/data_analysis.tex
+!/latex_bachelorarbeit/ideas_latex_bachelorarbeit/weak_effects_limit/data_fit_v1.tex
+
 payoff_test/*
 !payoff_test/main_payoff_test.tex
 !payoff_test/source_payoff_test.py 
