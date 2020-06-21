@@ -13,7 +13,7 @@ setwd("D:/Dokumente/Uni/TUM/Mathe_B_Sc/SS_20/Bachelorarbeit/bachelorarbeit-repo/
 # parameter
 bbeta = 5    # contact rate
 alpha = 0.45  # recovery rate
-B     = 2    # birthrate - deterimes thetime scale -- fixed.
+B     = 2    # birthrate - determines the time scale -- fixed.
 
 # we calibrate the system s.t. x=1/2 is a stat states
 s.star = (B+alpha)/bbeta;
@@ -21,16 +21,16 @@ i.star = (1-0.5)*B/(alpha+B)-B/bbeta;
 cat("i.star = ", i.star, "\n");
 
 
-theta1 = 1; # reinforcement parameter of vacc pro (x)
-theta2 = theta1; # reinforcement parameter of vacc con (1-x)
-n1     = 10;    # zelots pro vacc
-n2     = 10;    # zealots contra vacc
+theta1 = 1; # reinforcement parameter of pro-vax (x)
+theta2 = theta1; # reinforcement parameter of anti-vax (1-x)
+n1     = 10;    # zealots pro vax
+n2     = 10;    # zealots anti-vax
 a      = 0.1;    # influence I
-Omega  = 0.0;    # influence vaccination oponent
+Omega  = 0.0;    # influence vaccination opponent
 c      = 200# 1;   # time scale reinforce
 
 # adapt n1, n2 s.t. a*i+n1 = a*(1-i)+n2
-# choose n1 minial, s.t. we have a non-negative n2 (=0)
+# choose n1 minimal, s.t. we have a non-negative n2 (=0)
 n1 = max(c(a*(1-2*i.star), 0));
 n2 = a*(2*i.star-1)+n1;
 n.star = a*i.star+n1
@@ -96,9 +96,7 @@ simul.plot<-function(horizont){
     #cat(tt, " ");
   }
   
-  #plot(res[,1], res[,2], t="l", ylab="S(black) 10*I(blue) x(orange)", ylim=c(0,1), main = paste("c", as.character(c)) );
-    plot(res[,1], res[,2], t="l", xlab = "", ylab = "", ylim=c(0,1), main = paste("c", as.character(c)) );
-
+  plot(res[,1], res[,2], t="l", ylab="S(black) 10*I(blue) x(orange)", ylim=c(0,1), main = paste("c", as.character(c)) );
   
   lines(res[,1], 10*res[,3], t="l", col="blue")
   lines(res[,1], res[,4], t="l", col="orange")
@@ -216,11 +214,8 @@ if (1==1){
   l.x = c(l1.x, l2.x, l3.x);
   l.y = c(l1.y, l2.y, l3.y);
   
-  #postscript(file="hopfPoint.eps", pointsize=18, paper="special", width=6, height = 6.84); 
-  #   plot(l1.x,l1.y, xlim=c(min(l.x), max(l.x)), ylim=c(min(l.y), max(l.y)), xlab="Re(lambda)", ylab="Im(lambda)" );
   plot(l1.x,l1.y, xlim=c(-0.05, 0.05), ylim=c(min(l.y), max(l.y)), xlab="Re(lambda)", ylab="Im(lambda)" );
   points(l2.x, l2.y, col="blue");
   points(l3.x, l3.y, col="green");
   abline(h=0, lty=3); abline(v=0, lty=3);
-  #dev.off();
 }
