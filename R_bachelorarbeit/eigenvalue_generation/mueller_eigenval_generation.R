@@ -96,7 +96,10 @@ simul.plot<-function(horizont){
     #cat(tt, " ");
   }
   
-  plot(res[,1], res[,2], t="l", ylab="S(black) 10*I(blue) x(orange)", ylim=c(0,1), main = paste("c", as.character(c)) );
+  #plot(res[,1], res[,2], t="l", ylab="S(black) 10*I(blue) x(orange)", ylim=c(0,1), main = paste("c", as.character(c)) );
+    plot(res[,1], res[,2], t="l", xlab = "", ylab = "", ylim=c(0,1), main = paste("c", as.character(c)) );
+
+  
   lines(res[,1], 10*res[,3], t="l", col="blue")
   lines(res[,1], res[,4], t="l", col="orange")
   
