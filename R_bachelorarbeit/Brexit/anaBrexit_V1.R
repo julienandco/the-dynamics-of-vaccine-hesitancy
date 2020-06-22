@@ -67,8 +67,9 @@ if (1==1){
     
     para.ref = c(mean(myDataEsti), 0.5, 0.5,100);   # define init para
     lll.last = lll(para.ref);
+  }}
     cat(lll.last, "\n");
-    curve(g(x), add=TRUE, col="blue", lwd=2);
+    'curve(g(x), add=TRUE, col="blue", lwd=2);
     
     unrestricted.model = TRUE;      # we aim at the full model
     unrestrict.theta   = TRUE;
@@ -163,11 +164,11 @@ if (1==1){
   save(file="datAnaBrexit_V1.rSave", res.tab);
   
 }
+'
 
 
 
-
-if (1==1){
+if (0==1){
   # produce a table
   load(file="datAnaBrexit_V1.rSave");
   sink(file="datBrexit.tex");
@@ -196,7 +197,7 @@ if (1==1){
 
 
 
-if (1==1){
+if (0==1){
   # produce figures
   e =    electGBbrexit[[1]];
   ep = e$PartyVotes;
@@ -248,4 +249,3 @@ if (1==1){
   
   
 }
-

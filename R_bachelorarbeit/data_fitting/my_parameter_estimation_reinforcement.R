@@ -135,12 +135,12 @@ lll <- function(para){
   if (!(is.double(aa$value))>0) return(-10000);
   CC<<- aa$value;
   # cat(integrate(g, lower=0, upper=1)$value, "\n");
-  lel <- lll.dat(myDataEsti, nu_hut,theta_hut,phi_hut,ksi_hut,i.param,s_hut,CC);
-  cat("l3l: ", lel);
+  #temp <- lll.dat(myDataEsti, nu_hut,theta_hut,phi_hut,ksi_hut,i.param,s_hut,CC);
+  #cat("temp: ", temp);
   
   #verstehe diese Zeile nicht? Wieso summiert man über einen ein-elementigen Vektor?
   #und warum gibt R dauernd -Inf raus...
-  return(sum(lel));    
+  return(sum(lll.dat(myDataEsti, nu_hut,theta_hut,phi_hut,ksi_hut,i.param,s_hut,CC)));    
 }
 
 
@@ -280,3 +280,50 @@ opti.cyclic <- function(para.init){
   }
 }
 
+vaccination_data = read.csv2('D:/Dokumente/Uni/TUM/Mathe_B_Sc/SS_20/Bachelorarbeit/bachelorarbeit-repo/R_bachelorarbeit/data_fitting/merged_impfdaten.csv',header=TRUE);
+myDataEsti = c();
+impfer = vaccination_data$Wert;
+myDataEsti = impfer/100;       
+
+mmean = mean(myDataEsti);
+
+para = c(mmean, 0.5, 0.5,0.5,0.2,100);   # define init para
+{
+  # nu_hut = (1-theta_hut)*nu_hut+1, N2 = (1-theta_hut)*(1-nu_hut)*scal +1
+  # theta_hut \in (0,1), nu_hut \in (0,1), scal >0
+  ppara     <<- para;
+  nu_hut    <<- para[1];
+  theta_hut <<- para[2];
+  phi_hut   <<- para[3];
+  ksi_hut   <<- para[4];
+  i.param   <<- para[5];
+  s_hut     <<- min(s_hut.max,abs(para[6]));
+  OK = TRUE;
+  #get cc ist integral berechnung um C zu bekommen
+  aa = tryCatch.W.E(get.cc());
+  aa <<- aa;
+  if (!(is.double(aa$value))>0) return(-10000);
+  CC<<- aa$value;
+  # cat(integrate(g, lower=0, upper=1)$value, "\n");
+  #temp <- lll.dat(myDataEsti, nu_hut,theta_hut,phi_hut,ksi_hut,i.param,s_hut,CC);
+  #cat("temp: ", temp);
+  
+  #verstehe diese Zeile nicht? Wieso summiert man über einen ein-elementigen Vektor?
+  #und warum gibt R dauernd -Inf raus...
+      
+};
+
+{
+  # log likeli for one single data point x,
+  # given the data parameter, and the normalization constant CC
+  # N1 = (1-theta_hut)*(1-ksi_hut)*nu_hut*scal+1, N2 = (1-theta_hut)*(1-nu_hut)*(1-ksi_hut)*scal +1
+  # theta_hut \in (0,1), nu_hut \in (0,1), ksi_hut \in (0,1) scal >0
+  x = myDataEsti;
+  
+  temp = s_hut*theta_hut*(0.5*x**2-phi_hut*x)
+    +log(x)*((1-theta_hut)*nu_hut*(1-ksi_hut)+nu_hut*ksi_hut*i.param)*s_hut
+    +log(1-x)*((1-theta_hut)*(1-nu_hut)*(1-ksi_hut)+nu_hut*ksi_hut*(1-i.param))*s_hut
+    +log(CC)+f.norm();
+}
+
+lll.last = (sum(temp));

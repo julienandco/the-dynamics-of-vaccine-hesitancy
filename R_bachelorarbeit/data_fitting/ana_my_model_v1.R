@@ -171,7 +171,7 @@ if (1==1){
 
 
 
-if (1==1){
+if (0==1){
   # produce a table
   load(file="datAnaMyModel_V1.rSave");
   sink(file="datMyModel.tex");
@@ -200,7 +200,7 @@ if (1==1){
 
 
 
-if (1==1){
+if (0==1){
   # produce figures
   impfer = vaccination_data$Wert;
   myDataEsti = impfer/100;       

@@ -264,3 +264,50 @@ opti.cylcic <- function(para.init){
     curve(g(x), add=TRUE, col="blue");
   }
 }
+
+
+setwd("D:/Dokumente/Uni/TUM/Mathe_B_Sc/SS_20/Bachelorarbeit/bachelorarbeit-repo/R_bachelorarbeit/Brexit");
+load("electBrexitV4.rSave");
+
+e =    electGBbrexit[[1]];
+myDataEsti = c();
+ep = e$PartyVotes;
+myDataEsti = ep[,1]/(ep[,1]+ep[,2]);     
+
+mmean = mean(myDataEsti);
+
+para = c(mean(myDataEsti), 0.5, 0.5,100);
+{
+  # N1 = (1-theta)*n1+1, N2 = (1-theta)*(1-n1)*scal +1
+  # theta \in (0,1), n1 \in (0,1), scal >0
+  #hie rmuss A als weiterer param rein
+  ppara  <<- para;
+  n1     <<- para[1];
+  theta  <<- para[2];
+  theta1 <<- para[3];
+  skal   <<- min(skal.max,abs(para[4]));
+  OK = TRUE;
+  #get cc ist integral berechnung um C zu bekommen
+  aa = tryCatch.W.E(get.cc());
+  aa <<- aa;
+  if (!(is.double(aa$value))>0) return(-10000);
+  CC<<- aa$value;
+  # cat(integrate(g, lower=0, upper=1)$value, "\n");
+  #my dateesti ist vektor mit daten
+  
+};
+
+{
+  # log likeli for one single data point x,
+  # given the data parameter, and the normalization constant CC
+  # N1 = (1-theta)*n1+1, N2 = (1-theta)*(1-n1)*scal +1
+  # theta \in (0,1), n1 \in (0,1), scal >0
+  
+  x = myDataEsti;
+  temp = skal*theta*(0.5*x**2-theta1*x)
+  +log(x)*(1-theta)*n1*skal
+  +log(1-x)*(1-theta)*(1-n1)*skal
+  +log(CC)+f.norm();
+}
+
+lll.last = (sum(temp));

@@ -265,3 +265,5 @@ opti.cylcic <- function(para.init){
      curve(g(x), add=TRUE, col="blue");
    }
 }
+
+
