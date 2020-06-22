@@ -14,8 +14,22 @@
 #
 # in case: define work directory
 
-setwd("C:/Users/ge69fup/Documents/Uni/TUM/Mathe_B_Sc/SS_20/Bachelorarbeit/bachelorarbeit-repo/R_bachelorarbeit/data_fitting")
+#setwd("C:/Users/ge69fup/Documents/Uni/TUM/Mathe_B_Sc/SS_20/Bachelorarbeit/bachelorarbeit-repo/R_bachelorarbeit/data_fitting")
 #setwd("D:/Dokumente/Uni/TUM/Mathe_B_Sc/SS_20/Bachelorarbeit/bachelorarbeit-repo/R_bachelorarbeit/data_fitting");
+
+i.param = 0;
+
+get_rid_of_zeroes <- function(vector){
+vector_no_zeroes = c();
+last_index = 1;
+for (i in 1:length(vector)) {
+  if (vector[i] != 0){
+    vector_no_zeroes[last_index] = vector[i];
+    last_index = last_index + 1;
+  }
+}
+return(vector_no_zeroes);
+}
 
 post <- function(nme){
   # remove blanks
@@ -118,7 +132,7 @@ tryCatch.W.E <- function(expr){
 
 ##einstiegsfunktion
 # compute log likeli
-lll <- function(para){
+lll <- function(i.value, para){
   # nu_hut = (1-theta_hut)*nu_hut+1, N2 = (1-theta_hut)*(1-nu_hut)*scal +1
   # theta_hut \in (0,1), nu_hut \in (0,1), scal >0
   ppara     <<- para;
@@ -126,8 +140,7 @@ lll <- function(para){
   theta_hut <<- para[2];
   phi_hut   <<- para[3];
   ksi_hut   <<- para[4];
-  i.param   <<- para[5];
-  s_hut     <<- min(s_hut.max,abs(para[6]));
+  s_hut     <<- min(s_hut.max,abs(para[5]));
   OK = TRUE;
   #get cc ist integral berechnung um C zu bekommen
   aa = tryCatch.W.E(get.cc());
@@ -135,12 +148,8 @@ lll <- function(para){
   if (!(is.double(aa$value))>0) return(-10000);
   CC<<- aa$value;
   # cat(integrate(g, lower=0, upper=1)$value, "\n");
-  #temp <- lll.dat(myDataEsti, nu_hut,theta_hut,phi_hut,ksi_hut,i.param,s_hut,CC);
-  #cat("temp: ", temp);
   
-  #verstehe diese Zeile nicht? Wieso summiert man über einen ein-elementigen Vektor?
-  #und warum gibt R dauernd -Inf raus...
-  return(sum(lll.dat(myDataEsti, nu_hut,theta_hut,phi_hut,ksi_hut,i.param,s_hut,CC)));    
+  return(sum(lll.dat(myDataEsti, nu_hut,theta_hut,phi_hut,ksi_hut,i.value,s_hut,CC)));    
 }
 
 
@@ -150,33 +159,25 @@ lll <- function(para){
 search.p1 <- function(px){
   # para.last gives the framework; we modify parameter 1 only
   pxx = para.last; pxx[1] = px;
-  return( lll(pxx) );
+  return( lll(i.value, pxx) );
 }
 search.p2 <- function(px){
   # para.last gives the framework; we modify parameter 2 only
   pxx = para.last; pxx[2] = px;
-  return( lll(pxx) );
+  return( lll(i.value, pxx) );
 }
 search.p3 <- function(px){
   # para.last gives the framework; we modify parameter 3 only
   pxx = para.last; pxx[3] = px;
-  return( lll(pxx) );
+  return( lll(i.value, pxx) );
 }
 search.p4 <- function(px){
   # para.last gives the framework; we modify parameter 4 only
   pxx = para.last; pxx[4] = px;
-  return( lll(pxx) );
+  return( lll(i.value, pxx) );
 }
-search.p5 <- function(px){
-  # para.last gives the framework; we modify parameter 5 only
-  pxx = para.last; pxx[5] = px;
-  return( lll(pxx) );
-}
-search.p6 <- function(px){
-  # para.last gives the framework; we modify parameter 6 only
-  pxx = para.last; pxx[6] = px;
-  return( lll(pxx) );
-}
+
+
 
 ############################################
 #
@@ -184,7 +185,7 @@ search.p6 <- function(px){
 #
 ############################################
 
-opti.cyclic <- function(para.init){
+opti.cyclic <- function(i.value, para.init){
   # optimize cyclically the parameters.
   #
   # we have different modes 
@@ -197,7 +198,7 @@ opti.cyclic <- function(para.init){
   mmean <<- mean(myDataEsti);
   
   para.last <- para.init; 
-  lll.last  <- lll(para.ref);
+  lll.last  <- lll(i.value, para.ref);
   last.s_hut = -1; no.s_hut.const = 0;last.lll=-1e10;
   fertig = FALSE;
   
@@ -209,19 +210,27 @@ opti.cyclic <- function(para.init){
     para.last <<- para.last;
     res1 = optimize(search.p1, interval=c(0,1), maximum=TRUE);
     para.loc1 = para.last; para.loc1[1]=res1$maximum;
-    lll.lok  = lll(para.loc1);
+    lll.lok  = lll(i.value, para.loc1);
     if (lll.lok>lll.last){
       para.last <- para.loc1;
       lll.last  <- lll.lok;
     }
     
-    ##optimize a
+    ##optimize ksi
+    para.last <<- para.last;
+    res4 = optimize(search.p4, interval=c(0,1), maximum=TRUE);
+    para.loc4 = para.last; para.loc4[4]=res4$maximum;
+    lll.lok  = lll(i.value, para.loc4);
+    if (lll.lok>lll.last){
+      para.last <- para.loc4;
+      lll.last  <- lll.lok;
+    }
     
     if (unrestricted.model){
       para.last <<- para.last;
       res2 = optimize(search.p2, interval=c(0,1), maximum=TRUE);
       para.loc2 = para.last; para.loc2[2]=res2$maximum;
-      lll.lok  = lll(para.loc2);
+      lll.lok  = lll(i.value, para.loc2);
       if (lll.lok>lll.last){
         para.last <- para.loc2;
         lll.last  <- lll.lok;
@@ -231,7 +240,7 @@ opti.cyclic <- function(para.init){
         para.last <<- para.last;
         res3 = optimize(search.p3, interval=c(0,1), maximum=TRUE);
         para.loc3 = para.last; para.loc3[3]=res3$maximum;
-        lll.lok  = lll(para.loc3);
+        lll.lok  = lll(i.value, para.loc3);
         if (lll.lok>lll.last){
           para.last <- para.loc3;
           lll.last  <- lll.lok;
@@ -239,26 +248,26 @@ opti.cyclic <- function(para.init){
       }
     }
     
-    lll.1     = lll(para.last);
+    lll.1     = lll(i.value, para.last);
     Delta = 0.01;
-    if (para.last[6]>10)  Delta=0.1;
-    if (para.last[6]>50)  Delta=0.5;
-    if (para.last[6]>100) Delta=1;
+    if (para.last[5]>10)  Delta=0.1;
+    if (para.last[5]>50)  Delta=0.5;
+    if (para.last[5]>100) Delta=1;
     
-    lll.p2    = lll(para.last+c(0,0, 0, Delta));
-    lll.m2    = lll(para.last+c(0,0,0, -Delta));
+    lll.p2    = lll(i.value, para.last+c(0,0, 0,0, Delta));
+    lll.m2    = lll(i.value, para.last+c(0,0,0,0, -Delta));
     if (lll.p2>lll.1){
-      paral.loc3 = para.last+c(0,0,0, Delta);
-      para.last  = para.last+c(0,0,0, Delta);
+      paral.loc3 = para.last+c(0,0,0,0, Delta);
+      para.last  = para.last+c(0,0,0,0, Delta);
       last.lll = lll.p2;
     } else {
       if (lll.m2>lll.1){
-        paral.loc3 = para.last+c(0,0,0,-Delta);
-        para.last  <- para.last+c(0,0,0,-Delta);
+        paral.loc3 = para.last+c(0,0,0,0,-Delta);
+        para.last  <- para.last+c(0,0,0,0,-Delta);
         last.lll   <- lll.m2
       } else {
-        paral.loc3 = para.last+c(0,0,0,0);
-        para.last  <- para.last+c(0,0,0,0);
+        paral.loc3 = para.last+c(0,0,0,0,0);
+        para.last  <- para.last+c(0,0,0,0,0);
         last.lll   <- lll.1
       }
     }
@@ -268,7 +277,7 @@ opti.cyclic <- function(para.init){
       lll.x =last.lll;
     } else {
       no.s_hut.const = no.s_hut.const+1;
-      loc.lll = lll(para.last);
+      loc.lll = lll(i.value, para.last);
       if (last.lll>lll.x+1e-6) {
         no.s_hut.const = 0;
       }
@@ -277,56 +286,7 @@ opti.cyclic <- function(para.init){
     
     para.last <<- para.last;
     lll.last  <<- last.lll;
-    cat(i," ", lll(para.last), "\n");     
+    cat(i," ", lll(i.value, para.last), "\n");     
     curve(g(x), add=TRUE, col="blue");
   }
 }
-
-vaccination_data = read.csv2("C:/Users/ge69fup/Documents/Uni/TUM/Mathe_B_Sc/SS_20/Bachelorarbeit/bachelorarbeit-repo/R_bachelorarbeit/data_fitting/merged_impfdaten.csv", header=TRUE)
-#vaccination_data = read.csv2("D:/Dokumente/Uni/TUM/Mathe_B_Sc/SS_20/Bachelorarbeit/bachelorarbeit-repo/R_bachelorarbeit/data_fitting/merged_impfdaten.csv",header=TRUE);
-myDataEsti = c();
-impfer = vaccination_data$Wert;
-myDataEsti = impfer/100;       
-
-mmean = mean(myDataEsti);
-
-para = c(mmean, 0.5, 0.5,0.5,0.2,100);   # define init para
-{
-  # nu_hut = (1-theta_hut)*nu_hut+1, N2 = (1-theta_hut)*(1-nu_hut)*scal +1
-  # theta_hut \in (0,1), nu_hut \in (0,1), scal >0
-  ppara     <<- para;
-  nu_hut    <<- para[1];
-  theta_hut <<- para[2];
-  phi_hut   <<- para[3];
-  ksi_hut   <<- para[4];
-  i.param   <<- para[5];
-  s_hut     <<- min(s_hut.max,abs(para[6]));
-  OK = TRUE;
-  #get cc ist integral berechnung um C zu bekommen
-  aa = tryCatch.W.E(get.cc());
-  aa <<- aa;
-  if (!(is.double(aa$value))>0) return(-10000);
-  CC<<- aa$value;
-  # cat(integrate(g, lower=0, upper=1)$value, "\n");
-  #temp <- lll.dat(myDataEsti, nu_hut,theta_hut,phi_hut,ksi_hut,i.param,s_hut,CC);
-  #cat("temp: ", temp);
-  
-  #verstehe diese Zeile nicht? Wieso summiert man über einen ein-elementigen Vektor?
-  #und warum gibt R dauernd -Inf raus...
-      
-};
-
-{
-  # log likeli for one single data point x,
-  # given the data parameter, and the normalization constant CC
-  # N1 = (1-theta_hut)*(1-ksi_hut)*nu_hut*scal+1, N2 = (1-theta_hut)*(1-nu_hut)*(1-ksi_hut)*scal +1
-  # theta_hut \in (0,1), nu_hut \in (0,1), ksi_hut \in (0,1) scal >0
-  x = myDataEsti;
-  
-  temp = s_hut*theta_hut*(0.5*x**2-phi_hut*x)
-    +log(x)*((1-theta_hut)*nu_hut*(1-ksi_hut)+nu_hut*ksi_hut*i.param)*s_hut
-    +log(1-x)*((1-theta_hut)*(1-nu_hut)*(1-ksi_hut)+nu_hut*ksi_hut*(1-i.param))*s_hut
-    +log(CC)+f.norm();
-}
-
-lll.last = (sum(temp));

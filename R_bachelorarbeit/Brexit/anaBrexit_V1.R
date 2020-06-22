@@ -13,8 +13,8 @@
 
 #
 # in case: define work directory
-setwd("C:/Users/ge69fup/Documents/Uni/TUM/Mathe_B_Sc/SS_20/Bachelorarbeit/bachelorarbeit-repo/R_bachelorarbeit/Brexit")
-#setwd("D:/Dokumente/Uni/TUM/Mathe_B_Sc/SS_20/Bachelorarbeit/bachelorarbeit-repo/R_bachelorarbeit/Brexit");
+#setwd("C:/Users/ge69fup/Documents/Uni/TUM/Mathe_B_Sc/SS_20/Bachelorarbeit/bachelorarbeit-repo/R_bachelorarbeit/Brexit")
+setwd("D:/Dokumente/Uni/TUM/Mathe_B_Sc/SS_20/Bachelorarbeit/bachelorarbeit-repo/R_bachelorarbeit/Brexit");
 
 post <- function(nme){
   # remove blanks
@@ -67,9 +67,9 @@ if (1==1){
     
     para.ref = c(mean(myDataEsti), 0.5, 0.5,100);   # define init para
     lll.last = lll(para.ref);
-  }}
+  
     cat(lll.last, "\n");
-    'curve(g(x), add=TRUE, col="blue", lwd=2);
+    curve(g(x), add=TRUE, col="blue", lwd=2);
     
     unrestricted.model = TRUE;      # we aim at the full model
     unrestrict.theta   = TRUE;
@@ -88,6 +88,7 @@ if (1==1){
     ###################################################################
     # second run: reinforcement model, force equal reinforcement parameters 
     ###################################################################
+    
     para.ref = c(mean(myDataEsti), 0.5, 0.5,100);   # define init para
     lll.last = lll(para.ref);
     cat(lll.last, "\n");
@@ -147,7 +148,7 @@ if (1==1){
     
     res.tab = rbind(res.tab, line);
   }
-  # names orient themseves ar the supplement II of the paper
+  # names orient themselves ar the supplement II of the paper
   col.names = c(
     "year", "party", 
     "Theta1PlusTheta2.unr",  
@@ -164,11 +165,11 @@ if (1==1){
   save(file="datAnaBrexit_V1.rSave", res.tab);
   
 }
-'
 
 
 
-if (0==1){
+
+if (1==1){
   # produce a table
   load(file="datAnaBrexit_V1.rSave");
   sink(file="datBrexit.tex");

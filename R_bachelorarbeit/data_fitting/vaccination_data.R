@@ -6,14 +6,16 @@ vaccination_data = read.csv2('D:/Dokumente/Uni/TUM/Mathe_B_Sc/SS_20/Bachelorarbe
 #hist(vaccination_data$Anzahl)
 #hist(vaccination_data$Inzidenz)
 #ggscatter(vaccination_data, x = "Anzahl", y = "Inzidenz", add = "reg.line", conf.int = TRUE,cor.coef = TRUE, cor.method = "pearson",xlab = "Impfrate", ylab = "Inzidenz in %");
-impfrate = vaccination_data$Wert / 100;
-inzidenz = vaccination_data$Inzidenz / 100;
+#impfrate = vaccination_data$Wert / 100;
 
-correlation.pearson = cor(impfrate,inzidenz,method='pearson');
-correlation.kendall = cor(impfrate,inzidenz,method='kendall');
-correlation.spearmn = cor(impfrate,inzidenz,method='spearman');
 
-plot(inzidenz,impfrate);
+lul = vaccination_data$Wert;
+
+#correlation.pearson = cor(impfrate,inzidenz,method='pearson');
+#correlation.kendall = cor(impfrate,inzidenz,method='kendall');
+#correlation.spearmn = cor(impfrate,inzidenz,method='spearman');
+
+#plot(inzidenz,impfrate);
 
 #res1 <- cor.test(impfrate,inzidenz,method='pearson');
 

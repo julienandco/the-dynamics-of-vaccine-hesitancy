@@ -13,8 +13,8 @@
 
 #
 # in case: define work directory
-setwd("C:/Users/ge69fup/Documents/Uni/TUM/Mathe_B_Sc/SS_20/Bachelorarbeit/bachelorarbeit-repo/R_bachelorarbeit/data_fitting")
-#setwd("D:/Dokumente/Uni/TUM/Mathe_B_Sc/SS_20/Bachelorarbeit/bachelorarbeit-repo/R_bachelorarbeit/data_fitting");
+#setwd("C:/Users/ge69fup/Documents/Uni/TUM/Mathe_B_Sc/SS_20/Bachelorarbeit/bachelorarbeit-repo/R_bachelorarbeit/data_fitting")
+setwd("D:/Dokumente/Uni/TUM/Mathe_B_Sc/SS_20/Bachelorarbeit/bachelorarbeit-repo/R_bachelorarbeit/data_fitting");
 
 post <- function(nme){
   # remove blanks
@@ -29,8 +29,8 @@ post <- function(nme){
 # read data
 #
 #################
-vaccination_data = read.csv2('C:/Users/ge69fup/Documents/Uni/TUM/Mathe_B_Sc/SS_20/Bachelorarbeit/bachelorarbeit-repo/R_bachelorarbeit/data_fitting/merged_impfdaten.csv', header=TRUE)
-#vaccination_data = read.csv2('D:/Dokumente/Uni/TUM/Mathe_B_Sc/SS_20/Bachelorarbeit/bachelorarbeit-repo/R_bachelorarbeit/data_fitting/merged_impfdaten.csv',header=TRUE);
+#vaccination_data = read.csv2('C:/Users/ge69fup/Documents/Uni/TUM/Mathe_B_Sc/SS_20/Bachelorarbeit/bachelorarbeit-repo/R_bachelorarbeit/data_fitting/merged_impfdaten.csv', header=TRUE)
+vaccination_data = read.csv2('D:/Dokumente/Uni/TUM/Mathe_B_Sc/SS_20/Bachelorarbeit/bachelorarbeit-repo/R_bachelorarbeit/data_fitting/merged_impfdaten.csv',header=TRUE);
 
 
 ###############
@@ -43,6 +43,12 @@ source("my_parameter_estimation_reinforcement.R");
 #
 #  do it
 
+    
+theta_hut.init = 0.5;
+psi_hut.init  = 0.5;
+ksi_hut.init = 0.8;
+s_hut.init   = 100; 
+
 if (1==1){
   # check optima
   s_hut.max=2500;
@@ -52,28 +58,33 @@ if (1==1){
   
   {
     myDataEsti = c();
-    impfer = vaccination_data$Wert[1:400];
-    myDataEsti = impfer/100;       
+    myDataInzi = c();
+    impfer = vaccination_data$Wert[1:400]; #last few ones are NA
+    inzidenz = vaccination_data$Inzidenz;
+    myDataInzi = get_rid_of_zeroes(inzidenz);
+    myDataEsti = impfer/100;  
+    
+    i.value = numeric(length(myDataEsti));
     
     mmean = mean(myDataEsti);
     
     
     hist(myDataEsti, freq = FALSE, nclass=30, 
-         main="first run",
+         main="full reinforcement",
          xlim=c(0,1));
     ###################################################################
     # first run: estimate the full reinforcement model
     ###################################################################
     cat("first run", "\n");
-    ##para.ref sind diese Hut parameter in der reihenfolge: nu_hut,theta_hut,psi_hut,ksi_hut,i.param,s_hut
-    para.ref = c(mean(myDataEsti), 0.5, 0.5,0.5,0.0,100);   # define init para
-    lll.last = lll(para.ref);
+    ##para.ref sind diese Hut parameter in der reihenfolge: nu_hut,theta_hut,psi_hut,ksi_hut,s_hut
+    para.ref = c(mean(myDataEsti), theta_hut.init, psi_hut.init,ksi_hut.init,s_hut.init);   # define init para
+    lll.last = lll(i.value, para.ref);
     cat("lll.last: ", lll.last, "\n");
     curve(g(x), add=TRUE, col="blue", lwd=2);
     
     unrestricted.model     = TRUE;      # we aim at the full model
     unrestrict.theta_hut   = TRUE;
-    opti.cyclic(para.ref);
+    opti.cyclic(i.value, para.ref);
     cat(lll.last, "\n");
     para.unrest = para.last;        # store the result
     lll.unrest  = lll.last;
@@ -85,22 +96,22 @@ if (1==1){
     # produce a figure with histogram and estimated distribution
     party.x = "pro-vaxx";
     
-    
+
     ###################################################################
     # second run: reinforcement model, force equal reinforcement parameters 
     ###################################################################
     cat("second run","\n");
-    para.ref = c(mean(myDataEsti), 0.5, 0.5,0.5,0.2,100);   # define init para
-    lll.last = lll(para.ref);
+    para.ref = c(mean(myDataEsti), theta_hut.init, psi_hut.init,ksi_hut.init,s_hut.init);  # define init para
+    lll.last = lll(i.value, para.ref);
     cat(lll.last, "\n");
     hist(myDataEsti, freq = FALSE, nclass=30, 
-         main="second run",
+         main="reinforcement with equal reinf. params",
          xlim=c(0,1));
     curve(g(x), add=TRUE, col="blue", lwd=2);
     
     unrestricted.model     = TRUE;      # we aim at the full model
     unrestrict.theta_hut   = FALSE;     # we want to keep equal parameters for reinforcement
-    opti.cyclic(para.ref);
+    opti.cyclic(i.value, para.ref);
     cat(lll.last, "\n");
     para.halfRestrict = para.last;        # store the result
     lll.halfRestrict  = lll.last;
@@ -116,13 +127,13 @@ if (1==1){
     cat("third run", "\n");
     unrestricted.model     = FALSE;           # we fix all reinforcement-paras
     unrestrict.theta_hut   = FALSE;
-    para.ref = c(mean(myDataEsti), 0.0,0.5, 0.5,0.2,100);
+    para.ref = c(mean(myDataEsti), theta_hut.init, psi_hut.init,ksi_hut.init,s_hut.init);
     hist(myDataEsti, freq = FALSE, nclass=30, 
-         main="third run",
+         main="zealot model",
          xlim=c(0,1));
     curve(g(x), add=TRUE, col="blue", lwd=2);
     
-    opti.cyclic(para.ref);
+    opti.cyclic(i.value, para.ref);
     cat("lll.last: ", lll.last, "\n");
     para.restrict = para.last;            # store result
     lll.restrict  = lll.last;
@@ -131,7 +142,7 @@ if (1==1){
     res.restric.ks = ks.test(myDataEsti, function(x){pReinforce(x)});
   
     #in line muss noch das ergebnis für A und ksi_hut rein...
-    line = c('run', party.x, 
+    line = c("run", party.x, 
              theta.res,
              para.unrest,
              lll.unrest,
@@ -154,11 +165,11 @@ if (1==1){
   col.names = c(
     "run", "opinion", 
     "Theta1PlusTheta2.unr",  
-    "nu.unr", "theta.hat.unr", "psi.unr", "ksi.unr", "i.unr","s.unr",
+    "nu.unr", "theta.hat.unr", "psi.unr", "ksi.unr","s.unr",
     "lll.unr",
-    "nu.halfr", "theta.hat.halfr", "psi.halfr", "ksi.halfr", "i.halfr","s.halfr",
+    "nu.halfr", "theta.hat.halfr", "psi.halfr", "ksi.halfr","s.halfr",
     "lll.halfr",
-    "nu.restr", "theta.hat.restr", "psi.restr", "ksi.restr","i.restr","s.restr",
+    "nu.restr", "theta.hat.restr", "psi.restr", "ksi.restr","s.restr",
     "lll.restr",
     "lll.unr.rest", "lll.unr.halfr",
     "ks.unres", "ks.halfRestr", "ks.restr");
@@ -169,30 +180,30 @@ if (1==1){
 }
 
 
-
+##todo after snackerino
 
 if (0==1){
   # produce a table
   load(file="datAnaMyModel_V1.rSave");
   sink(file="datMyModel.tex");
-  cat(dimnames(res.tab)[[2]][c(1,2,4,5,6,7)]); cat(" theta1 ");cat(" theta2 "); cat(dimnames(res.tab)[[2]][c(19,21,23)]);
+  cat(dimnames(res.tab)[[2]][c(1,2,4,5,6,7,8)]); cat(" theta1 ");cat(" theta2 "); cat(dimnames(res.tab)[[2]][c(22,24,26)]);
   cat("\n");
   nn = dim(res.tab)[1];
   for (j in 1:nn){
     cat(res.tab[j,1], " & ", res.tab[j,2], " & ");
     cat(res.tab[j,4], " & ", res.tab[j,5], " & ");
-    cat(res.tab[j,6], " & ", res.tab[j,7], " & ");
+    cat(res.tab[j,6], " & ", res.tab[j,7], " & ", res.tab[j,8], "&");
     # theta_2 = h.s*h.theta*(1-h.psi)
-    cat(as.double(res.tab[j,5])*as.double(res.tab[j,7])*as.double(res.tab[j,6]), " & ");
-    cat(as.double(res.tab[j,5])*as.double(res.tab[j,7])*(1-as.double(res.tab[j,6])), " & ");
-    cat(as.double(res.tab[j,19]), " & ", 
-        as.double(res.tab[j,21]), " & ", 
-        as.double(res.tab[j,23]), 
+    cat(as.double(res.tab[j,5])*as.double(res.tab[j,8])*as.double(res.tab[j,6]), " & ");
+    cat(as.double(res.tab[j,5])*as.double(res.tab[j,8])*(1-as.double(res.tab[j,6])), " & ");
+    cat(as.double(res.tab[j,22]), " & ", 
+        as.double(res.tab[j,24]), " & ", 
+        as.double(res.tab[j,26]), 
         "\\\\\n");
   }
   
   cat("Test hat.psi=0.5 versus free model (where is the reinforcement?)\n");
-  cat(as.double(res.tab[j,20]), " \n");
+  cat(as.double(res.tab[j,23]), " \n");
   
   sink();
   
@@ -202,9 +213,11 @@ if (0==1){
 
 if (0==1){
   # produce figures
-  impfer = vaccination_data$Wert;
+  impfer = vaccination_data$Wert[1:400];
   myDataEsti = impfer/100;       
   mmean <<- mean(myDataEsti);
+  
+  i.value = 0;
   
   
   post(paste("My_model",as.character(j),".eps",sep=""));
@@ -212,15 +225,15 @@ if (0==1){
        main=paste("Vaccinational behaviour"),
        xlim=c(0,1), xlab="amount of pro-vaxxers x", nclass=30);
   
-  para.last = as.double(res.tab[j, 4:7]);
+  para.last = as.double(res.tab[j, 4:8]);
   
-  lll.last = lll(para.last);
+  lll.last = lll(i.value,para.last);
   cat(lll.last, "\n");  mmean <<- mean(myDataEsti);
   
   curve(g(x), add=TRUE,  lwd=2);
   
-  para.last = as.double(res.tab[j, 14:17]);
-  lll.last = lll(para.last);
+  para.last = as.double(res.tab[j, 16:20]);
+  lll.last = lll(i.value,para.last);
   cat(lll.last, "\n");
   curve(g(x), add=TRUE,  lwd=2, lty=2);
   dev.off();
@@ -231,20 +244,20 @@ if (0==1){
        main=paste("Vaccinational behaviour"),
        xlim=c(0,1), xlab="amount of pro-vaxxers x", nclass=30);
   
-  para.last = as.double(res.tab[j, 4:7]);
+  para.last = as.double(res.tab[j, 4:8]);
   
-  lll.last = lll(para.last);
+  lll.last = lll(i.value,para.last);
   cat(lll.last, "\n");  mmean <<- mean(myDataEsti);
   
   curve(g(x), add=TRUE,  lwd=2);
   
-  para.last = as.double(res.tab[j, 9:12]);
-  lll.last = lll(para.last);
+  para.last = as.double(res.tab[j, 10:14]);
+  lll.last = lll(i.value,para.last);
   cat(lll.last, "\n");
   curve(g(x), add=TRUE,  lwd=2, col = "green");
   
-  para.last = as.double(res.tab[j, 14:17]);
-  lll.last = lll(para.last);
+  para.last = as.double(res.tab[j, 16:20]);
+  lll.last = lll(i.value,para.last);
   cat(lll.last, "\n");
   curve(g(x), add=TRUE,  lwd=2, lty=2);
   dev.off();
