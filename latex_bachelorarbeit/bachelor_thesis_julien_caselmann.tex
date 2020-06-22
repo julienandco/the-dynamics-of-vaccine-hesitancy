@@ -19,14 +19,31 @@
 \usepackage{url}
 \usepackage{listings}
 
+\definecolor{dkgreen}{rgb}{0.0, 0.2, 0.13}
+
 \lstset{
-	basicstyle=\small\ttfamily,
-	stringstyle=\color{DarkGreen},
-	otherkeywords={0,1,2,3,4,5,6,7,8,9},
-	morekeywords={TRUE,FALSE},
-	deletekeywords={data,frame,length,as,character},
-	keywordstyle=\color{blue},
-	commentstyle=\color{DarkGreen},
+	 language=R,                % the language of the code
+	basicstyle=\footnotesize,           % the size of the fonts that are used for the code
+	numbers=left,                   % where to put the line-numbers
+	numberstyle=\tiny\color{gray},  % the style that is used for the line-numbers
+	stepnumber=2,                   % the step between two line-numbers. If it's 1, each line
+	% will be numbered
+	numbersep=5pt,                  % how far the line-numbers are from the code
+	backgroundcolor=\color{white},      % choose the background color. You must add \usepackage{color}
+	showspaces=false,               % show spaces adding particular underscores
+	showstringspaces=false,         % underline spaces within strings
+	showtabs=false,                 % show tabs within strings adding particular underscores
+	frame=single,                   % adds a frame around the code
+	rulecolor=\color{black},        % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. commens (green here))
+	tabsize=2,                      % sets default tabsize to 2 spaces
+	captionpos=b,                   % sets the caption-position to bottom
+	breaklines=true,                % sets automatic line breaking
+	breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
+	title=\lstname,                   % show the filename of files included with \lstinputlisting;
+	% also try caption instead of title
+	keywordstyle=\color{blue},          % keyword style
+	commentstyle=\color{dkgreen},       % comment style
+	stringstyle=\color{dkgreen},         % string literal style
 }
 \lstnewenvironment{rc}[1][]{\lstset{language=R}}{}
 \newcommand{\ri}[1]{\lstinline{#1}}  %% Short for 'R inline'
@@ -45,12 +62,9 @@ maxbibnames=99,
 giveninits,
 uniquename=init]{biblatex}
 \addbibresource{bachelor_thesis_julien_caselmann.bib}
-%TODO last: many weird sources, fix them. all last names and titles pls NOT capslock. all titles in same font (italic or normal, but not mixed). get maxima citation from maxima FAQ page. adjust KBV overfull link. 
-
-%TODO: cite xppaut just as maxima
+%TODO last: many weird sources, fix them. all last names and titles pls NOT capslock. all titles in same font (italic or normal, but not mixed). get maxima citation from maxima FAQ page. adjust KBV overfull link. mullers paper has tellier aurelien and not tellier A. cite xppaut just as maxima
 
 %TODO last: sort sources numerically in every multi-cite bracket
-%TODO: welche Autoren bei MÜllers paper?
 
 
 \newtheorem{definition}{Definition}[section]
@@ -747,7 +761,6 @@ We computed the deterministic limit of Model \ref{model:my_model} in Subsection 
 %TODO: enough reformulated this intro? since it is copy-paste from muellers paper
 %On the one hand, the det.lim. allows to easily analyse and visualise the long term behaviour. On the other hand, pop genetics studies [three citations] show that the weak effect models are more realistic when it comes to the analysis of the data.
 
-%TODO: what is this z_t supposed to mean?
 \begin{thm}[\textbf{Weak Effect Limit of the Alternate Model}]\label{theorem:weak_eff_lim}
 	Let $N_i, i \in \lbrace X,Y\rbrace$ denote the numbers of zealots of opinion $X$ and $Y$, respectively and $N$ the population size. Furthermore, let the reinforcement within the model be described by $\theta_i = 1-\frac{\Theta_i}{N}$. For $N \rightarrow \infty$, the density of the invariant measure for the random variable $z_t = \frac{X_t}{N}$ is given by
 	\begin{equation}
