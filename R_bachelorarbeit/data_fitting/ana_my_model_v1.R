@@ -13,8 +13,8 @@
 
 #
 # in case: define work directory
-#setwd("C:/Users/ge69fup/Documents/Uni/TUM/Mathe_B_Sc/SS_20/Bachelorarbeit/bachelorarbeit-repo/R_bachelorarbeit/data_fitting")
-setwd("D:/Dokumente/Uni/TUM/Mathe_B_Sc/SS_20/Bachelorarbeit/bachelorarbeit-repo/R_bachelorarbeit/data_fitting");
+setwd("C:/Users/ge69fup/Documents/Uni/TUM/Mathe_B_Sc/SS_20/Bachelorarbeit/bachelorarbeit-repo/R_bachelorarbeit/data_fitting")
+#setwd("D:/Dokumente/Uni/TUM/Mathe_B_Sc/SS_20/Bachelorarbeit/bachelorarbeit-repo/R_bachelorarbeit/data_fitting");
 
 post <- function(nme){
   # remove blanks
@@ -29,8 +29,8 @@ post <- function(nme){
 # read data
 #
 #################
-#vaccination_data = read.csv2('C:/Users/ge69fup/Documents/Uni/TUM/Mathe_B_Sc/SS_20/Bachelorarbeit/bachelorarbeit-repo/R_bachelorarbeit/data_fitting/merged_impfdaten.csv', header=TRUE)
-vaccination_data = read.csv2('D:/Dokumente/Uni/TUM/Mathe_B_Sc/SS_20/Bachelorarbeit/bachelorarbeit-repo/R_bachelorarbeit/data_fitting/merged_impfdaten.csv',header=TRUE);
+vaccination_data = read.csv2('C:/Users/ge69fup/Documents/Uni/TUM/Mathe_B_Sc/SS_20/Bachelorarbeit/bachelorarbeit-repo/R_bachelorarbeit/data_fitting/merged_impfdaten.csv', header=TRUE)
+#vaccination_data = read.csv2('D:/Dokumente/Uni/TUM/Mathe_B_Sc/SS_20/Bachelorarbeit/bachelorarbeit-repo/R_bachelorarbeit/data_fitting/merged_impfdaten.csv',header=TRUE);
 
 
 ###############
@@ -52,7 +52,7 @@ if (1==1){
   
   {
     myDataEsti = c();
-    impfer = vaccination_data$Wert;
+    impfer = vaccination_data$Wert[1:400];
     myDataEsti = impfer/100;       
     
     mmean = mean(myDataEsti);
@@ -66,7 +66,7 @@ if (1==1){
     ###################################################################
     cat("first run", "\n");
     ##para.ref sind diese Hut parameter in der reihenfolge: nu_hut,theta_hut,psi_hut,ksi_hut,i.param,s_hut
-    para.ref = c(mean(myDataEsti), 0.5, 0.5,0.5,0.2,100);   # define init para
+    para.ref = c(mean(myDataEsti), 0.5, 0.5,0.5,0.0,100);   # define init para
     lll.last = lll(para.ref);
     cat("lll.last: ", lll.last, "\n");
     curve(g(x), add=TRUE, col="blue", lwd=2);
@@ -127,7 +127,7 @@ if (1==1){
     para.restrict = para.last;            # store result
     lll.restrict  = lll.last;
     
-    # komogorov-smirnov-test
+    # kolmogorov-smirnov-test
     res.restric.ks = ks.test(myDataEsti, function(x){pReinforce(x)});
   
     #in line muss noch das ergebnis für A und ksi_hut rein...

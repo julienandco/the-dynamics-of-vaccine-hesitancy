@@ -14,8 +14,8 @@
 #
 # in case: define work directory
 
-#setwd("C:/Users/ge69fup/Documents/Uni/TUM/Mathe_B_Sc/SS_20/Bachelorarbeit/bachelorarbeit-repo/R_bachelorarbeit/data_fitting")
-setwd("D:/Dokumente/Uni/TUM/Mathe_B_Sc/SS_20/Bachelorarbeit/bachelorarbeit-repo/R_bachelorarbeit/data_fitting");
+setwd("C:/Users/ge69fup/Documents/Uni/TUM/Mathe_B_Sc/SS_20/Bachelorarbeit/bachelorarbeit-repo/R_bachelorarbeit/data_fitting")
+#setwd("D:/Dokumente/Uni/TUM/Mathe_B_Sc/SS_20/Bachelorarbeit/bachelorarbeit-repo/R_bachelorarbeit/data_fitting");
 
 post <- function(nme){
   # remove blanks
@@ -215,6 +215,8 @@ opti.cyclic <- function(para.init){
       lll.last  <- lll.lok;
     }
     
+    ##optimize a
+    
     if (unrestricted.model){
       para.last <<- para.last;
       res2 = optimize(search.p2, interval=c(0,1), maximum=TRUE);
@@ -239,9 +241,9 @@ opti.cyclic <- function(para.init){
     
     lll.1     = lll(para.last);
     Delta = 0.01;
-    if (para.last[4]>10)  Delta=0.1;
-    if (para.last[4]>50)  Delta=0.5;
-    if (para.last[4]>100) Delta=1;
+    if (para.last[6]>10)  Delta=0.1;
+    if (para.last[6]>50)  Delta=0.5;
+    if (para.last[6]>100) Delta=1;
     
     lll.p2    = lll(para.last+c(0,0, 0, Delta));
     lll.m2    = lll(para.last+c(0,0,0, -Delta));
@@ -280,7 +282,8 @@ opti.cyclic <- function(para.init){
   }
 }
 
-vaccination_data = read.csv2('D:/Dokumente/Uni/TUM/Mathe_B_Sc/SS_20/Bachelorarbeit/bachelorarbeit-repo/R_bachelorarbeit/data_fitting/merged_impfdaten.csv',header=TRUE);
+vaccination_data = read.csv2("C:/Users/ge69fup/Documents/Uni/TUM/Mathe_B_Sc/SS_20/Bachelorarbeit/bachelorarbeit-repo/R_bachelorarbeit/data_fitting/merged_impfdaten.csv", header=TRUE)
+#vaccination_data = read.csv2("D:/Dokumente/Uni/TUM/Mathe_B_Sc/SS_20/Bachelorarbeit/bachelorarbeit-repo/R_bachelorarbeit/data_fitting/merged_impfdaten.csv",header=TRUE);
 myDataEsti = c();
 impfer = vaccination_data$Wert;
 myDataEsti = impfer/100;       
