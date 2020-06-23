@@ -10,7 +10,6 @@
 # (c) Compare empirical and theoretical distributions 
 #     by the Kolmogorovv-Smirnov tests.
 # 
-
 #
 # in case: define work directory
 #setwd("C:/Users/ge69fup/Documents/Uni/TUM/Mathe_B_Sc/SS_20/Bachelorarbeit/bachelorarbeit-repo/R_bachelorarbeit/data_fitting")
@@ -37,7 +36,7 @@ vaccination_data = read.csv2('D:/Dokumente/Uni/TUM/Mathe_B_Sc/SS_20/Bachelorarbe
 # read tools
 #
 #################
-source("my_parameter_estimation_reinforcement.R");
+source("my_parameter_estimation_reinforcement_multiple_i.R");
 
 
 ######################################################
@@ -49,7 +48,8 @@ psi_hut.init  = 0.5;
 ksi_hut.init = 0.2;
 s_hut.init   = 100; 
 
-##change this
+uniform.i = TRUE;
+##replace all incidences with this value
 dummy.i = 0;
 
 info = data.frame(vaccination_data$Wert[1:400] / 100,vaccination_data$Inzidenz[1:400]);
@@ -65,31 +65,9 @@ info$Wert = info$Wert * 2 - 1;
 #(datapoints with NA get replaced by dummy.i)
 info$Inzidenz = replace(info$Inzidenz, dummy.i);
 
-#check whether we kept our functionality
-info$Inzidenz = info$Inzidenz * 0;
-#myDataEsti = c();
-#impfer = vaccination_data$Wert[1:400]; #last few ones are NA
-#myDataEsti = impfer/100; 
-
-
-#remove all values below 0.5 as we esteem them to be fixed voters
-#myDataEsti = Filter(remove_first_half, myDataEsti);
-
-#renormalise it, such that 0.5 -> 0 and 1 -> 1
-#myDataEsti = myDataEsti * 2 - 1;
-
-
-##change this
-#i.value = numeric(length(myDataEsti));
-
-
-#myDataInzi = c();
-#inzidenz = vaccination_data$Inzidenz;
-
-#make sure every datapoint gets an incidence value
-#(datapoints with NA get replaced by dummy.i)
-#myDataInzi = replace(inzidenz,dummy.i);
-#myDataInzi = get_rid_of_zeroes(inzidenz);
+if(uniform.i){
+  info$Inzidenz =dummy.i;
+}
 
 #what do we want to do?
 analyse = TRUE;
@@ -97,6 +75,9 @@ analyse = TRUE;
 produce.table = FALSE;
 produce.figures = FALSE;
 
+
+#################################################################
+#nach dem essen: wieso zum fück kommt -inf wieder raus?
 
 
 ######################################################

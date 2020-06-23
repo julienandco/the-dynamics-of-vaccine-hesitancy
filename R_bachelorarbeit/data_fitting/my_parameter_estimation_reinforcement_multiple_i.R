@@ -18,32 +18,13 @@
 #setwd("C:/Users/ge69fup/Documents/Uni/TUM/Mathe_B_Sc/SS_20/Bachelorarbeit/bachelorarbeit-repo/R_bachelorarbeit/data_fitting")
 #setwd("D:/Dokumente/Uni/TUM/Mathe_B_Sc/SS_20/Bachelorarbeit/bachelorarbeit-repo/R_bachelorarbeit/data_fitting");
 
-replace <- function(vector, replacement){
-  for (i in 1:length(vector)){
-    if (is.na(vector[i])){
-      vector[i] = replacement;
+replace <- function(my_vec,replacement){
+  for (i in 1:length(my_vec)){
+    if (is.na(my_vec[i])){
+      my_vec[i] = replacement;
     }
   }
-  return (vector);
-}
-
-get_rid_of_zeroes <- function(vector){
-  vector_no_zeroes = c();
-  last_index = 1;
-  for (i in 1:length(vector)) {
-    if (vector[i] != 0){
-      vector_no_zeroes[last_index] = vector[i];
-      last_index = last_index + 1;
-    }
-  }
-  return(vector_no_zeroes);
-}
-
-remove_first_half <- function(x){
-  if (x < 0.5){
-    return (FALSE);
-  }
-  return (TRUE);
+  return (my_vec);
 }
 
 post <- function(nme){
