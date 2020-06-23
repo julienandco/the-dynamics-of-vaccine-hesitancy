@@ -49,26 +49,54 @@ psi_hut.init  = 0.5;
 ksi_hut.init = 0.2;
 s_hut.init   = 100; 
 
-myDataEsti = c();
-myDataInzi = c();
-impfer = vaccination_data$Wert[1:400]; #last few ones are NA
-inzidenz = vaccination_data$Inzidenz;
-#myDataInzi = get_rid_of_zeroes(inzidenz);
-myDataInzi = replace_zeroes(inzidenz);
-myDataEsti = impfer/100; 
+##change this
+dummy.i = 0;
+
+info = data.frame(vaccination_data$Wert[1:400] / 100,vaccination_data$Inzidenz[1:400]);
+colnames(info) = c("Wert", "Inzidenz");
 
 #remove all values below 0.5 as we esteem them to be fixed voters
-myDataEsti = Filter(remove_first_half, myDataEsti);
+info = info[info$Wert >= 0.5,];
+
+#renormalise vaccination values, such that 0.5 -> 0 and 1 -> 1
+info$Wert = info$Wert * 2 - 1;
+
+#make sure every datapoint gets an incidence value
+#(datapoints with NA get replaced by dummy.i)
+info$Inzidenz = replace(info$Inzidenz, dummy.i);
+
+#check whether we kept our functionality
+info$Inzidenz = info$Inzidenz * 0;
+#myDataEsti = c();
+#impfer = vaccination_data$Wert[1:400]; #last few ones are NA
+#myDataEsti = impfer/100; 
+
+
+#remove all values below 0.5 as we esteem them to be fixed voters
+#myDataEsti = Filter(remove_first_half, myDataEsti);
 
 #renormalise it, such that 0.5 -> 0 and 1 -> 1
-myDataEsti = myDataEsti * 2 - 1;
+#myDataEsti = myDataEsti * 2 - 1;
+
 
 ##change this
-i.value = numeric(length(myDataEsti));
+#i.value = numeric(length(myDataEsti));
 
+
+#myDataInzi = c();
+#inzidenz = vaccination_data$Inzidenz;
+
+#make sure every datapoint gets an incidence value
+#(datapoints with NA get replaced by dummy.i)
+#myDataInzi = replace(inzidenz,dummy.i);
+#myDataInzi = get_rid_of_zeroes(inzidenz);
+
+#what do we want to do?
 analyse = TRUE;
+#analyse = FALSE;
 produce.table = FALSE;
 produce.figures = FALSE;
+
 
 
 ######################################################
@@ -84,12 +112,13 @@ if (analyse){
   
   
   {
-    mmean = mean(myDataEsti);
+    #mmean = mean(myDataEsti);
+    mmean = mean(info$Wert);
     
     
-    hist(myDataEsti, freq = FALSE, nclass=30, 
+    hist(info$Wert, freq = FALSE, nclass=30, 
          main="full reinforcement",
-         xlim=c(0,1));
+         xlim=c(0,1),xlab = "percentage of pro-vaxxers");
     
     
     ###################################################################
@@ -97,21 +126,21 @@ if (analyse){
     ###################################################################
     cat("first run", "\n");
     ##para.ref sind diese Hut parameter in der reihenfolge: nu_hut,theta_hut,psi_hut,ksi_hut,s_hut
-    para.ref = c(mean(myDataEsti), theta_hut.init, psi_hut.init,ksi_hut.init,s_hut.init);   # define init para
-    lll.last = lll(i.value, para.ref);
+    para.ref = c(mmean, theta_hut.init, psi_hut.init,ksi_hut.init,s_hut.init);   # define init para
+    lll.last = lll(para.ref);
     cat("lll.last: ", lll.last, "\n");
     curve(g(x), add=TRUE, col="blue", lwd=2);
     
     unrestricted.model     = TRUE;      # we aim at the full model
     unrestrict.theta_hut   = TRUE;
-    opti.cyclic(i.value, para.ref);
+    opti.cyclic(para.ref);
     cat(lll.last, "\n");
     para.unrest = para.last;        # store the result
     lll.unrest  = lll.last;
     theta.res   = theta_hut*s_hut;
     
     # Kolmogorov-Smirnov test
-    res.ks = ks.test(myDataEsti, function(x){pReinforce(x)}); 
+    res.ks = ks.test(info$Wert, function(x){pReinforce(x)}); 
     
     # produce a figure with histogram and estimated distribution
     party.x = "pro-vaxx";
@@ -121,24 +150,24 @@ if (analyse){
     # second run: reinforcement model, force equal reinforcement parameters 
     ###################################################################
     cat("second run","\n");
-    para.ref = c(mean(myDataEsti), theta_hut.init, psi_hut.init,ksi_hut.init,s_hut.init);  # define init para
-    lll.last = lll(i.value, para.ref);
+    para.ref = c(mmean, theta_hut.init, psi_hut.init,ksi_hut.init,s_hut.init);  # define init para
+    lll.last = lll(para.ref);
     cat(lll.last, "\n");
-    hist(myDataEsti, freq = FALSE, nclass=30, 
+    hist(info$Wert, freq = FALSE, nclass=30, 
          main="reinforcement with equal reinf. params",
-         xlim=c(0,1));
+         xlim=c(0,1),xlab = "percentage of pro-vaxxers");
     curve(g(x), add=TRUE, col="blue", lwd=2);
     
     unrestricted.model     = TRUE;      # we aim at the full model
     unrestrict.theta_hut   = FALSE;     # we want to keep equal parameters for reinforcement
-    opti.cyclic(i.value, para.ref);
+    opti.cyclic(para.ref);
     cat(lll.last, "\n");
     para.halfRestrict = para.last;        # store the result
     lll.halfRestrict  = lll.last;
     theta.res   = theta_hut*s_hut;
     
     # Kolmogorov-Smirnov test
-    res.halfRestrict.ks = ks.test(myDataEsti, function(x){pReinforce(x)}); 
+    res.halfRestrict.ks = ks.test(info$Wert, function(x){pReinforce(x)}); 
     
     
     ###################################################################
@@ -147,19 +176,19 @@ if (analyse){
     cat("third run", "\n");
     unrestricted.model     = FALSE;           # we fix all reinforcement-paras
     unrestrict.theta_hut   = FALSE;
-    para.ref = c(mean(myDataEsti), theta_hut.init, psi_hut.init,ksi_hut.init,s_hut.init);
-    hist(myDataEsti, freq = FALSE, nclass=30, 
+    para.ref = c(mmean, theta_hut.init, psi_hut.init,ksi_hut.init,s_hut.init);
+    hist(info$Wert, freq = FALSE, nclass=30, 
          main="zealot model",
-         xlim=c(0,1));
+         xlim=c(0,1),xlab="percentage of pro-vaxxers");
     curve(g(x), add=TRUE, col="blue", lwd=2);
     
-    opti.cyclic(i.value, para.ref);
+    opti.cyclic(para.ref);
     cat("lll.last: ", lll.last, "\n");
     para.restrict = para.last;            # store result
     lll.restrict  = lll.last;
     
     # kolmogorov-smirnov-test
-    res.restric.ks = ks.test(myDataEsti, function(x){pReinforce(x)});
+    res.restric.ks = ks.test(info$Wert, function(x){pReinforce(x)});
     
     #in line muss noch das ergebnis für A und ksi_hut rein...
     line = c("run", party.x, 
@@ -234,9 +263,7 @@ if (produce.figures){
   # produce figures
   impfer = vaccination_data$Wert[1:400];
   myDataEsti = impfer/100;       
-  mmean <<- mean(myDataEsti);
-  
-  i.value = 0;
+  mmean <<- mean(info$Wert);
   
   
   post(paste("My_model",as.character(j),".eps",sep=""));
@@ -246,13 +273,13 @@ if (produce.figures){
   
   para.last = as.double(res.tab[j, 4:8]);
   
-  lll.last = lll(i.value,para.last);
-  cat(lll.last, "\n");  mmean <<- mean(myDataEsti);
+  lll.last = lll(para.last);
+  cat(lll.last, "\n");  mmean <<- mean(info$Wert);
   
   curve(g(x), add=TRUE,  lwd=2);
   
   para.last = as.double(res.tab[j, 16:20]);
-  lll.last = lll(i.value,para.last);
+  lll.last = lll(para.last);
   cat(lll.last, "\n");
   curve(g(x), add=TRUE,  lwd=2, lty=2);
   dev.off();
@@ -265,18 +292,18 @@ if (produce.figures){
   
   para.last = as.double(res.tab[j, 4:8]);
   
-  lll.last = lll(i.value,para.last);
-  cat(lll.last, "\n");  mmean <<- mean(myDataEsti);
+  lll.last = lll(para.last);
+  cat(lll.last, "\n");  mmean <<- mean(info$Wert);
   
   curve(g(x), add=TRUE,  lwd=2);
   
   para.last = as.double(res.tab[j, 10:14]);
-  lll.last = lll(i.value,para.last);
+  lll.last = lll(para.last);
   cat(lll.last, "\n");
   curve(g(x), add=TRUE,  lwd=2, col = "green");
   
   para.last = as.double(res.tab[j, 16:20]);
-  lll.last = lll(i.value,para.last);
+  lll.last = lll(para.last);
   cat(lll.last, "\n");
   curve(g(x), add=TRUE,  lwd=2, lty=2);
   dev.off();

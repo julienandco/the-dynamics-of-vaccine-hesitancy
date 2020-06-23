@@ -9,7 +9,13 @@ vaccination_data = read.csv2('D:/Dokumente/Uni/TUM/Mathe_B_Sc/SS_20/Bachelorarbe
 #impfrate = vaccination_data$Wert / 100;
 
 
-lul = vaccination_data$Wert;
+lul = vaccination_data$Inzidenz;
+
+for(i in 1:length(lul)){
+  if (is.na(lul[i])){
+    cat('NA');
+  }
+}
 
 #correlation.pearson = cor(impfrate,inzidenz,method='pearson');
 #correlation.kendall = cor(impfrate,inzidenz,method='kendall');
