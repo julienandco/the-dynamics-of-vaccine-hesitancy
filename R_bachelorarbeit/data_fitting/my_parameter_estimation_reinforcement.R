@@ -1,3 +1,4 @@
+
 #
 # Estimate the paras for the reinforcement model
 #####################################################################
@@ -19,16 +20,32 @@
 
 i.param = 0;
 
-get_rid_of_zeroes <- function(vector){
-vector_no_zeroes = c();
-last_index = 1;
-for (i in 1:length(vector)) {
-  if (vector[i] != 0){
-    vector_no_zeroes[last_index] = vector[i];
-    last_index = last_index + 1;
+replace_zeroes <- function(vector){
+  for (i in 1:length(vector)){
+    if (vector[i] == 0){
+      vector[i] = NA;
+    }
   }
+  return (vector);
 }
-return(vector_no_zeroes);
+
+get_rid_of_zeroes <- function(vector){
+  vector_no_zeroes = c();
+  last_index = 1;
+  for (i in 1:length(vector)) {
+    if (vector[i] != 0){
+      vector_no_zeroes[last_index] = vector[i];
+      last_index = last_index + 1;
+    }
+  }
+  return(vector_no_zeroes);
+}
+
+remove_first_half <- function(x){
+  if (x < 0.5){
+    return (FALSE);
+  }
+  return (TRUE);
 }
 
 post <- function(nme){

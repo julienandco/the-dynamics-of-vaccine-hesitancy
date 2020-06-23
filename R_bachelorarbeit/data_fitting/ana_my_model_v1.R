@@ -39,17 +39,44 @@ vaccination_data = read.csv2('D:/Dokumente/Uni/TUM/Mathe_B_Sc/SS_20/Bachelorarbe
 #################
 source("my_parameter_estimation_reinforcement.R");
 
-######################################
-#
-#  do it
 
-    
+######################################################
+# initialisation
+######################################################
+
 theta_hut.init = 0.5;
 psi_hut.init  = 0.5;
-ksi_hut.init = 0.8;
+ksi_hut.init = 0.2;
 s_hut.init   = 100; 
 
-if (1==1){
+myDataEsti = c();
+myDataInzi = c();
+impfer = vaccination_data$Wert[1:400]; #last few ones are NA
+inzidenz = vaccination_data$Inzidenz;
+#myDataInzi = get_rid_of_zeroes(inzidenz);
+myDataInzi = replace_zeroes(inzidenz);
+myDataEsti = impfer/100; 
+
+#remove all values below 0.5 as we esteem them to be fixed voters
+myDataEsti = Filter(remove_first_half, myDataEsti);
+
+#renormalise it, such that 0.5 -> 0 and 1 -> 1
+myDataEsti = myDataEsti * 2 - 1;
+
+##change this
+i.value = numeric(length(myDataEsti));
+
+analyse = TRUE;
+produce.table = FALSE;
+produce.figures = FALSE;
+
+
+######################################################
+# data fit
+######################################################
+
+
+if (analyse){
   # check optima
   s_hut.max=2500;
   
@@ -57,21 +84,14 @@ if (1==1){
   
   
   {
-    myDataEsti = c();
-    myDataInzi = c();
-    impfer = vaccination_data$Wert[1:400]; #last few ones are NA
-    inzidenz = vaccination_data$Inzidenz;
-    myDataInzi = get_rid_of_zeroes(inzidenz);
-    myDataEsti = impfer/100;  
-    
-    i.value = numeric(length(myDataEsti));
-    
     mmean = mean(myDataEsti);
     
     
     hist(myDataEsti, freq = FALSE, nclass=30, 
          main="full reinforcement",
          xlim=c(0,1));
+    
+    
     ###################################################################
     # first run: estimate the full reinforcement model
     ###################################################################
@@ -96,7 +116,7 @@ if (1==1){
     # produce a figure with histogram and estimated distribution
     party.x = "pro-vaxx";
     
-
+    
     ###################################################################
     # second run: reinforcement model, force equal reinforcement parameters 
     ###################################################################
@@ -140,7 +160,7 @@ if (1==1){
     
     # kolmogorov-smirnov-test
     res.restric.ks = ks.test(myDataEsti, function(x){pReinforce(x)});
-  
+    
     #in line muss noch das ergebnis für A und ksi_hut rein...
     line = c("run", party.x, 
              theta.res,
@@ -180,9 +200,8 @@ if (1==1){
 }
 
 
-##todo after snackerino
 
-if (0==1){
+if (produce.table){
   # produce a table
   load(file="datAnaMyModel_V1.rSave");
   sink(file="datMyModel.tex");
@@ -211,7 +230,7 @@ if (0==1){
 
 
 
-if (0==1){
+if (produce.figures){
   # produce figures
   impfer = vaccination_data$Wert[1:400];
   myDataEsti = impfer/100;       
@@ -264,4 +283,3 @@ if (0==1){
   
   
 }
-
