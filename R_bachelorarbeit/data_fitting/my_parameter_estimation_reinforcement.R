@@ -18,11 +18,10 @@
 #setwd("C:/Users/ge69fup/Documents/Uni/TUM/Mathe_B_Sc/SS_20/Bachelorarbeit/bachelorarbeit-repo/R_bachelorarbeit/data_fitting")
 #setwd("D:/Dokumente/Uni/TUM/Mathe_B_Sc/SS_20/Bachelorarbeit/bachelorarbeit-repo/R_bachelorarbeit/data_fitting");
 
-i.param = 0;
 
-replace_zeroes <- function(vector){
+replace <- function(vector){
   for (i in 1:length(vector)){
-    if (vector[i] == 0){
+    if (is.na(vector[i])){
       vector[i] = NA;
     }
   }
@@ -106,7 +105,7 @@ g<-function(x){
   );
 }
 
-lll.dat <- function(x,nu_hut,theta_hut,phi_hut,ksi_hut,i.param,s_hut, CC){
+lll.dat <- function(x,nu_hut,theta_hut,phi_hut,ksi_hut,s_hut, CC){
   # log likeli for one single data point x,
   # given the data parameter, and the normalization constant CC
   # N1 = (1-theta_hut)*(1-ksi_hut)*nu_hut*scal+1, N2 = (1-theta_hut)*(1-nu_hut)*(1-ksi_hut)*scal +1
@@ -149,7 +148,7 @@ tryCatch.W.E <- function(expr){
 
 ##einstiegsfunktion
 # compute log likeli
-lll <- function(i.value, para){
+lll <- function(para){
   # nu_hut = (1-theta_hut)*nu_hut+1, N2 = (1-theta_hut)*(1-nu_hut)*scal +1
   # theta_hut \in (0,1), nu_hut \in (0,1), scal >0
   ppara     <<- para;
@@ -166,7 +165,7 @@ lll <- function(i.value, para){
   CC<<- aa$value;
   # cat(integrate(g, lower=0, upper=1)$value, "\n");
   
-  return(sum(lll.dat(myDataEsti, nu_hut,theta_hut,phi_hut,ksi_hut,i.value,s_hut,CC)));    
+  return(sum(lll.dat(myDataEsti, nu_hut,theta_hut,phi_hut,ksi_hut,s_hut,CC)));    
 }
 
 
@@ -176,22 +175,22 @@ lll <- function(i.value, para){
 search.p1 <- function(px){
   # para.last gives the framework; we modify parameter 1 only
   pxx = para.last; pxx[1] = px;
-  return( lll(i.value, pxx) );
+  return( lll(pxx) );
 }
 search.p2 <- function(px){
   # para.last gives the framework; we modify parameter 2 only
   pxx = para.last; pxx[2] = px;
-  return( lll(i.value, pxx) );
+  return( lll(pxx) );
 }
 search.p3 <- function(px){
   # para.last gives the framework; we modify parameter 3 only
   pxx = para.last; pxx[3] = px;
-  return( lll(i.value, pxx) );
+  return( lll(pxx) );
 }
 search.p4 <- function(px){
   # para.last gives the framework; we modify parameter 4 only
   pxx = para.last; pxx[4] = px;
-  return( lll(i.value, pxx) );
+  return( lll(pxx) );
 }
 
 
@@ -202,7 +201,7 @@ search.p4 <- function(px){
 #
 ############################################
 
-opti.cyclic <- function(i.value, para.init){
+opti.cyclic <- function(para.init){
   # optimize cyclically the parameters.
   #
   # we have different modes 
@@ -215,7 +214,7 @@ opti.cyclic <- function(i.value, para.init){
   mmean <<- mean(myDataEsti);
   
   para.last <- para.init; 
-  lll.last  <- lll(i.value, para.ref);
+  lll.last  <- lll(para.ref);
   last.s_hut = -1; no.s_hut.const = 0;last.lll=-1e10;
   fertig = FALSE;
   
@@ -227,7 +226,7 @@ opti.cyclic <- function(i.value, para.init){
     para.last <<- para.last;
     res1 = optimize(search.p1, interval=c(0,1), maximum=TRUE);
     para.loc1 = para.last; para.loc1[1]=res1$maximum;
-    lll.lok  = lll(i.value, para.loc1);
+    lll.lok  = lll(para.loc1);
     if (lll.lok>lll.last){
       para.last <- para.loc1;
       lll.last  <- lll.lok;
@@ -237,7 +236,7 @@ opti.cyclic <- function(i.value, para.init){
     para.last <<- para.last;
     res4 = optimize(search.p4, interval=c(0,1), maximum=TRUE);
     para.loc4 = para.last; para.loc4[4]=res4$maximum;
-    lll.lok  = lll(i.value, para.loc4);
+    lll.lok  = lll(para.loc4);
     if (lll.lok>lll.last){
       para.last <- para.loc4;
       lll.last  <- lll.lok;
@@ -247,7 +246,7 @@ opti.cyclic <- function(i.value, para.init){
       para.last <<- para.last;
       res2 = optimize(search.p2, interval=c(0,1), maximum=TRUE);
       para.loc2 = para.last; para.loc2[2]=res2$maximum;
-      lll.lok  = lll(i.value, para.loc2);
+      lll.lok  = lll(para.loc2);
       if (lll.lok>lll.last){
         para.last <- para.loc2;
         lll.last  <- lll.lok;
@@ -257,7 +256,7 @@ opti.cyclic <- function(i.value, para.init){
         para.last <<- para.last;
         res3 = optimize(search.p3, interval=c(0,1), maximum=TRUE);
         para.loc3 = para.last; para.loc3[3]=res3$maximum;
-        lll.lok  = lll(i.value, para.loc3);
+        lll.lok  = lll(para.loc3);
         if (lll.lok>lll.last){
           para.last <- para.loc3;
           lll.last  <- lll.lok;
@@ -265,14 +264,14 @@ opti.cyclic <- function(i.value, para.init){
       }
     }
     
-    lll.1     = lll(i.value, para.last);
+    lll.1     = lll(para.last);
     Delta = 0.01;
     if (para.last[5]>10)  Delta=0.1;
     if (para.last[5]>50)  Delta=0.5;
     if (para.last[5]>100) Delta=1;
     
-    lll.p2    = lll(i.value, para.last+c(0,0, 0,0, Delta));
-    lll.m2    = lll(i.value, para.last+c(0,0,0,0, -Delta));
+    lll.p2    = lll(para.last+c(0,0, 0,0, Delta));
+    lll.m2    = lll(para.last+c(0,0,0,0, -Delta));
     if (lll.p2>lll.1){
       paral.loc3 = para.last+c(0,0,0,0, Delta);
       para.last  = para.last+c(0,0,0,0, Delta);
@@ -294,7 +293,7 @@ opti.cyclic <- function(i.value, para.init){
       lll.x =last.lll;
     } else {
       no.s_hut.const = no.s_hut.const+1;
-      loc.lll = lll(i.value, para.last);
+      loc.lll = lll(para.last);
       if (last.lll>lll.x+1e-6) {
         no.s_hut.const = 0;
       }
@@ -303,7 +302,7 @@ opti.cyclic <- function(i.value, para.init){
     
     para.last <<- para.last;
     lll.last  <<- last.lll;
-    cat(i," ", lll(i.value, para.last), "\n");     
+    cat(i," ", lll(para.last), "\n");     
     curve(g(x), add=TRUE, col="blue");
   }
 }

@@ -50,11 +50,7 @@ ksi_hut.init = 0.2;
 s_hut.init   = 100; 
 
 myDataEsti = c();
-myDataInzi = c();
 impfer = vaccination_data$Wert[1:400]; #last few ones are NA
-inzidenz = vaccination_data$Inzidenz;
-#myDataInzi = get_rid_of_zeroes(inzidenz);
-myDataInzi = replace_zeroes(inzidenz);
 myDataEsti = impfer/100; 
 
 #remove all values below 0.5 as we esteem them to be fixed voters
@@ -64,7 +60,7 @@ myDataEsti = Filter(remove_first_half, myDataEsti);
 myDataEsti = myDataEsti * 2 - 1;
 
 ##change this
-i.value = numeric(length(myDataEsti));
+i.param = 0;
 
 analyse = TRUE;
 produce.table = FALSE;
@@ -98,13 +94,13 @@ if (analyse){
     cat("first run", "\n");
     ##para.ref sind diese Hut parameter in der reihenfolge: nu_hut,theta_hut,psi_hut,ksi_hut,s_hut
     para.ref = c(mean(myDataEsti), theta_hut.init, psi_hut.init,ksi_hut.init,s_hut.init);   # define init para
-    lll.last = lll(i.value, para.ref);
+    lll.last = lll(para.ref);
     cat("lll.last: ", lll.last, "\n");
     curve(g(x), add=TRUE, col="blue", lwd=2);
     
     unrestricted.model     = TRUE;      # we aim at the full model
     unrestrict.theta_hut   = TRUE;
-    opti.cyclic(i.value, para.ref);
+    opti.cyclic(para.ref);
     cat(lll.last, "\n");
     para.unrest = para.last;        # store the result
     lll.unrest  = lll.last;
@@ -122,7 +118,7 @@ if (analyse){
     ###################################################################
     cat("second run","\n");
     para.ref = c(mean(myDataEsti), theta_hut.init, psi_hut.init,ksi_hut.init,s_hut.init);  # define init para
-    lll.last = lll(i.value, para.ref);
+    lll.last = lll(para.ref);
     cat(lll.last, "\n");
     hist(myDataEsti, freq = FALSE, nclass=30, 
          main="reinforcement with equal reinf. params",
@@ -131,7 +127,7 @@ if (analyse){
     
     unrestricted.model     = TRUE;      # we aim at the full model
     unrestrict.theta_hut   = FALSE;     # we want to keep equal parameters for reinforcement
-    opti.cyclic(i.value, para.ref);
+    opti.cyclic(para.ref);
     cat(lll.last, "\n");
     para.halfRestrict = para.last;        # store the result
     lll.halfRestrict  = lll.last;
@@ -153,7 +149,7 @@ if (analyse){
          xlim=c(0,1));
     curve(g(x), add=TRUE, col="blue", lwd=2);
     
-    opti.cyclic(i.value, para.ref);
+    opti.cyclic(para.ref);
     cat("lll.last: ", lll.last, "\n");
     para.restrict = para.last;            # store result
     lll.restrict  = lll.last;
@@ -236,9 +232,6 @@ if (produce.figures){
   myDataEsti = impfer/100;       
   mmean <<- mean(myDataEsti);
   
-  i.value = 0;
-  
-  
   post(paste("My_model",as.character(j),".eps",sep=""));
   hist(myDataEsti, freq = FALSE, 
        main=paste("Vaccinational behaviour"),
@@ -246,13 +239,13 @@ if (produce.figures){
   
   para.last = as.double(res.tab[j, 4:8]);
   
-  lll.last = lll(i.value,para.last);
+  lll.last = lll(para.last);
   cat(lll.last, "\n");  mmean <<- mean(myDataEsti);
   
   curve(g(x), add=TRUE,  lwd=2);
   
   para.last = as.double(res.tab[j, 16:20]);
-  lll.last = lll(i.value,para.last);
+  lll.last = lll(para.last);
   cat(lll.last, "\n");
   curve(g(x), add=TRUE,  lwd=2, lty=2);
   dev.off();
@@ -265,18 +258,18 @@ if (produce.figures){
   
   para.last = as.double(res.tab[j, 4:8]);
   
-  lll.last = lll(i.value,para.last);
+  lll.last = lll(para.last);
   cat(lll.last, "\n");  mmean <<- mean(myDataEsti);
   
   curve(g(x), add=TRUE,  lwd=2);
   
   para.last = as.double(res.tab[j, 10:14]);
-  lll.last = lll(i.value,para.last);
+  lll.last = lll(para.last);
   cat(lll.last, "\n");
   curve(g(x), add=TRUE,  lwd=2, col = "green");
   
   para.last = as.double(res.tab[j, 16:20]);
-  lll.last = lll(i.value,para.last);
+  lll.last = lll(para.last);
   cat(lll.last, "\n");
   curve(g(x), add=TRUE,  lwd=2, lty=2);
   dev.off();
