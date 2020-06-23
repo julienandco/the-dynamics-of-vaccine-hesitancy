@@ -48,7 +48,7 @@ psi_hut.init  = 0.5;
 ksi_hut.init = 0.2;
 s_hut.init   = 100; 
 
-uniform.i = TRUE;
+uniform.i = FALSE;
 ##replace all incidences with this value
 dummy.i = 0;
 
@@ -78,7 +78,9 @@ produce.figures = FALSE;
 
 #################################################################
 #nach dem essen: wieso zum fück kommt -inf wieder raus?
-
+#schau dir g und llldat an. wsl ist es gscheiter zwei neue funktionen g(x,i) und lldat(x,i)
+#zu schreiben und dann das dataframe in ner forloop durch, den bums den mer haben wolle berechnen
+#und dann in nen vektor schreiben (es kommt ja eh vektor raus, also haben wir selbe datenstruktur im ergebnis wie davor :D)
 
 ######################################################
 # data fit
