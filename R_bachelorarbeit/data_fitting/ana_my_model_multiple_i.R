@@ -11,6 +11,7 @@
 #     by the Kolmogorovv-Smirnov tests.
 # 
 #
+library(tictoc);
 # in case: define work directory
 #setwd("C:/Users/ge69fup/Documents/Uni/TUM/Mathe_B_Sc/SS_20/Bachelorarbeit/bachelorarbeit-repo/R_bachelorarbeit/data_fitting")
 setwd("D:/Dokumente/Uni/TUM/Mathe_B_Sc/SS_20/Bachelorarbeit/bachelorarbeit-repo/R_bachelorarbeit/data_fitting");
@@ -86,7 +87,6 @@ produce.figures = FALSE;
 # data fit
 ######################################################
 
-
 if (analyse){
   # check optima
   s_hut.max=2500;
@@ -112,11 +112,27 @@ if (analyse){
     para.ref = c(mmean, theta_hut.init, psi_hut.init,ksi_hut.init,s_hut.init);   # define init para
     lll.last = lll(para.ref);
     cat("lll.last: ", lll.last, "\n");
-    curve(g(x), add=TRUE, col="blue", lwd=2);
+    
+    
+    ##curve(g(x), add=TRUE, col="blue", lwd=2);
+    
+    #store the final curves in there
+    g.res = c(NA,NA,NA);
+    current.g <<- 1;
+    
+    #plot all curves
+    for(j in 1:length(info$Wert)){
+      g = get.g(j);
+      curve(g(x), add=TRUE, col="blue", lwd=2);
+    }
+    cat("done plotting run 1", "\n");
     
     unrestricted.model     = TRUE;      # we aim at the full model
     unrestrict.theta_hut   = TRUE;
     opti.cyclic(para.ref);
+    
+    cat("done optimising run 1");
+    
     cat(lll.last, "\n");
     para.unrest = para.last;        # store the result
     lll.unrest  = lll.last;
@@ -132,6 +148,9 @@ if (analyse){
     ###################################################################
     # second run: reinforcement model, force equal reinforcement parameters 
     ###################################################################
+    
+    current.g <<-2;
+    
     cat("second run","\n");
     para.ref = c(mmean, theta_hut.init, psi_hut.init,ksi_hut.init,s_hut.init);  # define init para
     lll.last = lll(para.ref);
@@ -139,11 +158,24 @@ if (analyse){
     hist(info$Wert, freq = FALSE, nclass=30, 
          main="reinforcement with equal reinf. params",
          xlim=c(0,1),xlab = "percentage of pro-vaxxers");
-    curve(g(x), add=TRUE, col="blue", lwd=2);
+    
+    
+    ##curve(g(x), add=TRUE, col="blue", lwd=2);
+    
+    #plot all curves
+    for(j in 1:length(info$Wert)){
+      g = get.g(j);
+      curve(g(x), add=TRUE, col="blue", lwd=2);
+    }
+    cat("done plotting run 2");
+    
     
     unrestricted.model     = TRUE;      # we aim at the full model
     unrestrict.theta_hut   = FALSE;     # we want to keep equal parameters for reinforcement
     opti.cyclic(para.ref);
+    cat("done optimising run 2");
+    
+    
     cat(lll.last, "\n");
     para.halfRestrict = para.last;        # store the result
     lll.halfRestrict  = lll.last;
@@ -156,6 +188,9 @@ if (analyse){
     ###################################################################
     # third run: estimate the zealot model (beta-distrib)
     ###################################################################
+    
+    current.g <<-3;
+    
     cat("third run", "\n");
     unrestricted.model     = FALSE;           # we fix all reinforcement-paras
     unrestrict.theta_hut   = FALSE;
@@ -163,9 +198,18 @@ if (analyse){
     hist(info$Wert, freq = FALSE, nclass=30, 
          main="zealot model",
          xlim=c(0,1),xlab="percentage of pro-vaxxers");
-    curve(g(x), add=TRUE, col="blue", lwd=2);
+    
+    ##curve(g(x), add=TRUE, col="blue", lwd=2);
+    
+    #plot all curves
+    for(j in 1:length(info$Wert)){
+      g = get.g(j);
+      curve(g(x), add=TRUE, col="blue", lwd=2);
+    }
+    cat("done plotting run 3");
     
     opti.cyclic(para.ref);
+    cat("done optimising run 3")
     cat("lll.last: ", lll.last, "\n");
     para.restrict = para.last;            # store result
     lll.restrict  = lll.last;
@@ -293,3 +337,4 @@ if (produce.figures){
   
   
 }
+

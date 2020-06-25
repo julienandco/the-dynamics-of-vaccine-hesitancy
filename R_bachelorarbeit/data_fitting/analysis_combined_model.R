@@ -1,16 +1,13 @@
 #
-#
-# Estimate the parameters for the my model.
+# Estimate the parameters for the combined model.
 #
 #  (a) For each election, estimate
 #     - Zealot model (beta-distrib)
-#     - All reinfrocement paras equal
+#     - All reinforcement paras equal
 #     - All parameters can be chosen independently.
 # (b) Compare the models by the logl-likelihood-ration test
 # (c) Compare empirical and theoretical distributions 
-#     by the Kolmogorovv-Smirnov tests.
-# 
-
+#     by the Kolmogorov-Smirnov tests.
 #
 # in case: define work directory
 #setwd("C:/Users/ge69fup/Documents/Uni/TUM/Mathe_B_Sc/SS_20/Bachelorarbeit/bachelorarbeit-repo/R_bachelorarbeit/data_fitting")
@@ -37,34 +34,51 @@ vaccination_data = read.csv2('D:/Dokumente/Uni/TUM/Mathe_B_Sc/SS_20/Bachelorarbe
 # read tools
 #
 #################
-source("my_parameter_estimation_reinforcement.R");
+source("parameter_estimation_reinforcement.R");
 
 
 ######################################################
-# initialisation
+# initialisation (apply changes ONLY here)
 ######################################################
 
+#initial parameters
 theta_hut.init = 0.5;
 psi_hut.init  = 0.5;
-ksi_hut.init = 0.2;
+ksi_hut.init = 0.5;
 s_hut.init   = 100; 
+
+
+#switches for work todo
+analyse = TRUE;
+produce.table = FALSE;
+produce.figures = FALSE;
+
+
+######################################################
+# prepare the data
+######################################################
 
 myDataEsti = c();
 impfer = vaccination_data$Wert[1:400]; #last few ones are NA
 myDataEsti = impfer/100; 
 
 #remove all values below 0.5 as we esteem them to be fixed voters
-myDataEsti = Filter(remove_first_half, myDataEsti);
+myDataEsti=myDataEsti[myDataEsti>0.5];
 
 #renormalise it, such that 0.5 -> 0 and 1 -> 1
 myDataEsti = myDataEsti * 2 - 1;
 
-##change this
-i.param = 0;
+incidences = vaccination_data$Inzidenz[1:400];
+inc_no_NA = get_rid_of(incidences);
+#get the mean value of all incidences w/o the NA ones
+dummy.i = mean(inc_no_NA);
 
-analyse = TRUE;
-produce.table = FALSE;
-produce.figures = FALSE;
+#replace all NA values in incidences by the dummy.i
+incidences = replace(incidences,dummy.i);
+
+
+#set the incidence that will be used to the mean of all observed values
+i.param = mean(incidences);
 
 
 ######################################################
@@ -92,15 +106,16 @@ if (analyse){
     # first run: estimate the full reinforcement model
     ###################################################################
     cat("first run", "\n");
-    ##para.ref sind diese Hut parameter in der reihenfolge: nu_hut,theta_hut,psi_hut,ksi_hut,s_hut
+    
+    #para.ref in following order: nu_hut,theta_hut,psi_hut,ksi_hut,s_hut
     para.ref = c(mean(myDataEsti), theta_hut.init, psi_hut.init,ksi_hut.init,s_hut.init);   # define init para
     lll.last = lll(para.ref);
     cat("lll.last: ", lll.last, "\n");
-    curve(g(x), add=TRUE, col="blue", lwd=2);
     
     unrestricted.model     = TRUE;      # we aim at the full model
     unrestrict.theta_hut   = TRUE;
     opti.cyclic(para.ref);
+    
     cat(lll.last, "\n");
     para.unrest = para.last;        # store the result
     lll.unrest  = lll.last;
@@ -109,13 +124,11 @@ if (analyse){
     # Kolmogorov-Smirnov test
     res.ks = ks.test(myDataEsti, function(x){pReinforce(x)}); 
     
-    # produce a figure with histogram and estimated distribution
-    party.x = "pro-vaxx";
-    
     
     ###################################################################
     # second run: reinforcement model, force equal reinforcement parameters 
     ###################################################################
+    
     cat("second run","\n");
     para.ref = c(mean(myDataEsti), theta_hut.init, psi_hut.init,ksi_hut.init,s_hut.init);  # define init para
     lll.last = lll(para.ref);
@@ -123,7 +136,6 @@ if (analyse){
     hist(myDataEsti, freq = FALSE, nclass=30, 
          main="reinforcement with equal reinf. params",
          xlim=c(0,1));
-    curve(g(x), add=TRUE, col="blue", lwd=2);
     
     unrestricted.model     = TRUE;      # we aim at the full model
     unrestrict.theta_hut   = FALSE;     # we want to keep equal parameters for reinforcement
@@ -140,14 +152,18 @@ if (analyse){
     ###################################################################
     # third run: estimate the zealot model (beta-distrib)
     ###################################################################
+    
     cat("third run", "\n");
     unrestricted.model     = FALSE;           # we fix all reinforcement-paras
     unrestrict.theta_hut   = FALSE;
-    para.ref = c(mean(myDataEsti), theta_hut.init, psi_hut.init,ksi_hut.init,s_hut.init);
+    
+    theta_hut.zealot = 0;
+    
+    para.ref = c(mean(myDataEsti), theta_hut.zealot, psi_hut.init,ksi_hut.init,s_hut.init);
+    
     hist(myDataEsti, freq = FALSE, nclass=30, 
          main="zealot model",
          xlim=c(0,1));
-    curve(g(x), add=TRUE, col="blue", lwd=2);
     
     opti.cyclic(para.ref);
     cat("lll.last: ", lll.last, "\n");
@@ -157,8 +173,7 @@ if (analyse){
     # kolmogorov-smirnov-test
     res.restric.ks = ks.test(myDataEsti, function(x){pReinforce(x)});
     
-    #in line muss noch das ergebnis für A und ksi_hut rein...
-    line = c("run", party.x, 
+    line = c("run", "pro-vaxx", 
              theta.res,
              para.unrest,
              lll.unrest,
@@ -199,8 +214,8 @@ if (analyse){
 
 if (produce.table){
   # produce a table
-  load(file="datAnaMyModel_V1.rSave");
-  sink(file="datMyModel.tex");
+  load(file="datAnaCombinedModel_V1.rSave");
+  sink(file="datCombinedModel.tex");
   cat(dimnames(res.tab)[[2]][c(1,2,4,5,6,7,8)]); cat(" theta1 ");cat(" theta2 "); cat(dimnames(res.tab)[[2]][c(22,24,26)]);
   cat("\n");
   nn = dim(res.tab)[1];
@@ -232,7 +247,7 @@ if (produce.figures){
   myDataEsti = impfer/100;       
   mmean <<- mean(myDataEsti);
   
-  post(paste("My_model",as.character(j),".eps",sep=""));
+  post(paste("Combined_model",as.character(j),".eps",sep=""));
   hist(myDataEsti, freq = FALSE, 
        main=paste("Vaccinational behaviour"),
        xlim=c(0,1), xlab="amount of pro-vaxxers x", nclass=30);
@@ -251,7 +266,7 @@ if (produce.figures){
   dev.off();
   
   
-  post(paste("My_model_2",as.character(j),".eps",sep=""));
+  post(paste("Combined_model_2",as.character(j),".eps",sep=""));
   hist(myDataEsti, freq = FALSE, 
        main=paste("Vaccinational behaviour"),
        xlim=c(0,1), xlab="amount of pro-vaxxers x", nclass=30);

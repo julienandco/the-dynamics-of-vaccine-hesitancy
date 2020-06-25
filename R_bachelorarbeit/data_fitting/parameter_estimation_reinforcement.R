@@ -1,17 +1,14 @@
 
 #
-# Estimate the paras for the reinforcement model
+# Estimate the parameters for the reinforcement model
 #####################################################################
 #
-#    estimate the paras of the reinforcement model - general functions
+# general functions
 #
 #####################################################################
 
 #
 # myDataEsti: vector with values in (0,1); the data it uses for the estimation
-#
-
-##überall wo verteilung aufgerufen wird, muss mein param rein
 #
 # in case: define work directory
 
@@ -19,32 +16,25 @@
 #setwd("D:/Dokumente/Uni/TUM/Mathe_B_Sc/SS_20/Bachelorarbeit/bachelorarbeit-repo/R_bachelorarbeit/data_fitting");
 
 
-replace <- function(vector){
+replace <- function(vector,replacement){
   for (i in 1:length(vector)){
     if (is.na(vector[i])){
-      vector[i] = NA;
+      vector[i] = replacement;
     }
   }
   return (vector);
 }
 
-get_rid_of_zeroes <- function(vector){
-  vector_no_zeroes = c();
+get_rid_of <- function(vector){
+  vector_no_NA = c();
   last_index = 1;
   for (i in 1:length(vector)) {
-    if (vector[i] != 0){
-      vector_no_zeroes[last_index] = vector[i];
+    if (!is.na(vector[i])){
+      vector_no_NA[last_index] = vector[i];
       last_index = last_index + 1;
     }
   }
-  return(vector_no_zeroes);
-}
-
-remove_first_half <- function(x){
-  if (x < 0.5){
-    return (FALSE);
-  }
-  return (TRUE);
+  return(vector_no_NA);
 }
 
 post <- function(nme){
@@ -58,7 +48,7 @@ post <- function(nme){
 
 ##################
 #
-# define distrib
+# define distribution
 #
 ##################
 
@@ -76,8 +66,6 @@ f.norm <- function(){
 }
 
 f <- function(x){
-  # N1 = (1-theta_hut)*(1-ksi_hut)*nu_hut*scal+1, N2 = (1-theta_hut)*(1-nu_hut)*(1-ksi_hut)*scal +1
-  # theta_hut \in (0,1), nu_hut \in (0,1), ksi_hut \in (0,1) scal >0
   return(
     exp(  s_hut*theta_hut*(0.5*x**2-phi_hut*x)
           +log(x)*((1-theta_hut)*nu_hut*(1-ksi_hut)+nu_hut*ksi_hut*i.param)*s_hut
@@ -106,10 +94,7 @@ g<-function(x){
 }
 
 lll.dat <- function(x,nu_hut,theta_hut,phi_hut,ksi_hut,s_hut, CC){
-  # log likeli for one single data point x,
-  # given the data parameter, and the normalization constant CC
-  # N1 = (1-theta_hut)*(1-ksi_hut)*nu_hut*scal+1, N2 = (1-theta_hut)*(1-nu_hut)*(1-ksi_hut)*scal +1
-  # theta_hut \in (0,1), nu_hut \in (0,1), ksi_hut \in (0,1) scal >0
+  # log likelihood for one single data point x
   return(
     s_hut*theta_hut*(0.5*x**2-phi_hut*x)
     +log(x)*((1-theta_hut)*nu_hut*(1-ksi_hut)+nu_hut*ksi_hut*i.param)*s_hut
@@ -131,7 +116,7 @@ pReinforce <- function(x){
 
 #######################
 # estimate paras:
-# nu_hut, N2, phi_hut, theta_hut2, A
+# nu_hut, theta_hut, phi_hut, ksi_hut, B
 ########################
 theta_hut.max = 1800;
 theta_hut.max = 1900;
@@ -146,11 +131,8 @@ tryCatch.W.E <- function(expr){
        warning = W)
 }
 
-##einstiegsfunktion
-# compute log likeli
+# compute log likelihood
 lll <- function(para){
-  # nu_hut = (1-theta_hut)*nu_hut+1, N2 = (1-theta_hut)*(1-nu_hut)*scal +1
-  # theta_hut \in (0,1), nu_hut \in (0,1), scal >0
   ppara     <<- para;
   nu_hut    <<- para[1];
   theta_hut <<- para[2];
@@ -158,12 +140,10 @@ lll <- function(para){
   ksi_hut   <<- para[4];
   s_hut     <<- min(s_hut.max,abs(para[5]));
   OK = TRUE;
-  #get cc ist integral berechnung um C zu bekommen
   aa = tryCatch.W.E(get.cc());
   aa <<- aa;
   if (!(is.double(aa$value))>0) return(-10000);
   CC<<- aa$value;
-  # cat(integrate(g, lower=0, upper=1)$value, "\n");
   
   return(sum(lll.dat(myDataEsti, nu_hut,theta_hut,phi_hut,ksi_hut,s_hut,CC)));    
 }
@@ -197,18 +177,18 @@ search.p4 <- function(px){
 
 ############################################
 #
-# optimization
+# optimisation
 #
 ############################################
 
 opti.cyclic <- function(para.init){
-  # optimize cyclically the parameters.
+  # optimise cyclically the parameters.
   #
   # we have different modes 
-  # unrestricted.model == FALSE: fix all paras expect of s_hut, and nu_hut => we can take
+  # unrestricted.model == FALSE: fix all parameters expect of s_hut, and nu_hut => we can take
   #                              the reinforcement to zero and fit a beta distribution.
   # unrestrict.theta_hut   == TRUE:  allow theta_hut to vary.
-  #                              (if FALSE: we can fix theta_hut=0.5, and in this
+  #                              (if FALSE: we can fix theta_hut=0.5, and in this way,
   #                               try to find out where the reinforcement takes place)
   
   mmean <<- mean(myDataEsti);
@@ -302,7 +282,11 @@ opti.cyclic <- function(para.init){
     
     para.last <<- para.last;
     lll.last  <<- last.lll;
-    cat(i," ", lll(para.last), "\n");     
-    curve(g(x), add=TRUE, col="blue");
+    cat(i," ", lll(para.last), "\n");
+    
+    if(fertig){
+      curve(g(x), add=TRUE, col="red");
+    }
+    
   }
 }

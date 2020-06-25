@@ -49,9 +49,11 @@ f.norm <- function(){
   # in the exponent; this number is chosen in dependence
   # on the mean value of the data at hand.
   x = mmean;
+  i = mean(info$Inzidenz);
+  
   return(-1*(s_hut*theta_hut*(0.5*x**2-phi_hut*x)
-             +log(x)*((1-theta_hut)*nu_hut*(1-ksi_hut)+nu_hut*ksi_hut*i.param)*s_hut
-             +log(1-x)*((1-theta_hut)*(1-nu_hut)*(1-ksi_hut)+nu_hut*ksi_hut*(1-i.param))*s_hut)
+             +log(x)*((1-theta_hut)*nu_hut*(1-ksi_hut)+nu_hut*ksi_hut*i)*s_hut
+             +log(1-x)*((1-theta_hut)*(1-nu_hut)*(1-ksi_hut)+nu_hut*ksi_hut*(1-i))*s_hut)
   );
 }
 
@@ -73,29 +75,42 @@ get.cc <- function(){
 }
 
 
-g<-function(x){
+#g<-function(x){
   # density (note: CC is computed using the constant f.norm().
   # That constant cancels at the end of the day.
-  return(
-    ccs*
-      exp(s_hut*theta_hut*(0.5*x**2-phi_hut*x)
-          +log(x)*((1-theta_hut)*nu_hut*(1-ksi_hut)+nu_hut*ksi_hut*i.param)*s_hut
-          +log(1-x)*((1-theta_hut)*(1-nu_hut)*(1-ksi_hut)+nu_hut*ksi_hut*(1-i.param))*s_hut +f.norm()
-      )
-  );
+#  return(
+#    ccs*
+#      exp(s_hut*theta_hut*(0.5*x**2-phi_hut*x)
+#          +log(x)*((1-theta_hut)*nu_hut*(1-ksi_hut)+nu_hut*ksi_hut*i.param)*s_hut
+#          +log(1-x)*((1-theta_hut)*(1-nu_hut)*(1-ksi_hut)+nu_hut*ksi_hut*(1-i.param))*s_hut +f.norm()
+#      )
+#  );
+#}
+
+get.g <- function(j){
+  g <- function(x){
+    return(
+          ccs[j]*
+            exp(s_hut*theta_hut*(0.5*x**2-phi_hut*x)
+                +log(x)*((1-theta_hut)*nu_hut*(1-ksi_hut)+nu_hut*ksi_hut*info$Inzidenz[j])*s_hut
+                +log(1-x)*((1-theta_hut)*(1-nu_hut)*(1-ksi_hut)+nu_hut*ksi_hut*(1-info$Inzidenz[j]))*s_hut +f.norm()
+            )
+        );
+  }
+  
+  return(g);
 }
 
-lll.dat <- function(x,nu_hut,theta_hut,phi_hut,ksi_hut,i,s_hut, CC){
-  # log likeli for one single data point x,
-  # given the data parameter, and the normalization constant CC
-  # N1 = (1-theta_hut)*(1-ksi_hut)*nu_hut*scal+1, N2 = (1-theta_hut)*(1-nu_hut)*(1-ksi_hut)*scal +1
-  # theta_hut \in (0,1), nu_hut \in (0,1), ksi_hut \in (0,1) scal >0
-  return(
-    s_hut*theta_hut*(0.5*x**2-phi_hut*x)
-    +log(x)*((1-theta_hut)*nu_hut*(1-ksi_hut)+nu_hut*ksi_hut*i)*s_hut
-    +log(1-x)*((1-theta_hut)*(1-nu_hut)*(1-ksi_hut)+nu_hut*ksi_hut*(1-i))*s_hut
-    +log(CC)+f.norm()
-  );
+lll.dat <- function(x,nu_hut,theta_hut,phi_hut,ksi_hut,i,s_hut, ccs){
+  res = numeric(length(x));
+  for (j in 1:length(x)){
+    res[j] =  s_hut*theta_hut*(0.5*(x[j])**2-phi_hut*x[j])
+    +log(x[j])*((1-theta_hut)*nu_hut*(1-ksi_hut)+nu_hut*ksi_hut*i[j])*s_hut
+    +log(1-x[j])*((1-theta_hut)*(1-nu_hut)*(1-ksi_hut)+nu_hut*ksi_hut*(1-i[j]))*s_hut
+    +log(ccs[j])+f.norm()
+  }
+  
+  return(res);
 }
 
 pReinforce.loc <- function(x) {
@@ -142,6 +157,7 @@ lll <- function(para){
   #compute all C (for every datapoint)
   ccs = numeric(length(info$Wert));
   ccs <<- ccs;
+  
   for(j in 1:length(ccs)){
     #get current incidence
     i.param <<- info[j,2]
@@ -151,7 +167,8 @@ lll <- function(para){
     ccs[j]<<- aa$value;
   }
   
-  return(sum(lll.dat(info$Wert, nu_hut,theta_hut,phi_hut,ksi_hut,info$Inzidenz,s_hut,ccs)));    
+  temp <<- lll.dat(info$Wert, nu_hut,theta_hut,phi_hut,ksi_hut,info$Inzidenz,s_hut,ccs);
+  return(sum(temp));    
 }
 
 
@@ -289,6 +306,27 @@ opti.cyclic <- function(para.init){
     para.last <<- para.last;
     lll.last  <<- last.lll;
     cat(i," ", lll(para.last), "\n");     
-    curve(g(x), add=TRUE, col="blue");
+    #curve(g(x), add=TRUE, col="blue");
+    
+    for(j in 1:length(info$Wert)){
+      g = get.g(j);
+      
+      #did we finish optimising?
+      if(fertig){
+        curve(g(x), add=TRUE, col="red", lwd=2);
+        #save the optimal curve
+        g.res[current.g] = g(x);
+      } else{
+        curve(g(x), add=TRUE, col="green", lwd=2);
+      }
+    }
+    
+    
+    if(fertig){
+      cat("plotted final optimisation results of round ", i, " in red colour.", "\n");
+    }else{
+      cat("plotted opti results of round ", i, "\n");
+    }
+    
   }
 }
