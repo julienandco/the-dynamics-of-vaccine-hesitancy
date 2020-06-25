@@ -213,8 +213,596 @@ if (1==1){
 	
 \end{lstlisting}
 
-\subsection{R Script used for the Data Fitting}
+\newpage
+
+\subsection{R Scripts used for the Data Fitting and Figure \ref{fig:data_fits}}
+
+\subsubsection{analysis\_combined\_model.R}
 
 \begin{lstlisting}
+#
+# Estimate the parameters for the combined model.
+#
+#  (a) For each county, estimate
+#     - Zealot model (beta-distrib)
+#     - All reinforcement parameters equal
+#     - All parameters can be chosen independently.
+# (b) Compare the models by the log-likelihood-ration test
+# (c) Compare empirical and theoretical distributions 
+#     by the Kolmogorov-Smirnov tests.
+#
+
+post <- function(nme){
+	# remove blanks
+	xx = strsplit(nme, " ");
+	nme1 = paste(xx[[1]], collapse="");
+	cat(nme1, "\n");
+	postscript(file=nme1, pointsize=32, paper="special",
+	width=8, height=9, horizontal=FALSE);
+}
+
+###############
+# read data
+#
+#################
+vaccination_data = read.csv2('my_path_to_data/vaccination_data.csv', 
+	header=TRUE)
+
+###############
+# read tools
+#
+#################
+source("parameter_estimation_reinforcement.R");
+
+
+######################################################
+# initialisation (apply changes ONLY here)
+######################################################
+
+#initial parameters
+theta_hut.init = 0.5;
+psi_hut.init  = 0.5;
+ksi_hut.init = 0.5;
+s_hut.init   = 100; 
+
+
+#switches for work todo
+analyse = TRUE;
+produce.table = FALSE;
+produce.figures = FALSE;
+
+
+######################################################
+# prepare the data
+######################################################
+
+myDataEsti = c();
+impfer = vaccination_data$Wert[1:400]; #last few ones are NA
+myDataEsti = impfer/100; 
+
+#remove all values below 0.5 as we esteem them to be fixed voters
+myDataEsti=myDataEsti[myDataEsti>0.5];
+
+#renormalise it, such that 0.5 -> 0 and 1 -> 1
+myDataEsti = myDataEsti * 2 - 1;
+
+incidences = vaccination_data$Inzidenz[1:400];
+inc_no_NA = get_rid_of(incidences);
+#get the mean value of all incidences w/o the NA ones
+dummy.i = mean(inc_no_NA);
+
+#replace all NA values in incidences by the dummy.i
+incidences = replace(incidences,dummy.i);
+
+
+#set the incidence that will be used to the mean of all observed values
+i.param = mean(incidences);
+
+
+######################################################
+# data fit
+######################################################
+
+
+if (analyse){
+	# check optima
+	s_hut.max=2500;
+	
+	res.tab = c();
+	
+	
+	{
+		mmean = mean(myDataEsti);
+		
+		
+		hist(myDataEsti, freq = FALSE, nclass=30, 
+		main="full reinforcement",
+		xlim=c(0,1));
+		
+		
+		###################################################################
+		# first run: estimate the full reinforcement model
+		###################################################################
+		cat("first run", "\n");
+		
+		#para.ref in following order: nu_hut,theta_hut,psi_hut,ksi_hut,s_hut
+		para.ref = c(mean(myDataEsti), theta_hut.init, psi_hut.init,
+			ksi_hut.init, s_hut.init);   # define init para
+		lll.last = lll(para.ref);
+		cat("lll.last: ", lll.last, "\n");
+		
+		unrestricted.model     = TRUE;      # we aim at the full model
+		unrestrict.theta_hut   = TRUE;
+		opti.cyclic(para.ref);
+		
+		cat(lll.last, "\n");
+		para.unrest = para.last;        # store the result
+		lll.unrest  = lll.last;
+		theta.res   = theta_hut*s_hut;
+		
+		# Kolmogorov-Smirnov test
+		res.ks = ks.test(myDataEsti, function(x){pReinforce(x)}); 
+		
+		
+		###################################################################
+		# second run: reinforcement model, force equal reinforcement parameters 
+		###################################################################
+		
+		cat("second run","\n");
+		para.ref = c(mean(myDataEsti), theta_hut.init, psi_hut.init,
+			ksi_hut.init, s_hut.init);  # define init para
+		lll.last = lll(para.ref);
+		cat(lll.last, "\n");
+		hist(myDataEsti, freq = FALSE, nclass=30, 
+		main="reinforcement with equal reinf. params",
+		xlim=c(0,1));
+		
+		unrestricted.model     = TRUE;      # we aim at the full model
+		unrestrict.theta_hut   = FALSE;     # we want to keep equal parameters for reinforcement
+		opti.cyclic(para.ref);
+		cat(lll.last, "\n");
+		para.halfRestrict = para.last;        # store the result
+		lll.halfRestrict  = lll.last;
+		theta.res   = theta_hut*s_hut;
+		
+		# Kolmogorov-Smirnov test
+		res.halfRestrict.ks = ks.test(myDataEsti, function(x){pReinforce(x)}); 
+		
+		
+		###################################################################
+		# third run: estimate the zealot model (beta-distrib)
+		###################################################################
+		
+		cat("third run", "\n");
+		unrestricted.model     = FALSE;           # we fix all reinforcement-paras
+		unrestrict.theta_hut   = FALSE;
+		
+		theta_hut.zealot = 0;
+		
+		para.ref = c(mean(myDataEsti), theta_hut.zealot, psi_hut.init,
+			ksi_hut.init,s_hut.init);
+		hist(myDataEsti, freq = FALSE, nclass=30, 
+		main="zealot model",
+		xlim=c(0,1));
+		
+		opti.cyclic(para.ref);
+		cat("lll.last: ", lll.last, "\n");
+		para.restrict = para.last;            # store result
+		lll.restrict  = lll.last;
+		
+		# kolmogorov-smirnov-test
+		res.restric.ks = ks.test(myDataEsti, function(x){pReinforce(x)});
+		
+		line = c("run", "pro-vaxx", 
+		theta.res,
+		para.unrest,
+		lll.unrest,
+		para.halfRestrict,
+		lll.halfRestrict,
+		para.restrict,
+		lll.restrict, 
+		pchisq(2*(lll.unrest-lll.restrict),df=2, 
+		lower.tail=FALSE), 
+		pchisq(2*(lll.unrest-lll.halfRestrict),df=2, 
+		lower.tail=FALSE), 
+		res.ks$p.value,
+		res.halfRestrict.ks$p.value,
+		res.restric.ks$p.value
+		);
+		
+		res.tab = rbind(res.tab, line);
+	}
+	# names orient themselves ar the supplement II of the paper
+	col.names = c(
+	"run", "opinion", 
+	"Theta1PlusTheta2.unr",  
+	"nu.unr", "theta.hat.unr", "psi.unr", "ksi.unr","s.unr",
+	"lll.unr",
+	"nu.halfr", "theta.hat.halfr", "psi.halfr", "ksi.halfr","s.halfr",
+	"lll.halfr",
+	"nu.restr", "theta.hat.restr", "psi.restr", "ksi.restr","s.restr",
+	"lll.restr",
+	"lll.unr.rest", "lll.unr.halfr",
+	"ks.unres", "ks.halfRestr", "ks.restr");
+	dimnames(res.tab)[[2]] =col.names;
+	
+	save(file="datAnaCombinedModel.rSave", res.tab);
+
+}
+
+
+
+if (produce.table){
+	# produce a table
+	load(file="datAnaMyModel_V1.rSave");
+	sink(file="datCombinedModel.tex");
+	cat(dimnames(res.tab)[[2]][c(1,2,4,5,6,7,8)]); cat(" theta1 ");
+	cat(" theta2 "); cat(dimnames(res.tab)[[2]][c(22,24,26)]);
+	cat("\n");
+	nn = dim(res.tab)[1];
+	for (j in 1:nn){
+		cat(res.tab[j,1], " & ", res.tab[j,2], " & ");
+		cat(res.tab[j,4], " & ", res.tab[j,5], " & ");
+		cat(res.tab[j,6], " & ", res.tab[j,7], " & ", res.tab[j,8], "&");
+		# theta_2 = h.s*h.theta*(1-h.psi)
+		cat(as.double(res.tab[j,5])*as.double(res.tab[j,8])*
+			as.double(res.tab[j,6]), " & ");
+		cat(as.double(res.tab[j,5])*as.double(res.tab[j,8])*
+			(1-as.double(res.tab[j,6])), " & ");
+		cat(as.double(res.tab[j,22]), " & ", 
+		as.double(res.tab[j,24]), " & ", 
+		as.double(res.tab[j,26]), 
+		"\\\\\n");
+	}
+	
+	cat("Test hat.psi=0.5 versus free model (where is the reinforcement?)\n");
+	cat(as.double(res.tab[j,23]), " \n");
+	
+	sink();
+
+}
+
+
+
+if (produce.figures){
+	# produce figures
+	impfer = vaccination_data$Wert[1:400];
+	myDataEsti = impfer/100;       
+	mmean <<- mean(myDataEsti);
+	
+	post(paste("Combined_model",as.character(j),".eps",sep=""));
+	hist(myDataEsti, freq = FALSE, 
+	main=paste("Vaccinational behaviour"),
+	xlim=c(0,1), xlab="amount of pro-vaxxers x", nclass=30);
+	
+	para.last = as.double(res.tab[j, 4:8]);
+	
+	lll.last = lll(para.last);
+	cat(lll.last, "\n");  mmean <<- mean(myDataEsti);
+	
+	curve(g(x), add=TRUE,  lwd=2);
+	
+	para.last = as.double(res.tab[j, 16:20]);
+	lll.last = lll(para.last);
+	cat(lll.last, "\n");
+	curve(g(x), add=TRUE,  lwd=2, lty=2);
+	dev.off();
+	
+	
+	post(paste("Combined_model_2",as.character(j),".eps",sep=""));
+	hist(myDataEsti, freq = FALSE, 
+	main=paste("Vaccinational behaviour"),
+	xlim=c(0,1), xlab="amount of pro-vaxxers x", nclass=30);
+	
+	para.last = as.double(res.tab[j, 4:8]);
+	
+	lll.last = lll(para.last);
+	cat(lll.last, "\n");  mmean <<- mean(myDataEsti);
+	
+	curve(g(x), add=TRUE,  lwd=2);
+	
+	para.last = as.double(res.tab[j, 10:14]);
+	lll.last = lll(para.last);
+	cat(lll.last, "\n");
+	curve(g(x), add=TRUE,  lwd=2, col = "green");
+	
+	para.last = as.double(res.tab[j, 16:20]);
+	lll.last = lll(para.last);
+	cat(lll.last, "\n");
+	curve(g(x), add=TRUE,  lwd=2, lty=2);
+	dev.off();
+}
+\end{lstlisting}
+
+\subsubsection{parameter\_estimation\_reinforcement.R}
+
+\begin{lstlisting}
+
+#
+# Estimate the parameters for the reinforcement model
+#####################################################################
+#
+# general functions
+#
+#####################################################################
+
+#
+# myDataEsti: vector with values in (0,1); the data it uses for the estimation
+#
+
+replace <- function(vector,replacement){
+	for (i in 1:length(vector)){
+		if (is.na(vector[i])){
+			vector[i] = replacement;
+		}
+	}
+	return (vector);
+}
+
+get_rid_of <- function(vector){
+	vector_no_NA = c();
+	last_index = 1;
+	for (i in 1:length(vector)) {
+		if (!is.na(vector[i])){
+			vector_no_NA[last_index] = vector[i];
+			last_index = last_index + 1;
+		}
+	}
+	return(vector_no_NA);
+}
+
+post <- function(nme){
+	# remove blanks
+	xx = strsplit(nme, " ");
+	nme1 = paste(xx[[1]], collapse="");
+	cat(nme1, "\n");
+	postscript(file=nme1, pointsize=28, paper="special",
+	width=8, height=9, horizontal=FALSE);
+}
+
+##################
+#
+# define distribution
+#
+##################
+
+s_hut.max = 2000;
+
+f.norm <- function(){
+	# an additive constant to avoid large numbers
+	# in the exponent; this number is chosen in dependence
+	# on the mean value of the data at hand.
+	x = mmean;
+	return(-1*(s_hut*theta_hut*(0.5*x**2-phi_hut*x)
+	+log(x)*((1-theta_hut)*nu_hut*(1-ksi_hut)+nu_hut*ksi_hut*i.param)*s_hut
+	+log(1-x)*((1-theta_hut)*(1-nu_hut)*(1-ksi_hut)+nu_hut*ksi_hut*(1-i.param))*s_hut)
+	);
+}
+
+f <- function(x){
+	return(
+	exp(  s_hut*theta_hut*(0.5*x**2-phi_hut*x)
+	+log(x)*((1-theta_hut)*nu_hut*(1-ksi_hut)+nu_hut*ksi_hut*i.param)*s_hut
+	+log(1-x)*((1-theta_hut)*(1-nu_hut)*(1-ksi_hut)+nu_hut*ksi_hut*(1-i.param))*s_hut +f.norm()
+	)
+	);
+}
+
+get.cc <- function(){
+	# get the normalisation constant
+	CC=(integrate(f, lower=10**-6,upper=1-10**-6)$value)**(-1);
+	return(CC);
+}
+
+
+g<-function(x){
+	# density (note: CC is computed using the constant f.norm().
+	# That constant cancels at the end of the day.
+	return(
+	CC*
+	exp(s_hut*theta_hut*(0.5*x**2-phi_hut*x)
+	+log(x)*((1-theta_hut)*nu_hut*(1-ksi_hut)+nu_hut*ksi_hut*i.param)*s_hut
+	+log(1-x)*((1-theta_hut)*(1-nu_hut)*(1-ksi_hut)+nu_hut*ksi_hut*(1-i.param))*s_hut +f.norm()
+	)
+	);
+}
+
+lll.dat <- function(x,nu_hut,theta_hut,phi_hut,ksi_hut,s_hut, CC){
+	# log likelihood for one single data point x
+	return(
+	s_hut*theta_hut*(0.5*x**2-phi_hut*x)
+	+log(x)*((1-theta_hut)*nu_hut*(1-ksi_hut)+nu_hut*ksi_hut*i.param)*s_hut
+	+log(1-x)*((1-theta_hut)*(1-nu_hut)*(1-ksi_hut)+nu_hut*ksi_hut*(1-i.param))*s_hut
+	+log(CC)+f.norm()
+	);
+}
+
+pReinforce.loc <- function(x) {
+	# parameters given by global parameters;
+	# particularly, CC is defined.
+	res = integrate(g,lower = 0, upper = x);
+	return(res$value);
+}
+
+pReinforce <- function(x){
+	return(sapply(x, pReinforce.loc));
+}
+
+#######################
+# estimate paras:
+# nu_hut, theta_hut, phi_hut, ksi_hut, B
+########################
+theta_hut.max = 1800;
+theta_hut.max = 1900;
+tryCatch.W.E <- function(expr){
+	W <- NULL
+	w.handler <- function(w){ # warning handler
+	W <<- w
+	invokeRestart("muffleWarning")
+	}
+	list(value = withCallingHandlers(tryCatch(expr, error = function(e) e),
+	warning = w.handler),
+	warning = W)
+}
+
+# compute log likelihood
+lll <- function(para){
+	ppara     <<- para;
+	nu_hut    <<- para[1];
+	theta_hut <<- para[2];
+	phi_hut   <<- para[3];
+	ksi_hut   <<- para[4];
+	s_hut     <<- min(s_hut.max,abs(para[5]));
+	OK = TRUE;
+	aa = tryCatch.W.E(get.cc());
+	aa <<- aa;
+	if (!(is.double(aa$value))>0) return(-10000);
+	CC<<- aa$value;
+	
+	return(sum(lll.dat(myDataEsti, nu_hut,theta_hut,phi_hut,ksi_hut,s_hut,CC)));    
+}
+
+
+#
+# for the optimization: vary only one of the parameters
+#
+search.p1 <- function(px){
+	# para.last gives the framework; we modify parameter 1 only
+	pxx = para.last; pxx[1] = px;
+	return( lll(pxx) );
+}
+search.p2 <- function(px){
+	# para.last gives the framework; we modify parameter 2 only
+	pxx = para.last; pxx[2] = px;
+	return( lll(pxx) );
+}
+search.p3 <- function(px){
+	# para.last gives the framework; we modify parameter 3 only
+	pxx = para.last; pxx[3] = px;
+	return( lll(pxx) );
+}
+search.p4 <- function(px){
+	# para.last gives the framework; we modify parameter 4 only
+	pxx = para.last; pxx[4] = px;
+	return( lll(pxx) );
+}
+
+
+
+############################################
+#
+# optimisation
+#
+############################################
+
+opti.cyclic <- function(para.init){
+	# optimise cyclically the parameters.
+	#
+	# we have different modes 
+	# unrestricted.model == FALSE: fix all parameters expect of s_hut, and nu_hut => we can take
+	#                              the reinforcement to zero and fit a beta distribution.
+	# unrestrict.theta_hut   == TRUE:  allow theta_hut to vary.
+	#                              (if FALSE: we can fix theta_hut=0.5, and in this way,
+	#                               try to find out where the reinforcement takes place)
+	
+	mmean <<- mean(myDataEsti);
+	
+	para.last <- para.init; 
+	lll.last  <- lll(para.ref);
+	last.s_hut = -1; no.s_hut.const = 0;last.lll=-1e10;
+	fertig = FALSE;
+	
+	i = 0;
+	while ((i<10000)&(fertig==FALSE)){
+		i = i+1;
+		cat("para.last:", para.last,"\n");
+		lll.x = lll.last;
+		para.last <<- para.last;
+		res1 = optimize(search.p1, interval=c(0,1), maximum=TRUE);
+		para.loc1 = para.last; para.loc1[1]=res1$maximum;
+		lll.lok  = lll(para.loc1);
+		if (lll.lok>lll.last){
+			para.last <- para.loc1;
+			lll.last  <- lll.lok;
+		}
+		
+		##optimize ksi
+		para.last <<- para.last;
+		res4 = optimize(search.p4, interval=c(0,1), maximum=TRUE);
+		para.loc4 = para.last; para.loc4[4]=res4$maximum;
+		lll.lok  = lll(para.loc4);
+		if (lll.lok>lll.last){
+			para.last <- para.loc4;
+			lll.last  <- lll.lok;
+		}
+		
+		if (unrestricted.model){
+			para.last <<- para.last;
+			res2 = optimize(search.p2, interval=c(0,1), maximum=TRUE);
+			para.loc2 = para.last; para.loc2[2]=res2$maximum;
+			lll.lok  = lll(para.loc2);
+			if (lll.lok>lll.last){
+				para.last <- para.loc2;
+				lll.last  <- lll.lok;
+			}
+		
+			if (unrestrict.theta_hut) {
+				para.last <<- para.last;
+				res3 = optimize(search.p3, interval=c(0,1), maximum=TRUE);
+				para.loc3 = para.last; para.loc3[3]=res3$maximum;
+				lll.lok  = lll(para.loc3);
+				if (lll.lok>lll.last){
+					para.last <- para.loc3;
+					lll.last  <- lll.lok;
+				}
+			}
+		}
+		
+		lll.1     = lll(para.last);
+		Delta = 0.01;
+		if (para.last[5]>10)  Delta=0.1;
+		if (para.last[5]>50)  Delta=0.5;
+		if (para.last[5]>100) Delta=1;
+		
+		lll.p2    = lll(para.last+c(0,0, 0,0, Delta));
+		lll.m2    = lll(para.last+c(0,0,0,0, -Delta));
+		if (lll.p2>lll.1){
+			paral.loc3 = para.last+c(0,0,0,0, Delta);
+			para.last  = para.last+c(0,0,0,0, Delta);
+			last.lll = lll.p2;
+		} else {
+			if (lll.m2>lll.1){
+				paral.loc3 = para.last+c(0,0,0,0,-Delta);
+				para.last  <- para.last+c(0,0,0,0,-Delta);
+				last.lll   <- lll.m2
+			} else {
+				paral.loc3 = para.last+c(0,0,0,0,0);
+				para.last  <- para.last+c(0,0,0,0,0);
+				last.lll   <- lll.1
+			}
+		}
+		if (last.s_hut!=para.last[3]){
+			last.s_hut = para.last[3];
+			no.s_hut.const = 0;
+			lll.x =last.lll;
+		} else {
+			no.s_hut.const = no.s_hut.const+1;
+			loc.lll = lll(para.last);
+			if (last.lll>lll.x+1e-6) {
+				no.s_hut.const = 0;
+			}
+			if(no.s_hut.const>100) fertig=TRUE;
+		}
+		
+		para.last <<- para.last;
+		lll.last  <<- last.lll;
+		cat(i," ", lll(para.last), "\n");
+		
+		if(fertig){
+			curve(g(x), add=TRUE, col="red");
+		}
+		
+	}
+}
 \end{lstlisting}
 

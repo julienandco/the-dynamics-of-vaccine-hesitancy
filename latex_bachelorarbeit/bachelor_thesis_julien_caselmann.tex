@@ -14,6 +14,8 @@
 \usepackage{color}
 \usepackage[svgnames]{xcolor}
 \usepackage{transparent}
+\usepackage{subfig}
+\usepackage{float}
 %the following is for R-code
 \usepackage{xspace}
 \usepackage{url}
@@ -22,7 +24,7 @@
 \definecolor{dkgreen}{rgb}{0.0, 0.2, 0.13}
 
 \lstset{
-	 language=R,                % the language of the code
+	language=R,                % the language of the code
 	basicstyle=\footnotesize,           % the size of the fonts that are used for the code
 	numbers=left,                   % where to put the line-numbers
 	numberstyle=\tiny\color{gray},  % the style that is used for the line-numbers
@@ -45,10 +47,6 @@
 	commentstyle=\color{dkgreen},       % comment style
 	stringstyle=\color{dkgreen},         % string literal style
 }
-\lstnewenvironment{rc}[1][]{\lstset{language=R}}{}
-\newcommand{\ri}[1]{\lstinline{#1}}  %% Short for 'R inline'
-
-\lstset{language=R}             % Set R to default language
 
 \graphicspath{{img/}}
 \usepackage[%
@@ -62,9 +60,8 @@ maxbibnames=99,
 giveninits,
 uniquename=init]{biblatex}
 \addbibresource{bachelor_thesis_julien_caselmann.bib}
-%TODO last: many weird sources, fix them. all last names and titles pls NOT capslock. all titles in same font (italic or normal, but not mixed). get maxima citation from maxima FAQ page. adjust KBV overfull link. mullers paper has tellier aurelien and not tellier A. cite xppaut just as maxima
 
-%TODO last: sort sources numerically in every multi-cite bracket
+%TODO papa: exemplar der arbeit an rki schicken???
 
 
 \newtheorem{definition}{Definition}[section]
@@ -146,10 +143,11 @@ Munich, \today \newline
 \newpage
 %%%% Summary in german
 \section*{Zusammenfassung}
-Trotz gesicherten Zusammenhangs zwischen niedriger Impfrate und dem Wiederauftauchen bereits weitgehend zurückgedrängten Infektionen, sind die durchschnittlichen Impfraten in Deutschland meist nicht hoch genug, um Herdenimmunität zu gewährleisten. Das Ziel der Bachelorarbeit ist es, dieses paradoxe Impfverhalten und die zugrundeliegenden Dynamiken durch Kombination zweier bekannter Modelle und Einbeziehung von Prozessen der Meinungsbildung zu verstehen und zu analysieren. Zunächst werden bekannte Ansätze zur Modellierung von Impfskepsis sowie Meinungsbildung mit und ohne Rücksicht auf Filterblasen präsentiert. Anschließend wird ein kombiniertes Modell, bestehend aus einem behaviour-incidence-Modell und Zelotenmodell mit Reinforcement sowie dem Konzept von Pay-off Funktionen aus der Wirtschaftsmathematik, aufgestellt und eine Bifurkationsanalyse durchgeführt. Es treten Pitchfork- als auch Sattel-Knoten-Bifurkationen für einen Spezialfall (Parameter $a=0$) und eine Hopf-Bifurkation im allgemeinen Fall auf. Eine Takens-Bogdanov-Bifurkation wird vermutet, in dieser Arbeit aber nicht nachgewiesen. Im letzten Abschnitt wird das Modell auf Impfdaten des \acfp{RKI}, die die bundesweite Impfabdeckung gegen C-Meningokokken auf Kreisebene darstellen, gefittet. Das Modell fittet gut/schlecht, mal schauen.%TODO: ergebniss rein da lol
+Trotz gesicherten Zusammenhangs zwischen niedriger Impfrate und dem Wiederauftauchen bereits weitgehend zurückgedrängten Infektionen, sind die durchschnittlichen Impfraten in Deutschland meist nicht hoch genug, um Herdenimmunität zu gewährleisten. Das Ziel der Bachelorarbeit ist es, dieses paradoxe Impfverhalten und die zugrundeliegenden Dynamiken durch Kombination zweier bekannter Modelle und Einbeziehung von Prozessen der Meinungsbildung zu verstehen und zu analysieren. Zunächst werden bekannte Ansätze zur Modellierung von Impfskepsis sowie Meinungsbildung mit und ohne Rücksicht auf Filterblasen präsentiert. Anschließend wird ein kombiniertes Modell, bestehend aus einem Verhalten-Inzidenz-Modell und Zelotenmodell mit Verstärkung sowie dem Konzept von Pay-off Funktionen aus der Wirtschaftsmathematik, aufgestellt und eine Bifurkationsanalyse durchgeführt. Es treten Pitchfork- als auch Sattel-Knoten-Bifurkationen für einen Spezialfall (Parameter $a=0$) und eine Hopf-Bifurkation im allgemeinen Fall auf. Eine Takens-Bogdanov-Bifurkation wird vermutet, in dieser Arbeit aber nicht nachgewiesen. Im letzten Abschnitt wird das Modell auf Impfdaten des \acfp{RKI} und des Versorgungsatlas', die die bundesweite Impfabdeckung gegen C-Meningokokken auf Kreisebene darstellen, gefittet. Das Modell bildet die Realität erstaunlich gut ab, was zu den Schlussfolgerungen führt, dass Kommunikation bis zu einem gewissen Grad eine größere Auswirkung auf das Impfverhalten hat als Krankheitsinzidenz und dass Impfgegner mit wesentlich mehr Verstärkung arbeiten als Impfbefürworter.
 
 \section*{Abstract}
-%TODO last: just translate upper one
+Despite the established correlation between low vaccination rates and the resurgence of infections that have already been largely suppressed, average vaccination rates in Germany are usually not high enough to guarantee herd immunity. The aim of this bachelor's thesis is to understand and analyse this paradoxical vaccination behaviour and the underlying dynamics by combining two well-known models and including processes of opinion formation. At first, known approaches to modelling vaccination hesitancy and opinion formation with and without consideration of filter bubbles are presented. Subsequently, a combined model consisting of a behaviour-incidence model and a zealot model with reinforcement as well as the concept of pay-off functions from economics will be set up and a bifurcation analysis will be performed. Pitchfork as well as saddle-node bifurcations for a special case (parameter $a=0$) and a Hopf bifurcation in the general case were found. A Takens-Bogdanov bifurcation is suspected, but not proven in this work. In the last section, the model is fitted onto vaccination data of the \ac{RKI} and the ``Versorgungsatlas" (Health Care Atlas), which represent the nationwide vaccination coverage against Meningococcus-C at county level. The model reflects reality surprisingly well, leading to the conclusion that communication has a greater impact on vaccination behaviour than disease incidence to some extent, and that vaccination opponents work with much more reinforcement than vaccination proponents.
+
 \newpage
 \tableofcontents
 \newpage
@@ -191,7 +189,7 @@ The notions of anti-vax, anti-immunisation and anti-vaccination as well as anti-
 \bigskip\bigskip
 
 %TODO: only for pdf abgabe. NOT PRINT
-The R script that generated Figures \ref{fig:alu_vs_x}, \ref{fig:time_behaviour_my_model} and \ref{fig:eigenvalue_diagram_hopf} can be found in the Appendix.
+The R Scripts that generated Figures \ref{fig:alu_vs_x}, \ref{fig:time_behaviour_my_model}, \ref{fig:eigenvalue_diagram_hopf} and \ref{fig:data_fits} can be found in the Appendix.
 
 \newpage
 
@@ -394,14 +392,14 @@ When we take a look at \eqref{def:transition_rates_zealot}, we notice there is j
 
 For $X_t \rightarrow X_t + 1$ we need a supporter of $Y$ to firstly, reconsider his opinion (happens at rate $\mu$) and secondly, actually change it to $X$. As stated in the opinion change dynamics in Model \ref{model:zealot}, which are also used here, this only happens if said supporter gets influenced by a supporter of $X$. So, we multiply the possible number of encounters with $X$-supporters $(X_t + N_X)$ with the probability $\theta_X$ of getting out of the ``Y filter bubble", divided by all possible encounters. The rate of the transition $X_t \rightarrow X_t - 1$ is derived exactly analogously.\newline
 
-\section{Presentation of an alternate Model}\label{sec:my_model}
+\section{Presentation of the Combined Model}\label{sec:my_model}
 Lots of different modelling approaches to capture the essence of opinion formation in a (still very simplified) population and spectrum of opinions have been presented in Section \ref{sec:opinion_model}. We looked at the transitions of some of them and concluded that Model \ref{model:zealot_reinforcement} fits our assumptions about the behaviour of vaccine hesitancy best. In this section, we will present a model for the dynamics of vaccine hesitancy, whose two fundamental parts, the equation structure and the opinion formation process, will be inspired by Bauch's behaviour-incidence model \eqref{model:bauch} and by the reinforced zealot model \eqref{model:zealot_reinforcement}. During model design, several approaches to render the opinion formation and influencing process in the model more realistic were considered. The notion of pay-off functions taken from the field of financial mathematics seemed to suit our needs best and was strongly investigated. For simplicity's sake, the aspirations to make use of an actual pay-off function have been put down and we introduced a pay-off parameter, as will be described in the following. Firstly, we will derive the transition rates for the stochastic process $X_t$ as they are described by our model. Then, we will compute the deterministic limit to receive a system of \acp{ODE}, which we may then analyse.
 
 \subsection{Derivation of the Transition Rates}
 To be able to derive the transition rates, we have to state the model behaviour we wish for. The transition rates of \eqref{def:transition_rates_zealot_reinforcement} are already quite nice, but do not fit our needs entirely. We want to integrate the aspect of mutual influence between the individuals in the population and the personal ``pay-off everybody computes in their heads before making a somewhat important decision. One could come up with a very sophisticated and realistic ``pay-off function" for both pro and anti-immunisation parties and integrate it into the model, thus tremendously raise the complexity. We figured that a simpler way of doing so would be to modify the two parts of the extended population that are already used $\left(X_t + N_X\textnormal{ and }N- X_t + N_Y\right)$ so that they become a ``pro-vaccination" and ``anti-vaccination" part. Yet again, to reduce complexity, the factor considered as most relevant for the personal pay-off computation of an individual that is rather tending towards vaccinating, is the prevalence of the disease, described by $aI$ with $a \in \mathbb{N}$ and $I$ as in \eqref{table:bauch_model_variables}. Whereas for the anti-vaccination part, we introduce another factor $\Omega\left(I\right): \left[0,1\right]\rightarrow \mathbb{R^+}$ that describes an anti-vaccination influence in the thought process (an anti-vax study, big newspaper writing an article against it etc.), depending on the amount of infected individuals $I$.
 Taking all of these thoughts into consideration, we propose the following transition rates:
 
-\begin{model}[\textbf{Stochastic Process within the Alternate Model}]
+\begin{model}[\textbf{Stochastic Process within the Combined Model}]
 	Consider the same context as in Model \ref{model:zealot_reinforcement}. Additionally, let $n_X, n_Y, a \in \mathbb{N}$ be scaling factors and $\Omega\left(I\right): \left[0,1\right] \rightarrow \mathbb{R^+}$. They all describe different influences on the vaccination behaviour of the population and let $I$ be the number of infected individuals as defined in \eqref{table:bauch_model_variables}. Then, the rates of the underlying stochastic process read as:
 \begin{align}\label{def:transition_rates_my_model}
 \begin{split}
@@ -559,17 +557,17 @@ To get a better understanding of the dynamics that are hidden in those equations
 
 \begin{figure}[h!]
 	\centering
-	\caption{Dynamics of the Alternate Model}
+	\caption{Dynamics of the Combined Model}
 	\label{fig:my_model}
 	\def\svgwidth{450pt}
 	\input{img/my_model.pdf_tex}
 \end{figure}
 
-\subsection{Definition of the Alternate Model}
+\subsection{Definition of the Combined Model}
 
 Now that all the computations are done, we may regroup all of the results and formulate the system of \acp{ODE} that describes our model:
 
-\begin{model}[\textbf{Alternate Model}]\label{model:my_model}
+\begin{model}[\textbf{Combined Model}]\label{model:my_model}
 Consider a population of size $N \in \mathbb{N}$, where $X_t \in \lbrace 0,\dots,N\rbrace$ and $N-X_t$ describe the amount of supporters of opinion $X$ and $Y$ at time $t$, respectively. Furthermore, let $N_X$ and $N_Y > 0$ be the number of zealots that support $X$ and $Y$, respectively. Let $\alpha,\beta,a,b \in \mathbb{N}$, with the same meaning as in \eqref{def:sir_modeling_my_model} and $\omega\left(i\right)$ just as in \eqref{prop:det_limit_my_model}. An individual of the population (who is not a zealot) may reconsider his opinion with rate $\mu \in \mathbb{N}$ via the same process as described in Model \ref{model:zealot} and in addition of the contact rates $\theta_X, \theta_Y \in \mathbb{N}$. Let $S \in \lbrace 0,\dots,N\rbrace$ and $I \in  \lbrace 0,\dots,N\rbrace$ describe the amount of susceptible and infected individuals, just as in \eqref{table:bauch_model_variables}. Now, rescale $S,I$ and $X_t$ as done in \eqref{def:scaled_variables_my_model} and assume $N_X$ and $N_Y$ to scale linearly with the population size $N$, as in Proposition \ref{prop:det_limit_my_model_main}. Then, the model reads as follows:
 	\begin{align}
 	\begin{split}
@@ -630,7 +628,7 @@ Before we begin with the proof, we would like to remark that $s$, as well as $i$
 As also shown by M\"uller and Tellier, the pitchfork bifurcation changes into a saddle-node bifurcation for slightly differing numbers of zealots $n_X$ and $n_Y$.\newline 
 
 Writing down a general stationary point analytically for our model turns out to be very unpractical, but we are able to produce a similar result to the one presented in Proposition \ref{prop:mueller_stat_point}, without having to restrict $a = 0$:
-\begin{prop}[\textbf{A Stationary Point of the Alternate Model}]\label{prop:theor_stat_point_my_model}\phantom{lel}\newline
+\begin{prop}[\textbf{A Stationary Point of the Combined Model}]\label{prop:theor_stat_point_my_model}\phantom{lel}\newline
 	Presume $\left(s^*, i^*, x^*\right)$, $i^* \neq 0$ is a stationary point of Model \ref{model:my_model}. \newline
 	For $n_X = \max \lbrace a\left(1-2i^*\right), 0\rbrace$, $n_Y = a\left(2i^* - 1\right) + n_X$ and $\theta_X = \theta_Y = \frac{1-2n}{1+2n}$ with\newline $n \coloneqq ai^* + n_X$, there always is a stationary point at $x^* = \frac{1}{2}$.
 \end{prop} 
@@ -734,9 +732,9 @@ The black curve depicts the anti-vax impact when plugging in the $i$-value of th
 
 Furthermore, when we take a look at the system in all its entirety and let the simulation begin at $s_0 = 0.8, i_0 = 0.2, x_0 = 0.2$, oscillations of $s, x$ and $i$ appear. Note that $i$ has been scaled to $10i$ in Figure \ref{fig:time_behaviour_my_model}, so that the oscillations of $i$ become visible.
 
-\begin{figure}[h!]%TODO: axis labels are very small compared to figure above. Maybe put them on different pages?
+\begin{figure}[h!]%TODO second: axis labels are very small compared to figure above. Maybe put them on different pages?
 	\centering
-	\caption{Behaviour Over Time of the Alternate Model}
+	\caption{Behaviour Over Time of the Combined Model}
 	\label{fig:time_behaviour_my_model}
 	\def\svgwidth{350pt}
 	\input{img/s_vs_i_vs_x.pdf_tex}
@@ -754,16 +752,13 @@ As we know from Definition \ref{def:hopf_bifurcation}, a Hopf bifurcation occurs
 
 \newpage
 
-\subsection{Fitting of the Model on Real Data}
+\subsection{Fitting of the Model on Real Data} \label{subsec:data_fitting}
 
-We computed the deterministic limit of Model \ref{model:my_model} in Subsection \ref{subsec:det_lim_comp} so that we could analyse its behaviour over time and visualise it quite nicely. We now want to fit the model to real-life data and see how well it fits. It has been shown in \cite{Etheridge2011, Hosel2020}, that weak effect models are better suited for this goal, especially considering realism, which is why the next step will be to compute the weak effect limit of our model.
+We computed the deterministic limit of Model \ref{model:my_model} in Subsection \ref{subsec:det_lim_comp} so that we could analyse its behaviour over time and visualise it quite nicely. We now want to fit the model onto real-life data and see how well it performs. It has been shown in \cite{Etheridge2011, Hosel2020}, that weak effect models are better suited for this goal, especially considering realism, which is why the next step will be to compute the weak effect limit of our model.
 
-%TODO: enough reformulated this intro? since it is copy-paste from muellers paper
-%On the one hand, the det.lim. allows to easily analyse and visualise the long term behaviour. On the other hand, pop genetics studies [three citations] show that the weak effect models are more realistic when it comes to the analysis of the data.
-
-\begin{thm}[\textbf{Weak Effect Limit of the Alternate Model}]\label{theorem:weak_eff_lim}
+\begin{thm}[\textbf{Weak Effect Limit of the Combined Model}]\label{theorem:weak_eff_lim}
 	Let $N_i, i \in \lbrace X,Y\rbrace$ denote the numbers of zealots of opinion $X$ and $Y$, respectively and $N$ the population size. Furthermore, let the reinforcement within the model be described by $\theta_i = 1-\frac{\Theta_i}{N}$. For $N \rightarrow \infty$, the density of the invariant measure for the random variable $z_t = \frac{X_t}{N}$ is given by
-	\begin{equation}
+	\begin{equation}\label{eq:weak_eff_lim}
 	\phi(x) = Ce^{\frac{1}{2}\left(\Theta_X + \Theta_Y\right)x^2 - \Theta_X x}x^{N_X + Ai - 1}\left(1-x\right)^{N_Y+A - Ai - 1}
 	\end{equation}
 	where $C$ is determined by the prerequisite $\int_{0}^{1}\phi(x) dx = 1$.
@@ -835,9 +830,57 @@ We computed the deterministic limit of Model \ref{model:my_model} in Subsection 
 	\end{equation*}
 \end{proof}
 
-\section{Discussion}
+With the weak effect limit in hand, we would now like to analyse real life data. To do so, we retrieved the vaccination coverage against Meningococcus-C in German counties between 2009 and 2014 from \cite{LamegoGreinerMGoffrierB2016} and the matching incidences per county of the disease from \cite{RKI2020}. The next step is now to generate values for all of the parameters that occur in \eqref{eq:weak_eff_lim}, via maximum-likelihood-estimation. The integral that defines $C$ becomes numerically unstable for large parameter values, so we re-parametrise the distribution, defining $\hat{\nu},\hat{s},\hat{\theta},\hat{\psi},\hat{\xi}$ by
 
-Despite the vast amount of studies and publications that show how diseases can be eradicated via vaccination, the large number of casualties that occur in communities with extremely low vaccination coverage or the practical fact that diseases such as Polio in Europe do not represent any dangers to life any more, vaccination hesitancy is still undermining mankind's fight against diseases. Classified as one of the Top Ten Threats to global health in 2019, vaccine hesitancy is the main obstacle between our current situation and a world with less disease \cite{WHOAkbar2019}. Even in Germany, where the percentage of anti-vaxxers is quite low (3-5\% according to \cite{Meyer2004}) herd immunity is by far not reached for every disease there is a vaccine for. Figure \ref{fig:impfkarte_meningokokken} illustrates the example of meningococcus C and its immunisation rates. As per \cite{Fine2011}, the required vaccination coverage needed for herd immunity depends on the infectivity of the disease and its reproduction number $R_0$, but is generally reached at approximatively 75 - 95\% vaccination coverage. The actual coverage in Germany (from 2009 to 2014) is outside of that range for approximatively half of all districts, especially in the south-east, where some regions show an absolute low record of 31,62 - 44,24\%.
+\begin{table}[h!]
+	\centering
+	\begin{tabular}{ccc}
+		$\Theta_X = \hat{s}\hat{\theta}\hat{\psi}$ && $\Theta_Y = \hat{s}\hat{\theta}(1-\hat{\psi})$\\
+		$N_X - 1 = \hat{s}(1-\hat{\theta})\hat{\nu}(1-\hat{\xi})$ && $N_Y - 1 = \hat{s}(1-\hat{\theta})(1-\hat{\nu})(1-\hat{\xi})$ \\
+		$A=\hat{s}\hat{\theta}\hat{\xi}$ && 
+	\end{tabular}
+\end{table}
+
+where $\hat{s},\hat{\theta},\hat{\nu},\hat{\xi} \in \left[0,1\right]$ and $\hat{s} > 0$, with the restriction $\hat{s}(1-\hat{\theta})\hat{\nu}(1-\hat{\xi}) > 1$ and \\ $\hat{s}(1-\hat{\theta})(1-\hat{\nu})(1-\hat{\xi}) > 1.$ Therewith, the distribution becomes
+
+\begin{align}
+\begin{split}\label{eq:my_distribution}
+	\phi(x) &= \hat{C}\exp\left[\hat{s}\Big\{\hat{\theta}\left(\frac{x^2}{2} - \hat{\psi}x\right)+\ln(x)\left((1-\hat{\theta})\hat{\nu}(1-\hat{\xi})+\hat{\theta}\hat{\xi}i\right)\right.\Big.\\
+	&\qquad \Big.\left.+ \ln(1-x)\left((1-\hat{\theta})(1-\hat{\nu})(1-\hat{\xi})+\hat{\theta}\hat{\xi}(1-i)\right) + B\Big\}\right],
+\end{split}
+\end{align}
+
+where $B$ is a constant depending on the data at hand and chosen in such a manner, that it avoids an exponent with very large absolute number. The constant $\hat{C}$ is, as was $C$ before, determined by the integral being equal to 1.\newline
+
+We then proceeded with ``cleaning" the data, which in our case meant to remove all vaccination coverage data points with a value below 0.5 and renormalise the data points afterwards, so that we stay in the interval $[0,1]$, map 0.5 to 0, 1 to 1 and keep the initial ordering. This step is justified by our assumption that 50\% of the individuals are not ready to change their opinion and a discussion about taking a shot or not only emerges in the other 50\% of the population. Additionally, many German counties did not have registered incidence values, so we replaced all ``non-available" data points with a dummy value. We set the dummy to be the mean of all available incidence values, which turned out to be approximately 0.0225. During the first approaches, we used every county's own incidence value $i_county$ to compute every county's distribution function, leading to every iteration step producing $n = 399$ curves. We found that all curves were very close to each other, thus the minimal differences between all the incidence values that happened in the low one-digit range did not affect the optimisation result very much. So for simplicity's sake we decided to recompute the new mean of all incidences (after all ``non-available" data points had been filled up with the dummy) and to use this as a general incidence value for all counties. After that, we ran our maximum-likelihood estimation R-Script and performed a Kolmogorov-Smirnov test on the optimised model with initial parameters $\hat{s}_{\textnormal{init}} = 100, \hat{\nu}_{\textnormal{init}} = \hat{\theta}_{\textnormal{init}} = \hat{\psi}_{\textnormal{init}} = \hat{\xi}_{\textnormal{init}} = 0.5$. One may have noticed that vaccination data, especially the one we used, is discrete and our model, as well as the Kolmogorov-Smirnov test, expect continuous values. This led to the occurrence of ties in the data set. The optimisation consisted of three runs. First, we set both of the reinforcement parameters to zero and fell back to the zealot model. Then, we set both reinforcement parameters to be equal and optimised the equal reinforcement model. Finally, we let the reinforcements parameters vary freely. The results of our optimisation can be seen in Figures \ref{fig:data_fits}a-c.
+%TODO fourth: axis too small?
+\begin{figure}[h!]
+	\centering
+	\caption{Data Fits of the Three Different Models}
+	\label{fig:data_fits}
+	\subfloat[Zealot Model]{
+		\def\svgwidth{230pt}
+		\input{img/data_fit_zealot_model.pdf_tex}
+	}
+	\subfloat[Equal Reinforcement]{
+		\def\svgwidth{230pt}
+		\input{img/data_fit_equal_reinforcement.pdf_tex}
+	}\\
+	\subfloat[Full Reinforcement]{
+		\def\svgwidth{230pt}
+		\input{img/data_fit_full_reinforcement.pdf_tex}
+	}
+\end{figure}
+
+ We notice that the zealot and equal reinforcement model fit the data in a very similar way, but both not very well. The Kolmogorov-Smirnov tests for both of these models yielded p-values in $\mathcal{O}(10^{-6})$, thus could not be accepted as models of the data. On the other hand, the full reinforcement model fits remarkably well. The Kolmogorov-Smirnov test also yielded a p-value of 0.73 for the full-reinforcement model, so we may accept this model and our distribution \eqref{eq:my_distribution} as the distribution of the vaccination data. \newline
+
+Of course we do not claim our model to be exhaustive and as is well-known: ``no model is right". All of the comments, assumptions and claims made in the following base on the results our work yielded. We did not take a look at additional cofactors, such as educational or social background or financial status. These are all possible influences on the behaviour, just as communication and filter bubbles and represent interesting research topics for further work.
+
+%TODO fifth: evtl noch mehr zu den Bildern
+
+\section{Discussion} %TODO now: noch in verbindung mit anderen arbeiten bringen (hab jz zwei)
+
+Despite the vast amount of studies and publications that show how diseases can be eradicated via vaccination, the large number of casualties that occur in communities with extremely low vaccination coverage or the practical fact that diseases such as Polio in Europe do not represent any dangers to life any more, vaccination hesitancy is still undermining mankind's fight against diseases. Classified as one of the Top Ten Threats to global health in 2019, vaccine hesitancy is the main obstacle between our current situation and a world with less disease \cite{WHOAkbar2019}. Even in Germany, where the percentage of anti-vaxxers is quite low (3-5\% according to \cite{Meyer2004}) herd immunity is by far not reached for every disease there is a vaccine for. Figure \ref{fig:impfkarte_meningokokken} illustrates the example of Meningococcus C and its immunisation rates. As per \cite{Fine2011}, the required vaccination coverage needed for herd immunity depends on the infectivity of the disease and its reproduction number $R_0$, but is generally reached at about 75 - 95\% vaccination coverage. The actual coverage in Germany (from 2009 to 2014) is outside of that range for approximatively half of all districts, especially in the south-east, where some regions show an absolute low record of 31,62 - 44,24\%.
 
 \begin{figure}[h!]
 	\centering
@@ -847,19 +890,21 @@ Despite the vast amount of studies and publications that show how diseases can b
 	\input{img/durchimpfungskarte_meningokokken.pdf_tex}
 \end{figure}
 
-To understand the dynamics of this paradoxical behaviour, this work has taken into consideration the work done by Bauch and Bhattacharyya in \cite{Bauch2012} as well as by M\"uller and Tellier in \cite{Muller2020}. The aim was to join the behaviour-incidence approach and the zealot model with reinforcement to render the compartmental model of Bauch more realistic when depicting the behaviour of individuals regarding vaccination. The aspect of opinion formation and influence through fellow individuals, social media and filter bubbles, following the ansatz of pay-off functions, was added to the underlying stochastic process before computing the model dynamics with the deterministic limit. By doing so, we found that the dynamics are completely disjoint from the number of recovered individuals. Furthermore, we found several bifurcations which appear in the model. For $a=0$ the model falls back to the results presented in \cite{Muller2020} and undergoes a pitchfork bifurcation, as well as a saddle-node bifurcation. The presence of a Hopf bifurcation in our system has been indicated by Figures \ref{fig:time_behaviour_my_model} and \ref{fig:eigenvalue_diagram_hopf}. It can be stated explicitly with the help of different tools, e.g. xppaut %TODO: cite
-. This insight shows evidence of oscillations in the system, as can be seen in Figure \eqref{fig:time_behaviour_my_model}. It would be very interesting for future work to investigate the existence of a Takens-Bogdanov bifurcation in the presented system.\newline
+To understand the dynamics of this paradoxical behaviour, this work has taken into consideration the work done by Bauch and Bhattacharyya in \cite{Bauch2012} as well as by M\"uller and Tellier in \cite{Muller2020}. The aim was to join the behaviour-incidence approach and the zealot model with reinforcement to render the compartmental model of Bauch more realistic when depicting the behaviour of individuals regarding vaccination. Similar work has been done by Tyson et al. in \cite{Tyson2020}, where the mentioned \ac{SIR}-Model and its disease dynamics has been combined with opinion dynamics. Tyson et al. stressed the fact that their model, does not work with utility or contagion in mind, but emphases the impact of communication and persuasion. In our model, the aspect of opinion formation and influence through fellow individuals, social media and filter bubbles, following the ansatz of pay-off functions, was added to the underlying stochastic process before computing the model dynamics with the deterministic limit. By doing so, we found that the dynamics are completely disjoint from the number of recovered individuals. Furthermore, we found several bifurcations which appear in the model. For $a=0$ the model falls back to the results presented in \cite{Muller2020} and undergoes a pitchfork bifurcation, as well as a saddle-node bifurcation. The presence of a Hopf bifurcation in our system has been indicated by Figures \ref{fig:time_behaviour_my_model} and \ref{fig:eigenvalue_diagram_hopf}. It can be stated explicitly with the help of different tools, e.g. xppaut \cite{Ermentrout2007}. This insight shows evidence of oscillations in the system, as can be seen in Figure \eqref{fig:time_behaviour_my_model}. It would be very interesting for future work to investigate the existence of a Takens-Bogdanov bifurcation in the presented system.\newline
  
- We found a stationary point for a fixed $x = \frac{1}{2}$ in our system, as well as a strong correlation between $x$ and $i$ shown in Figure \ref{fig:alu_vs_x}. The oscillations of $x$ and $i$ express the varying immunisation behaviour within the population: when the amount of infected individuals is low, the disease is not strongly perceived by the population, thus the immunisation rate drops. The small number of immune subjects will then over time generate a high rate of infected subjects, which leads to increased disease awareness within the population and higher immunisation rates. The cycle we can observe here can be interpreted in a certain manner as the biological equivalent to the ``pork cycle" or ``cattle cycle" known from economics \cite{Rosen1994}. 
- %TODO: iwas von wegen: das zeigt mein modell ist halbwegs realistisch
- %TODO: zusammenfassugn meines modells: ich habe also das und das mehr erreicht/nicht geschafft als bauch.. bla bla
+ We found a stationary point for a fixed $x = \frac{1}{2}$ in our system, as well as a strong correlation between $x$ and $i$ shown in Figure \ref{fig:alu_vs_x}. The oscillations of $x$ and $i$ express the varying immunisation behaviour within the population: when the amount of infected individuals is low, the disease is not strongly perceived by the population, thus the immunisation rate drops. The small number of immune subjects will then over time generate a high rate of infected subjects, which leads to increased disease awareness within the population and higher immunisation rates. The cycle we can observe here can be interpreted in a certain manner as the biological equivalent to the ``pork cycle" or ``cattle cycle" known from economics \cite{Rosen1994}.\newline
+ 
+Dong et al. complained about the fact that most studies concerning opinion formation and opinion dynamics focused on the analysis of simulations, generated with random data \cite{Dong2018}. So, we aimed at fitting our model onto the data retrieved from \cite{LamegoGreinerMGoffrierB2016}, visualised in Figure \ref{fig:impfkarte_meningokokken} above, and from \cite{RKI2020} in Subsection \ref{subsec:data_fitting}. As mentioned there, taking into account every single incidence value of every single county did not have a noticeable impact on the optimisation results compared to using the mean as a general incidence value. This shows that little changes to the incidence rate do not provoke any changes to the vaccination rate. Speaking more generally: a small amount of new infected individuals or a small decrease of the disease's prevalence will not lead to a change of vaccination behaviour in the population. This leads us to the assumption that the increase or decrease of infections has to surpass a certain threshold before impacting behaviour, thus the communication between the population has a bigger impact on behaviour, than the rate of incidence. Furthermore, the very small p-value for the equal reinforcement model indicates a larger amount of reinforcement usage for the anti-vaxxers, than for the pro-vaxxers. This matches our expectations and the analogous findings regarding populist parties (which are considered to be more ``extreme", just as anti-vaxxers) from \cite{Muller2020}.\newline%TODO papa: haut sich dieses considered to be extreme?
+ 
+ Filter bubbles and communication seem to play a major role in the dynamics of vaccination behaviour. An interesting next step would be to reflect on how to minimise or even destroy these bubbles. As our data showed, the bubbles appear locally, in small subsets of the entire population, i.e. in counties. A possible measure could be to invest more in local, small-scaled politics, visit the counties to propagate the scientific findings and knowledge about the vaccination process and do educational work considering vaccines. A massive amount of work has still to be done in this area, in order to raise awareness, reduce the spread of fake-news and eventually, ban vaccine hesitancy from the top ten threats to global health.
  
 \newpage
 
 \printbibliography
 
 %TODO: append this only for pdf abgabe. Do not print!
-%\input{appendix_bachelor_thesis_julien_caselmann.tex}
+\input{appendix_bachelor_thesis_julien_caselmann.tex}
+
 \end{document}
 
 
