@@ -20,6 +20,8 @@
 \usepackage{xspace}
 \usepackage{url}
 \usepackage{listings}
+\usepackage{ifthen}
+\newboolean{appendix}
 
 \definecolor{dkgreen}{rgb}{0.0, 0.2, 0.13}
 
@@ -84,6 +86,9 @@ uniquename=init]{biblatex}
 
 
 \begin{document}
+%set to true if you want the version with appendix, false otherwise
+\setboolean{appendix}{false}
+
 \pagestyle{empty}
 %%%% Title page
 \begin{titlepage}
@@ -186,8 +191,7 @@ The notions of anti-vax, anti-immunisation and anti-vaccination as well as anti-
 \listoffigures
 \bigskip\bigskip
 
-%TODO: only for pdf abgabe. NOT PRINT
-The R Scripts that generated Figures \ref{fig:alu_vs_x}, \ref{fig:time_behaviour_my_model}, \ref{fig:eigenvalue_diagram_hopf} and \ref{fig:data_fits} can be found in Appendix \ref{app:first} and \ref{app:second}, respectively.
+\ifthenelse{\boolean{appendix}}{The R Scripts that generated Figures \ref{fig:alu_vs_x}, \ref{fig:time_behaviour_my_model}, \ref{fig:eigenvalue_diagram_hopf} and \ref{fig:data_fits} can be found in Appendix \ref{app:first} and \ref{app:second}, respectively.}{}
 
 \newpage
 
@@ -898,8 +902,7 @@ Dong et al. complained about the fact that most studies concerning opinion forma
 
 \printbibliography
 
-%TODO: append this only for pdf abgabe. Do not print!
-\input{appendix_bachelor_thesis_julien_caselmann.tex}
+\ifthenelse{\boolean{appendix}}{\input{appendix_bachelor_thesis_julien_caselmann.tex}}{}
 
 \end{document}
 
