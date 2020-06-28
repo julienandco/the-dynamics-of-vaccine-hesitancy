@@ -54,12 +54,12 @@
     \lineheight{1}%
     \setlength\tabcolsep{0pt}%
     \put(0,0){\includegraphics[width=\unitlength,page=1]{s_vs_i_vs_x.pdf}}%
-    \put(0.0276891,0.26648498){\color[rgb]{0,0,0}\rotatebox{90}{\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$s, i, x$\end{tabular}}}}}%
+    \put(0.0246891,0.30648498){\color[rgb]{0,0,0}\rotatebox{90}{\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$s, i, x$\end{tabular}}}}}%
     \put(0,0){\includegraphics[width=\unitlength,page=2]{s_vs_i_vs_x.pdf}}%
     \put(0.79204048,0.53263074){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$s$\end{tabular}}}}%
     \put(0.79204048,0.48506353){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$x$\end{tabular}}}}%
     \put(0.79204048,0.43720406){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$10i$\end{tabular}}}}%
-    \put(0.47104948,0.02689619){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$t$\end{tabular}}}}%
+    \put(0.51104948,0.01789619){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$t$\end{tabular}}}}%
     \put(0,0){\includegraphics[width=\unitlength,page=3]{s_vs_i_vs_x.pdf}}%
   \end{picture}%
 \endgroup%
