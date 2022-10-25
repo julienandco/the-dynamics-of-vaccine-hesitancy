@@ -1,5 +1,9 @@
 # Bachelor's thesis
 
+## Read
+
+Go checkout my [thesis!](https://julienandco.github.io/the-dynamics-of-vaccine-hesitancy/bachelor_thesis_julien_caselmann.pdf)
+
 ## Labeling style
 
 type:name_with_underscores, e.g. def:matrix_product, fig:what_ever

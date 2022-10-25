@@ -11,7 +11,7 @@ jobs:
     steps:
       - name: Set up Git repository
         uses: actions/checkout@v2
-      - name: cv
+      - name: Compile BSc Thesis
         uses: dante-ev/latex-action@latest
         with:
           root_file: ${{ env.FILE }}
