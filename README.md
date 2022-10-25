@@ -1,14 +1,15 @@
-## Bachelor's thesis
-# labeling style:
+# Bachelor's thesis
+
+## Labeling style
 
 type:name_with_underscores, e.g. def:matrix_product, fig:what_ever
 types: def,lem,thm,prop,fig,clm, eq, al(align), tbl
 
-# figures:
+## Figures
 
 Use inkscape or the tikz package for `all` of your images! You might consider using GraphViz, too!
 
-# referencing style:
+## Referencing style
 
 For theorems, props, lemmas etc, just use Theorem \ref, so it gives you: Theorem 2.1, Lemma 4.2\n
 For sections, undersections etc, just use Section \ref, so it gives you: Section 4.2, Subsection 4.4.3\n
